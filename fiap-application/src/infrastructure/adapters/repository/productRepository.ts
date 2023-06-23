@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IProductRepository } from "../../../core/domain/repositories/iProductRepository";
 import DynamoDBAdapter from "../../DynamoDBAdapter";
+import { uuid } from "uuidv4";
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
@@ -13,7 +14,7 @@ export default class ProductRepository implements IProductRepository {
       name: 'Product 1',
       description: 'descrição produto 1',
       price: 2.4,
-      createAt: new Date(),
+      // createAt: new Date(),
       imageUrl: 'url-image',
     },
     {
@@ -21,7 +22,7 @@ export default class ProductRepository implements IProductRepository {
       name: 'Product 2',
       description: 'descrição produto 2',
       price: 10.0,
-      createAt: new Date(),
+      // createAt: new Date(),
       imageUrl: 'url-image',
     },
   ];
@@ -31,10 +32,10 @@ export default class ProductRepository implements IProductRepository {
   }
 
   public async create(product: Product): Promise<Product> {
-    this.products.push(product);
+    const Item = { ...product, id: uuid() };
     const params = {
       TableName: 'Products', // The name of the DynamoDB table
-      Item: product,
+      Item: Item,
     };
 
     try {

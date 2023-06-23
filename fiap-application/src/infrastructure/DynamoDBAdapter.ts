@@ -1,11 +1,25 @@
-import AWS from "aws-sdk";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
 class DynamoDBAdapter {
   public createProduct(params) {
-    const dynamodb = new AWS.DynamoDB.DocumentClient(this.AWSConfig());
-    return dynamodb.put(params).promise();
+    console.log('Regions: ', process.env.AWS_REGION);
+    console.log('Localstack: ', process.env.USE_LOCALSTACK);
+    console.log('Localstack endpoint: ', process.env.LOCALSTACK_ENDPOINT);
+    console.log(
+      'Localstack access key id: ',
+      process.env.LOCALSTACK_ACCESS_KEY_ID,
+    );
+    console.log('AWS Config: ', this.AWSConfig());
+    const dynamodb = DynamoDBDocument.from(new DynamoDB(this.AWSConfig()), {
+      marshallOptions: {
+        removeUndefinedValues: true,
+        convertClassInstanceToMap: true,
+      },
+    });
+    return dynamodb.put(params);
   }
   AWSConfig() {
     return process.env.USE_LOCALSTACK

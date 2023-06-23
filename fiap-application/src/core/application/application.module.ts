@@ -1,19 +1,24 @@
 import { Module } from "@nestjs/common";
 
-import GetProductService from "./service/getProductService";
+import ProductService from "./service/productService";
 import DomainModule from '../domain/domain.module';
 import ProductRepository from "../../infrastructure/adapters/repository/productRepository";
+import DynamoDBAdapter from "../../infrastructure/DynamoDBAdapter";
 
 @Module({
   imports: [DomainModule],
   controllers: [],
   providers: [
-    GetProductService,
+    ProductService,
     {
       provide: 'ProductRepository',
       useClass: ProductRepository,
     },
+    {
+      provide: 'DynamoDBAdapter',
+      useClass: DynamoDBAdapter,
+    },
   ],
-  exports: [GetProductService],
+  exports: [ProductService],
 })
 export default class ApplicationModule {}
