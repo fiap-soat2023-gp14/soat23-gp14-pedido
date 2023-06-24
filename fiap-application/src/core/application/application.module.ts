@@ -3,7 +3,7 @@ import { Module } from "@nestjs/common";
 import ProductService from "./service/productService";
 import DomainModule from '../domain/domain.module';
 import ProductRepository from "../../infrastructure/adapters/repository/productRepository";
-import DynamoDBAdapter from "../../infrastructure/DynamoDBAdapter";
+import MongoDBAdapter from "../../infrastructure/MongoDBAdapter";
 
 @Module({
   imports: [DomainModule],
@@ -15,8 +15,8 @@ import DynamoDBAdapter from "../../infrastructure/DynamoDBAdapter";
       useClass: ProductRepository,
     },
     {
-      provide: 'DynamoDBAdapter',
-      useClass: DynamoDBAdapter,
+      provide: 'MongoDBAdapter',
+      useClass: MongoDBAdapter,
     },
   ],
   exports: [ProductService],

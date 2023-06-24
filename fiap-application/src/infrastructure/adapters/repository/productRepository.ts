@@ -1,12 +1,12 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IProductRepository } from "../../../core/domain/repositories/iProductRepository";
-import DynamoDBAdapter from "../../DynamoDBAdapter";
 import { uuid } from "uuidv4";
+import MongoDBAdapter from "../../MongoDBAdapter";
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
   constructor(
-    @Inject('DynamoDBAdapter') private dynamoDBAdapter: DynamoDBAdapter,
+    @Inject('MongoDBAdapter') private mongdbAdater: MongoDBAdapter,
   ) {}
   private readonly products: Product[] = [
     {
@@ -33,19 +33,15 @@ export default class ProductRepository implements IProductRepository {
 
   public async create(product: Product): Promise<Product> {
     const Item = { ...product, id: uuid() };
-    const params = {
-      TableName: 'Products', // The name of the DynamoDB table
-      Item: Item,
-    };
 
     try {
-      await this.dynamoDBAdapter.createProduct(params);
+      await this.mongdbAdater.getCollection('Products').insertOne(Item);
       console.log('Product created successfully.');
     } catch (error) {
       console.error('Error creating product:', error);
       throw error;
     }
-    return Promise.resolve(product);
+    return product;
   }
 
   public async getById(id: string): Promise<Product> {
