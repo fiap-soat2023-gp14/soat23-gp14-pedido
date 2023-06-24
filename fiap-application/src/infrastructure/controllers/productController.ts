@@ -12,8 +12,8 @@ export default class ProductController {
   }
 
   @Post()
-  public async createProduct(@Res() response, @Req() request) {
-    await this.userService.createProduct(request.body);
-    return response.status(HttpStatus.OK);
+  public createProduct(@Res() response, @Req() request) {
+    this.userService.createProduct(request.body);
+    return response.status(HttpStatus.OK).json();
   }
 }
