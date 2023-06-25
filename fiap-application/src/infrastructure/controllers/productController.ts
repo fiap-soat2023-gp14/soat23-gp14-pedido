@@ -24,8 +24,8 @@ export default class ProductController {
   }
 
   @Delete(':id')
-  public deleteProduct(@Res() response, @Param('id') id) {
-    this.userService.deleteProduct(id);
+  public async deleteProduct(@Res() response, @Param('id') id) {
+    await this.userService.deleteProduct(id);
     return response.status(HttpStatus.OK).json();
   }
 }

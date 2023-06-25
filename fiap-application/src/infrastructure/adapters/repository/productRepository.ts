@@ -1,7 +1,8 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { IProductRepository } from "../../../core/domain/repositories/iProductRepository";
 import { v4 } from "uuid";
 import MongoDBAdapter from "../../MongoDBAdapter";
+import { HttpNotFoundException } from "../../exceptions/HttpNotFoundException";
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
@@ -35,16 +36,17 @@ export default class ProductRepository implements IProductRepository {
       .getCollection('Products')
       .findOne({ _id: id });
     if (!product)
-      throw new NotFoundException(`Product with id ${id} not found`);
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
     const productResponse = { ...product, id: product._id };
     return Promise.resolve(productResponse);
   }
 
   public async delete(id: string): Promise<void> {
-    const product = this.mongdbAdater
+    const product = await this.mongdbAdater
       .getCollection('Products')
-      .find({ _id: id });
-    if (!product) throw new Error(`Product with id ${id} not found`);
+      .findOne({ _id: id });
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
     await this.mongdbAdater.getCollection('Products').deleteOne({ _id: id });
     return Promise.resolve();
   }
