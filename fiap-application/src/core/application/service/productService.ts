@@ -14,4 +14,11 @@ export default class ProductService {
   public createProduct(product) {
     return this.productRepository.create(product);
   }
+
+  public updateProduct(id, product) {
+    return this.productRepository.update(id, product);
+  }
+  public deleteProduct(id) {
+    return this.productRepository.delete(id);
+  }
 }
