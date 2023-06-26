@@ -39,3 +39,12 @@ lerna-debug.log*
 .env
 .env.production
 /fiap-application/.idea/
+
+# Yarn
+fiap-application/.pnp.*
+fiap-application/.yarn/*
+!fiap-application/.yarn/patches
+!fiap-application/.yarn/plugins
+!fiap-application/.yarn/releases
+!fiap-application/.yarn/sdks
+!fiap-application/.yarn/versions
