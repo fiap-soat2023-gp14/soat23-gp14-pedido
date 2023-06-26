@@ -1,55 +1,70 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { IProductRepository } from "../../../core/domain/repositories/iProductRepository";
+import { v4 } from "uuid";
+import MongoDBAdapter from "../../MongoDBAdapter";
+import { HttpNotFoundException } from "../../exceptions/HttpNotFoundException";
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
-  private readonly products: Product[] = [
-    {
-      id: '1',
-      name: 'Product 1',
-      description: 'descrição produto 1',
-      price: 2.4,
-      createAt: new Date(),
-      imageUrl: 'url-image',
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      description: 'descrição produto 2',
-      price: 10.0,
-      createAt: new Date(),
-      imageUrl: 'url-image',
-    },
-  ];
+  constructor(
+    @Inject('MongoDBAdapter') private mongdbAdater: MongoDBAdapter,
+  ) {}
 
   public async getAll(): Promise<Product[]> {
-    return this.products;
+    const products = this.mongdbAdater.getCollection('Products').find().toArray();
+    const productsResponse = products.map((product) => ({
+      ...product,
+      id: product._id,
+    }));
+    return Promise.resolve(productsResponse);
   }
-
   public async create(product: Product): Promise<Product> {
-    this.products.push(product);
-    return Promise.resolve(product);
-  }
+    const Item = { ...product, _id: v4() };
 
+    try {
+      await this.mongdbAdater.getCollection('Products').insertOne(Item);
+      console.log('Product created successfully.');
+
+      return Promise.resolve({ ...product, id: Item._id });
+    } catch (error) {
+      console.error('Error creating product:', error);
+      throw error;
+    }
+  }
   public async getById(id: string): Promise<Product> {
-    const product = this.products.find((product) => product.id === id);
-    if (!product) throw new Error(`Product with id ${id} not found`);
-    return Promise.resolve(product);
+    const product = await this.mongdbAdater
+      .getCollection('Products')
+      .findOne({ _id: id });
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    const productResponse = { ...product, id: product._id };
+    return Promise.resolve(productResponse);
   }
 
   public async delete(id: string): Promise<void> {
-    const product = this.products.find((product) => product.id === id);
-    if (!product) throw new Error(`Product with id ${id} not found`);
-    this.products.splice(this.products.indexOf(product), 1);
+    const product = await this.mongdbAdater
+      .getCollection('Products')
+      .findOne({ _id: id });
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    await this.mongdbAdater.getCollection('Products').deleteOne({ _id: id });
     return Promise.resolve();
   }
 
   public async update(id: string, product: Product): Promise<Product> {
-    const productIndex = this.products.findIndex(
-      (product) => product.id === id,
-    );
-    if (productIndex === -1) throw new Error(`Product with id ${id} not found`);
-    this.products[productIndex] = product;
-    return Promise.resolve(product);
+    try {
+      delete product.id;
+      const updateProduct = {
+        $set: { ...product },
+      };
+      await this.mongdbAdater
+        .getCollection('Products')
+        .updateOne({ _id: id }, updateProduct);
+      console.log('Product updated successfully.');
+      return Promise.resolve(product);
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error;
+    }
   }
 }

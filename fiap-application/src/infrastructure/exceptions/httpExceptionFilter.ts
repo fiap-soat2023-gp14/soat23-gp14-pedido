@@ -1,9 +1,15 @@
-import { ExceptionFilter, Catch, ArgumentsHost, Logger } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  Logger,
+  HttpException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
-@Catch()
-export default class HttpExceptionFilter implements ExceptionFilter<Error> {
-  catch(exception: Error, host: ArgumentsHost) {
+@Catch(HttpException)
+export default class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
@@ -18,11 +24,11 @@ export default class HttpExceptionFilter implements ExceptionFilter<Error> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public isBusinessException(exception: Error): any {
+  public isBusinessException(exception: HttpException): any {
     Logger.log(exception.stack);
     return {
-      message: 'unknown',
-      status: 500,
+      message: exception.message,
+      status: exception.getStatus(),
     };
   }
 }
