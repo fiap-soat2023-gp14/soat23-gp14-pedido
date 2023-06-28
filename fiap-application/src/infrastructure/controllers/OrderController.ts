@@ -1,14 +1,14 @@
 import OrderService from "../../core/application/service/OrderService";
-import {Controller, Get, HttpStatus, Inject, Post, Put, Req, Res} from "@nestjs/common";
-import {response} from "express";
+import {Body, Controller, Get, HttpStatus, Inject, Post, Put, Res} from "@nestjs/common";
+import {OrderCreationDTO} from "../../core/application/dto/OrderCreationDTO";
 
 @Controller('orders/')
 export class OrderController {
-    constructor(private readonly orderService: OrderService){}
+    constructor(@Inject() private readonly orderService: OrderService){}
 
     @Post()
-    async createOrder(@Res() response, @Req() request) {
-        const order = await this.orderService.createOrder(request.body)
+    async createOrder(@Res() response, @Body() orderCreationDTO : OrderCreationDTO) {
+        const order = await this.orderService.createOrder(orderCreationDTO);
         return response.status(HttpStatus.OK).json(order);
     }
     @Get()

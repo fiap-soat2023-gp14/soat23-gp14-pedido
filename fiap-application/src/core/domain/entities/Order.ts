@@ -1,15 +1,18 @@
-interface OrderItem {
+import Decimal from "decimal.js";
+import {OrderStatus} from "./OrderStatus";
+export interface OrderItem {
     product: Product;
-    observation: string;
+    observation?: string;
+    quantity: number;
 }
 
-interface Order {
+export interface Order {
     id: string;
     status: OrderStatus;
     items: OrderItem[];
     customer: string; // TODO: change to Client
-    total: number;
-    extraItems: string; // TODO: verify whether we need to have condiments as extra items in a structured way
+    total: Decimal;
+    extraItems?: string; // TODO: verify whether we need to have condiments as extra items in a structured way
     createdAt: Date;
-    deliveredAt: Date;
+    deliveredAt?: Date;
 }

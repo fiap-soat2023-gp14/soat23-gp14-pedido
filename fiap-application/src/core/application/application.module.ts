@@ -14,7 +14,7 @@ import OrderRepository from "../../infrastructure/adapters/repository/OrderRepos
     ProductService,
     OrderService,
     {
-      provide: 'ProductRepository',
+      provide: 'IProductRepository',
       useClass: ProductRepository,
     },
     {

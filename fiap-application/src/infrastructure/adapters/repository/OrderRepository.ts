@@ -2,6 +2,7 @@ import {IOrderRepository} from "../../../core/domain/repositories/IOrderReposito
 import {Inject, Injectable} from "@nestjs/common";
 import MongoDBAdapter from "../../MongoDBAdapter";
 import {v4} from "uuid";
+import {Order} from "../../../core/domain/entities/Order";
 
 @Injectable()
 export default class OrderRepository implements IOrderRepository {
@@ -12,20 +13,18 @@ export default class OrderRepository implements IOrderRepository {
     }
     public async create(order: Order): Promise<Order> {
         const orderEntity = { ...order, _id: v4() };
-
-
-        await this.mongoDbAdapter.getCollection(this.COLLECTION_NAME).insertOne(order);
+        const orderCreated = await this.mongoDbAdapter.getCollection(this.COLLECTION_NAME).insertOne(orderEntity);
         console.log('Order created successfully.');
 
-        return Promise.resolve(undefined);
+        return Promise.resolve(orderCreated);
     }
 
     getAll(): Promise<Order[]> {
-        return Promise.resolve([]);
+        return this.mongoDbAdapter.getCollection(this.COLLECTION_NAME).find({}).toArray()
     }
 
     getById(id: string): Promise<Order> {
-        return Promise.resolve(undefined);
+        return this.mongoDbAdapter.getCollection(this.COLLECTION_NAME).findOne({ _id: id }  );
     }
 
     update(id: string, order: Order): Promise<Order> {
