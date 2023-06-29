@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 
-import ProductController from "./controllers/productController";
-import ApplicationModule from "../core/application/application.module";
-import MongoDBAdapter from "./MongoDBAdapter";
-import {OrderController} from "./controllers/OrderController";
+import ProductController from './controllers/ProductController';
+import ApplicationModule from '../core/application/application.module';
+import MongoDBAdapter from './MongoDBAdapter';
+import { OrderController } from './controllers/OrderController';
 
 @Module({
   imports: [ApplicationModule],

@@ -1,6 +1,5 @@
-import { MongoClient } from "mongodb";
-import { Injectable } from "@nestjs/common";
-
+import { MongoClient } from 'mongodb';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 class MongoDBAdapter {
