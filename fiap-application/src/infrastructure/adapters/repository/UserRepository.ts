@@ -39,6 +39,10 @@ export default class UserRepository implements IUserRepository {
     return await this.COLLECTION.findOne({ _id: id });
   }
 
+  public async getByCpf(cpf: string): Promise<User> {
+    return await this.COLLECTION.findOne({ _cpf: cpf });
+  }
+
   public async update(id: string, user: User): Promise<User> {
 
     try {
@@ -53,9 +57,4 @@ export default class UserRepository implements IUserRepository {
     }
 
   }
-
-  public async getByCpf(cpf: string): Promise<User> {
-    return await this.COLLECTION.findOne({ _cpf: cpf });
-  }
-
 }
