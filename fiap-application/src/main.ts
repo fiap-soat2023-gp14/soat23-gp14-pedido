@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from "./app.module";
-import HttpExceptionFilter from './infrastructure/exceptions/httpExceptionFilter';
-
+import { AppModule } from './app.module';
+import HttpExceptionFilter from './infrastructure/exceptions/HttpExceptionFilter';
 
 async function bootstrap() {
   const port = process.env.PORT ? Number(process.env.PORT) : 8080;

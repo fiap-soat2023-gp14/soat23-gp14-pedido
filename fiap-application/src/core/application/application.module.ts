@@ -1,11 +1,11 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 
-import ProductService from "./service/productService";
+import ProductService from './service/ProductService';
 import DomainModule from '../domain/domain.module';
-import ProductRepository from "../../infrastructure/adapters/repository/productRepository";
-import MongoDBAdapter from "../../infrastructure/MongoDBAdapter";
-import OrderService from "./service/OrderService";
-import OrderRepository from "../../infrastructure/adapters/repository/OrderRepository";
+import ProductRepository from '../../infrastructure/adapters/repository/ProductRepository';
+import MongoDBAdapter from '../../infrastructure/MongoDBAdapter';
+import OrderService from './service/OrderService';
+import OrderRepository from '../../infrastructure/adapters/repository/OrderRepository';
 
 @Module({
   imports: [DomainModule],
@@ -24,7 +24,6 @@ import OrderRepository from "../../infrastructure/adapters/repository/OrderRepos
     {
       provide: 'IOrderRepository',
       useClass: OrderRepository,
-
     },
   ],
   exports: [ProductService, OrderService],
