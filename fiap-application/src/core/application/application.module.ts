@@ -28,6 +28,10 @@ import UserRepository from 'src/infrastructure/adapters/repository/UserRepositor
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
+    {
+      provide: 'MongoDBAdapter',
+      useClass: MongoDBAdapter,
+    },
   ],
   exports: [ProductService, OrderService, UserService],
 })
