@@ -1,12 +1,21 @@
-import { Body, Controller, Get, HttpStatus, Inject, Param, Post, Put, Res } from "@nestjs/common";
-import { UserCreationDTO } from "src/core/application/dto/UserCreationDTO";
-import { UserUpdateDTO } from "src/core/application/dto/UserUpdateDTO";
-import UserService from "src/core/application/service/UserService";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common';
+import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
+import { UserUpdateDTO } from 'src/core/application/dto/UserUpdateDTO';
+import UserService from 'src/core/application/service/UserService';
 
 @Controller('users/')
 export default class UserController {
-
-  constructor(@Inject() private readonly userService: UserService) { }
+  constructor(@Inject() private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
@@ -30,9 +39,12 @@ export default class UserController {
   }
 
   @Put(':id')
-  async updateUser(@Res() response, @Param('id') id: string, @Body() userUpdateDto: UserUpdateDTO) {
+  async updateUser(
+    @Res() response,
+    @Param('id') id: string,
+    @Body() userUpdateDto: UserUpdateDTO,
+  ) {
     await this.userService.updateUser(id, userUpdateDto);
     return response.status(HttpStatus.OK).json();
   }
-
 }

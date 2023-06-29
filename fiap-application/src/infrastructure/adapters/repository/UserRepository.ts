@@ -1,13 +1,14 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { IUserRepository } from "src/core/domain/repositories/iUserRepository";
-import MongoDBAdapter from "src/infrastructure/MongoDBAdapter";
-import { v4 } from "uuid";
-import { HttpNotFoundException } from "src/infrastructure/exceptions/HttpNotFoundException";
+import { Inject, Injectable } from '@nestjs/common';
+import { IUserRepository } from 'src/core/domain/repositories/IUserRepository';
+import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
+import { v4 } from 'uuid';
+import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
-
-  constructor(@Inject('MongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter) { }
+  constructor(
+    @Inject('MongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
+  ) { }
 
   COLLECTION = this.mongoDbAdaptar.getCollection('Users');
 
@@ -28,7 +29,6 @@ export default class UserRepository implements IUserRepository {
       console.error('Error creating user:', error);
       throw error;
     }
-
   }
 
   public async getAll(): Promise<User[]> {
@@ -44,17 +44,14 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async update(id: string, user: User): Promise<User> {
-
     try {
       const updateUser = {
         $set: { id: id, ...user },
       };
       return await this.COLLECTION.updateOne({ _id: id }, updateUser);
-
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;
     }
-
   }
 }
