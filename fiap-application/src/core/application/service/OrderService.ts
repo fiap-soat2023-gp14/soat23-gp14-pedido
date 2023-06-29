@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IOrderRepository } from '../../domain/repositories/IOrderRepository';
-import { IProductRepository } from '../../domain/repositories/iProductRepository';
+import { IProductRepository } from '../../domain/repositories/IProductRepository';
 import Decimal from 'decimal.js';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import { OrderStatus } from '../../domain/entities/OrderStatus';
