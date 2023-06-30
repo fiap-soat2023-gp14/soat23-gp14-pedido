@@ -8,22 +8,27 @@ import {
   Req,
   Put,
   Delete,
-  Body, UseFilters
+  Body,
+  Query,
 } from "@nestjs/common";
 import ProductService from '../../core/application/service/ProductService';
-import HttpExceptionFilter from "../exceptions/HttpExceptionFilter";
 
 @Controller('products/')
 export default class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  public async getAllProducts(@Res() response) {
-    const products = await this.productService.getAllProducts();
+  public async getAllProducts(
+    @Res() response,
+    @Query('category') category: ProductCategory,
+  ) {
+    const params = category ? { category: category } : {};
+    const products = await this.productService.getAllProducts(params);
     return response.status(HttpStatus.OK).json(products);
   }
   @Get(':id')
   public async getProduct(@Res() response, @Param('id') id) {
+
     const product = await this.productService.getProductById(id);
     return response.status(HttpStatus.OK).json(product);
   }

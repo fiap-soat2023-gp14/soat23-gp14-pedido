@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import ProductRepository from '../../../infrastructure/adapters/repository/ProductRepository';
-import { uuid } from 'uuidv4';
 import { v4 } from 'uuid';
 
 @Injectable()
@@ -17,8 +16,8 @@ export default class ProductService {
     return productResponse;
   }
 
-  public async getAllProducts() {
-    return this.copyProducList(await this.productRepository.getAll());
+  public async getAllProducts(params?) {
+    return this.copyProducList(await this.productRepository.getAll(params));
   }
 
   public async createProduct(productDTO: ProductDTO) {

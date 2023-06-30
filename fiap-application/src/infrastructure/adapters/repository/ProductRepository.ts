@@ -9,10 +9,13 @@ export default class ProductRepository implements IProductRepository {
   collectionName = 'Products';
   constructor(@Inject('MongoDBAdapter') private mongdbAdater: MongoDBAdapter) {}
 
-  public async getAll(): Promise<Product[]> {
+  public async getAll(queryParam?): Promise<Product[]> {
+    let query = {};
+    if (queryParam) query = { ...queryParam };
     const products = await this.mongdbAdater
       .getCollection(this.collectionName)
-      .find()
+      .find(query)
+      .sort({ createdAt: -1 })
       .toArray();
     const productsResponse = products.map((product) => ({
       ...product,
