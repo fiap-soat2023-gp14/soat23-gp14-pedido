@@ -4,16 +4,19 @@ import {
   ArgumentsHost,
   Logger,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
-@Catch(HttpException)
+@Catch()
 export default class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
+    console.log(exception);
     const { message, status } = this.isBusinessException(exception);
     response.status(status).json({
       message,
@@ -24,11 +27,16 @@ export default class HttpExceptionFilter implements ExceptionFilter {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public isBusinessException(exception: HttpException): any {
+  public isBusinessException(exception) {
     Logger.log(exception.stack);
+    const httpStatus =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
+
     return {
       message: exception.message,
-      status: exception.getStatus(),
+      status: httpStatus,
     };
   }
 }
