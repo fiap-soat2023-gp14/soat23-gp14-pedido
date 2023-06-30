@@ -8,8 +8,10 @@ import {
   Req,
   Put,
   Delete,
-} from '@nestjs/common';
+  Body, UseFilters
+} from "@nestjs/common";
 import ProductService from '../../core/application/service/ProductService';
+import HttpExceptionFilter from "../exceptions/HttpExceptionFilter";
 
 @Controller('products/')
 export default class ProductController {
@@ -27,10 +29,8 @@ export default class ProductController {
   }
 
   @Post()
-  public async createProduct(@Res() response, @Req() request) {
-    const productResponse = await this.productService.createProduct(
-      request.body,
-    );
+  public async createProduct(@Res() response, @Body() body: ProductDTO) {
+    const productResponse = await this.productService.createProduct(body);
     return response.status(HttpStatus.OK).json(productResponse);
   }
 
