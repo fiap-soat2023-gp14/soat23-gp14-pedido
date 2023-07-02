@@ -35,4 +35,4 @@ import UserRepository from 'src/infrastructure/adapters/repository/UserRepositor
   ],
   exports: [ProductService, OrderService, UserService],
 })
-export default class ApplicationModule { }
+export default class ApplicationModule {}

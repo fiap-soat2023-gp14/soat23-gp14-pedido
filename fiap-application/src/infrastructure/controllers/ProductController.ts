@@ -10,10 +10,10 @@ import {
   Delete,
   Body,
   Query,
-} from "@nestjs/common";
+} from '@nestjs/common';
 import ProductService from '../../core/application/service/ProductService';
 import ProductDTO from '../../core/application/dto/ProductDTO';
-import { getBodyParserOptions } from "@nestjs/platform-express/adapters/utils/get-body-parser-options.util";
+import { getBodyParserOptions } from '@nestjs/platform-express/adapters/utils/get-body-parser-options.util';
 
 @Controller('products/')
 export default class ProductController {
@@ -41,7 +41,12 @@ export default class ProductController {
   }
 
   @Put(':id')
-  public async updateProduct(@Res() response, @Req() request, @Param('id') id,@Body() body: ProductDTO) {
+  public async updateProduct(
+    @Res() response,
+    @Req() request,
+    @Param('id') id,
+    @Body() body: ProductDTO,
+  ) {
     await this.productService.updateProduct(id, body);
     return response.status(HttpStatus.OK).json();
   }

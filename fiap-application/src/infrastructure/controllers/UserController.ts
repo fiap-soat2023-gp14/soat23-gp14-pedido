@@ -16,7 +16,7 @@ import UserService from 'src/core/application/service/UserService';
 
 @Controller('users/')
 export default class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {

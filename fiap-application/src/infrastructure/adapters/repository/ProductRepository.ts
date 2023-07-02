@@ -7,7 +7,9 @@ import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 @Injectable()
 export default class ProductRepository implements IProductRepository {
   collectionName = 'Products';
-  constructor(@Inject('IMongoDBAdapter') private mongdbAdater: MongoDBAdapter) {}
+  constructor(
+    @Inject('IMongoDBAdapter') private mongdbAdater: MongoDBAdapter,
+  ) {}
 
   public async getAll(queryParam?): Promise<Product[]> {
     let query = {};

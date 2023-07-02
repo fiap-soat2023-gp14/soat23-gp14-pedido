@@ -7,8 +7,8 @@ import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoun
 @Injectable()
 export default class UserRepository implements IUserRepository {
   constructor(
-    @Inject('MongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
-  ) { }
+    @Inject('IMongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
+  ) {}
 
   COLLECTION = this.mongoDbAdaptar.getCollection('Users');
 
@@ -40,7 +40,7 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async getByCpf(cpf: string): Promise<User> {
-    return await this.COLLECTION.find({ 'cpf': cpf });
+    return await this.COLLECTION.find({ cpf: cpf });
   }
 
   public async update(id: string, user: User): Promise<User> {
