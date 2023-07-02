@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IProductRepository } from '../../../core/domain/repositories/IProductRepository';
 import { v4 } from 'uuid';
-import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
+import MongoDBAdapter from '../../MongoDBAdapter';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
   collectionName = 'Products';
-  constructor(@Inject('MongoDBAdapter') private mongdbAdater: MongoDBAdapter) { }
+  constructor(@Inject('IMongoDBAdapter') private mongdbAdater: MongoDBAdapter) {}
 
   public async getAll(queryParam?): Promise<Product[]> {
     let query = {};
