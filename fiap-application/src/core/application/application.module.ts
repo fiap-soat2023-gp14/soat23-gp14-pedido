@@ -6,26 +6,33 @@ import ProductRepository from '../../infrastructure/adapters/repository/ProductR
 import MongoDBAdapter from '../../infrastructure/MongoDBAdapter';
 import OrderService from './service/OrderService';
 import OrderRepository from '../../infrastructure/adapters/repository/OrderRepository';
+import UserService from './service/UserService';
+import UserRepository from 'src/infrastructure/adapters/repository/UserRepository';
 
 @Module({
   imports: [DomainModule],
   controllers: [],
   providers: [
     ProductService,
-    OrderService,
     {
       provide: 'IProductRepository',
       useClass: ProductRepository,
+    },
+    OrderService,
+    {
+      provide: 'IOrderRepository',
+      useClass: OrderRepository,
+    },
+    UserService,
+    {
+      provide: 'IUserRepository',
+      useClass: UserRepository,
     },
     {
       provide: 'MongoDBAdapter',
       useClass: MongoDBAdapter,
     },
-    {
-      provide: 'IOrderRepository',
-      useClass: OrderRepository,
-    },
   ],
-  exports: [ProductService, OrderService],
+  exports: [ProductService, OrderService, UserService],
 })
-export default class ApplicationModule {}
+export default class ApplicationModule { }
