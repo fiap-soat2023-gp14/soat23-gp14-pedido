@@ -8,7 +8,9 @@ import {
   Req,
   Put,
   Delete,
-} from '@nestjs/common';
+  Body,
+  Query,
+} from "@nestjs/common";
 import ProductService from '../../core/application/service/ProductService';
 
 @Controller('products/')
@@ -16,21 +18,24 @@ export default class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  public async getAllProducts(@Res() response) {
-    const products = await this.productService.getAllProducts();
+  public async getAllProducts(
+    @Res() response,
+    @Query('category') category: ProductCategory,
+  ) {
+    const params = category ? { category: category } : {};
+    const products = await this.productService.getAllProducts(params);
     return response.status(HttpStatus.OK).json(products);
   }
   @Get(':id')
   public async getProduct(@Res() response, @Param('id') id) {
+
     const product = await this.productService.getProductById(id);
     return response.status(HttpStatus.OK).json(product);
   }
 
   @Post()
-  public async createProduct(@Res() response, @Req() request) {
-    const productResponse = await this.productService.createProduct(
-      request.body,
-    );
+  public async createProduct(@Res() response, @Body() body: ProductDTO) {
+    const productResponse = await this.productService.createProduct(body);
     return response.status(HttpStatus.OK).json(productResponse);
   }
 
