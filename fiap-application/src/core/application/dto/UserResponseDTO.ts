@@ -1,8 +1,6 @@
-interface User {
+export class UserResponseDTO {
   name: string;
   email: string;
   cpf: string;
   phone: string;
-  createdAt: Date;
-  updatedAt: Date;
 }

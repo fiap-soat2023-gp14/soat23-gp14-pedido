@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
@@ -15,7 +16,7 @@ import UserService from 'src/core/application/service/UserService';
 
 @Controller('users/')
 export default class UserController {
-  constructor( private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
@@ -33,8 +34,8 @@ export default class UserController {
     return this.userService.getUserById(id);
   }
 
-  @Get(':cpf')
-  getUserByCpf(@Param('cpf') cpf: string) {
+  @Get()
+  getUserByCpf(@Query('cpf') cpf: string) {
     return this.userService.getUserByCpf(cpf);
   }
 

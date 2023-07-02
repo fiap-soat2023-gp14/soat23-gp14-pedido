@@ -4,7 +4,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Inject,
   Post,
   Put,
   Res,
@@ -13,7 +12,7 @@ import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
 
 @Controller('orders/')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) { }
 
   @Post()
   async createOrder(

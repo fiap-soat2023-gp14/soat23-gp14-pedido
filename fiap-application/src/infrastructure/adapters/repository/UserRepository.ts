@@ -14,7 +14,7 @@ export default class UserRepository implements IUserRepository {
 
   public async create(user: User): Promise<User> {
     const userEntity = { ...user, _id: v4() };
-    const userExist = await this.COLLECTION.findOne({ _cpf: user.cpf });
+    const userExist = await this.COLLECTION.findOne({ cpf: user.cpf });
 
     if (userExist) {
       throw new HttpNotFoundException('User already exists'); //trocar o erro
@@ -40,13 +40,13 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async getByCpf(cpf: string): Promise<User> {
-    return await this.COLLECTION.findOne({ _cpf: cpf });
+    return await this.COLLECTION.find({ 'cpf': cpf });
   }
 
   public async update(id: string, user: User): Promise<User> {
     try {
       const updateUser = {
-        $set: { id: id, ...user },
+        $set: { _id: id, ...user },
       };
       return await this.COLLECTION.updateOne({ _id: id }, updateUser);
     } catch (error) {
