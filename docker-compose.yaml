@@ -1,18 +1,6 @@
 version: "3.8"
 
 services:
-  localstack:
-    container_name: "fiap-localstack_main"
-    image: localstack/localstack
-    ports:
-      - "127.0.0.1:4566:4566"            # LocalStack Gateway
-      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
-    environment:
-      - DEBUG=${DEBUG-}
-      - DOCKER_HOST=unix:///var/run/docker.sock
-    volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
   mongodb:
     image: mongo:latest
     container_name: "mongodb-fiap"
@@ -23,3 +11,12 @@ services:
       - 27017:27017
       - 27020:27020
     command: mongod
+  mongoimport:
+    image: mongo:latest
+    container_name: fiap-import
+    volumes:
+      - ./data-import/products.json:/data/products.json
+    command: mongoimport --host mongodb:27017 --db fiap --collection Products --file ./data/products.json --jsonArray
+    depends_on:
+      - mongodb
+

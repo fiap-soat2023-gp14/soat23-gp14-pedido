@@ -1,0 +1,33 @@
+[{
+  "_id": "42ac51f5-d67f-4dba-94d1-d4515a89fc19",
+  "name": "Novo Produto",
+  "description": "Description 3",
+  "price": 12.12,
+  "category": "GARNISH",
+  "imageUrl": "http://teste/image.jpeg",
+  "createdAt": {
+    "$date": "2023-07-03T16:27:25.898Z"
+  }
+},
+  {
+    "_id": "97b06b68-0099-4006-9cef-b154f1f9630a",
+    "name": "Novo Produto",
+    "description": "Description 3",
+    "price": 12.12,
+    "category": "GARNISH",
+    "imageUrl": "http://teste/image.jpeg",
+    "createdAt": {
+      "$date": "2023-07-03T16:27:29.005Z"
+    }
+  },
+  {
+    "_id": "822c9de1-6401-41c2-b582-3bacf51bd3b1",
+    "name": "Novo Produto",
+    "description": "Description 3",
+    "price": 12.12,
+    "category": "GARNISH",
+    "imageUrl": "http://teste/image.jpeg",
+    "createdAt": {
+      "$date": "2023-07-03T16:27:29.658Z"
+    }
+  }]
