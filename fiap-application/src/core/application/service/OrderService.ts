@@ -3,7 +3,7 @@ import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductRepository } from '../repositories/IProductRepository';
 import Decimal from 'decimal.js';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
-import { OrderStatus } from '../../domain/entities/OrderStatus';
+import { OrderStatus } from '../../domain/enums/OrderStatus';
 
 @Injectable()
 export default class OrderService {

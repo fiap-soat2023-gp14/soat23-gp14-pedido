@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js';
-import { OrderStatus } from './OrderStatus';
+import { OrderStatus } from '../enums/OrderStatus';
 import Product from './Product';
 export interface OrderItem {
   product: Product;

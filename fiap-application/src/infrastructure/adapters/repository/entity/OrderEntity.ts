@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { Order, OrderItem } from '../../../../core/domain/entities/Order';
-import { OrderStatus } from '../../../../core/domain/entities/OrderStatus';
+import { OrderStatus } from '../../../../core/domain/enums/OrderStatus';
 
 export class OrderEntity {
   id: string;
