@@ -30,7 +30,7 @@ export default class OrderService {
       };
       order.items.push(orderItem);
       order.total = order.total.plus(
-        new Decimal(orderItem.product.price).mul(orderItem.quantity),
+        new Decimal(orderItem.product.price.value).mul(orderItem.quantity),
       );
     }
     return this.orderRepository.create(order);

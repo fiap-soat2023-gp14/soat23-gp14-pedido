@@ -2,7 +2,7 @@ import Decimal from 'decimal.js';
 import { Order, OrderItem } from '../../../../core/domain/entities/Order';
 import { OrderStatus } from '../../../../core/domain/entities/OrderStatus';
 
-export class OrderEntity implements Order {
+export class OrderEntity {
   id: string;
   status: OrderStatus;
   customer: string;
@@ -13,8 +13,8 @@ export class OrderEntity implements Order {
   deliveredAt: Date;
 }
 
-export class OrderItemEntity implements OrderItem {
-  product: Product;
+export class OrderItemEntity {
+  product: ProductEntity;
   observation: string;
   quantity: number;
 }

@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IProductRepository } from '../../../core/domain/repositories/IProductRepository';
-import { v4 } from 'uuid';
 import MongoDBAdapter from '../../MongoDBAdapter';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
+import ProductMapper from './mappers/ProductMapper';
+import Product from '../../../core/domain/entities/Product';
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
@@ -14,19 +15,17 @@ export default class ProductRepository implements IProductRepository {
   public async getAll(queryParam?): Promise<Product[]> {
     let query = {};
     if (queryParam) query = { ...queryParam };
-    const products = await this.mongdbAdater
+    const products: ProductEntity[] = await this.mongdbAdater
       .getCollection(this.collectionName)
       .find(query)
       .sort({ createdAt: -1 })
       .toArray();
-    const productsResponse = products.map((product) => ({
-      ...product,
-      id: product._id,
-    }));
-    return Promise.resolve(productsResponse);
+
+    return Promise.resolve(ProductMapper.toDomainList(products));
   }
   public async create(product: Product): Promise<Product> {
-    const Item = { ...product };
+    const productEntity = ProductMapper.toEntity(product);
+    const Item = { ...productEntity };
 
     try {
       await this.mongdbAdater
@@ -34,19 +33,19 @@ export default class ProductRepository implements IProductRepository {
         .insertOne(Item);
       console.log('Product created successfully.');
 
-      return Promise.resolve({ ...product, id: Item._id });
+      return Promise.resolve(ProductMapper.toDomain(productEntity));
     } catch (error) {
       console.error('Error creating product:', error);
       throw error;
     }
   }
   public async getById(id: string): Promise<Product> {
-    const product = await this.mongdbAdater
+    const product: ProductEntity = await this.mongdbAdater
       .getCollection(this.collectionName)
       .findOne({ _id: id });
     if (!product)
       throw new HttpNotFoundException(`Product with id ${id} not found`);
-    return Promise.resolve(product);
+    return Promise.resolve(ProductMapper.toDomain(product));
   }
 
   public async delete(id: string): Promise<void> {
@@ -62,14 +61,15 @@ export default class ProductRepository implements IProductRepository {
   }
 
   public async update(id: string, product: Product): Promise<Product> {
-    const productValidate = await this.mongdbAdater
-      .getCollection('Products')
+    const productValidate: ProductEntity = await this.mongdbAdater
+      .getCollection(this.collectionName)
       .find({ _id: id });
     if (!productValidate) throw new Error(`Product with id ${id} not found`);
     try {
-      delete product._id;
+      const productEnty = ProductMapper.toEntity(product);
+      delete productEnty._id;
       const updateProduct = {
-        $set: { ...product },
+        $set: { ...productEnty },
       };
       await this.mongdbAdater
         .getCollection(this.collectionName)

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export default class ProductDTO {
   id: string;
@@ -11,4 +11,5 @@ export default class ProductDTO {
   @IsNumber({ maxDecimalPlaces: 2, allowNaN: false, allowInfinity: false })
   price: number;
   category: ProductCategory;
+  createdAt: Date;
 }
