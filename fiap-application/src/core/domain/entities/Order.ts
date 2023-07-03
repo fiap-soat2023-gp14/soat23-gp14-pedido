@@ -1,5 +1,6 @@
 import Decimal from 'decimal.js';
 import { OrderStatus } from './OrderStatus';
+import Product from './Product';
 export interface OrderItem {
   product: Product;
   observation?: string;

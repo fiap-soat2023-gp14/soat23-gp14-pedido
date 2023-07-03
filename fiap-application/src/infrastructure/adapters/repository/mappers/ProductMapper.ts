@@ -1,27 +1,28 @@
 import { v4 } from 'uuid';
-
+import Product from 'src/core/domain/entities/Product';
+import { Price } from '../../../../core/domain/valueObjects/Price';
 export default class ProductMapper {
-  static toDomain(product: ProductEntity): Product {
+  static async toDomain(product: ProductEntity): Promise<Product> {
     return {
       id: product._id,
       name: product.name,
       description: product.description,
-      price: product.price,
+      price: await Price.create(product.price),
       category: product.category,
       imageUrl: product.imageUrl,
       createdAt: product.createdAt || new Date(),
     };
   }
 
-  static toDomainList(products: ProductEntity[]): Product[] {
-    return products.map((product) => ProductMapper.toDomain(product));
+  static async toDomainList(products: ProductEntity[]): Promise<Product[]> {
+    return Promise.all(products.map((product) => this.toDomain(product)));
   }
   static toEntity(product: Product): ProductEntity {
     return {
       _id: product.id || v4(),
       name: product.name,
       description: product.description,
-      price: product.price,
+      price: product.price.value,
       category: product.category,
       imageUrl: product.imageUrl,
       createdAt: product.createdAt,

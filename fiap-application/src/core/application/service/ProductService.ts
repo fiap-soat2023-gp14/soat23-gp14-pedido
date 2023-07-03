@@ -23,7 +23,7 @@ export default class ProductService {
   }
 
   public async createProduct(productDTO: ProductDTO) {
-    const product = ProductMapper.toDomain(productDTO);
+    const product = await ProductMapper.toDomain(productDTO);
     const productResponse = ProductMapper.toDTO(
       await this.productRepository.create(product),
     );
@@ -31,7 +31,7 @@ export default class ProductService {
   }
 
   public async updateProduct(id, productDTO: ProductDTO) {
-    const product = ProductMapper.toDomain(productDTO);
+    const product = await ProductMapper.toDomain(productDTO);
 
     await this.productRepository.update(id, product);
     return productDTO;

@@ -3,6 +3,7 @@ import { IProductRepository } from '../../../core/domain/repositories/IProductRe
 import MongoDBAdapter from '../../MongoDBAdapter';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import ProductMapper from './mappers/ProductMapper';
+import Product from '../../../core/domain/entities/Product';
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
