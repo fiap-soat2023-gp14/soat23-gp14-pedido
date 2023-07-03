@@ -1,4 +1,4 @@
-import Product from '../entities/Product';
+import Product from '../../domain/entities/Product';
 export interface IProductRepository {
   getAll(): Promise<Product[]>;
   getById(id: string): Promise<Product>;

@@ -48,3 +48,4 @@ fiap-application/.yarn/*
 !fiap-application/.yarn/releases
 !fiap-application/.yarn/sdks
 !fiap-application/.yarn/versions
+/volume/

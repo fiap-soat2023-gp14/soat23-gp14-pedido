@@ -1,4 +1,4 @@
-import { IOrderRepository } from '../../../core/domain/repositories/IOrderRepository';
+import { IOrderRepository } from '../../../core/application/repositories/IOrderRepository';
 import { Inject, Injectable } from '@nestjs/common';
 import MongoDBAdapter from '../../MongoDBAdapter';
 import { v4 } from 'uuid';

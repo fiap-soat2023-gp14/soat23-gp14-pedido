@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { Injectable } from '@nestjs/common';
-import { IMongoDBAdapter } from '../core/domain/repositories/IMongoDBAdapter';
+import { IMongoDBAdapter } from '../core/application/repositories/IMongoDBAdapter';
 
 @Injectable()
 class MongoDBAdapter implements IMongoDBAdapter {
