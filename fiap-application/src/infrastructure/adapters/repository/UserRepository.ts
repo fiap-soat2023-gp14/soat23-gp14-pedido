@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/core/domain/repositories/IUserRepository';
+import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
 import { v4 } from 'uuid';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
