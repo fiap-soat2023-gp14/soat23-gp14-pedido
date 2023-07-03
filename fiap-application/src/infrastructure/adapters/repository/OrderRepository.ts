@@ -9,7 +9,7 @@ export default class OrderRepository implements IOrderRepository {
   COLLECTION_NAME = 'Orders';
 
   constructor(
-    @Inject('MongoDBAdapter') private mongoDbAdapter: MongoDBAdapter,
+    @Inject('IMongoDBAdapter') private mongoDbAdapter: MongoDBAdapter,
   ) {}
   public async create(order: Order): Promise<Order> {
     const orderEntity = { ...order, _id: v4() };

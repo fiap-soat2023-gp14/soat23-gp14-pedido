@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import ProductRepository from '../../../infrastructure/adapters/repository/ProductRepository';
 import { v4 } from 'uuid';
+import ProductDTO from '../dto/ProductDTO';
 
 @Injectable()
 export default class ProductService {

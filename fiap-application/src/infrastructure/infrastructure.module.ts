@@ -12,5 +12,4 @@ import UserController from './controllers/UserController';
   providers: [MongoDBAdapter],
   exports: [MongoDBAdapter],
 })
-export default class InfrastructureModule { }
-
+export default class InfrastructureModule {}

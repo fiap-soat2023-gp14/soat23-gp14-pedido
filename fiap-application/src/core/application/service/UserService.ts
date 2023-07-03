@@ -7,7 +7,7 @@ import { UserUpdateDTO } from '../dto/UserUpdateDTO';
 export default class UserService {
   constructor(
     @Inject('IUserRepository') private userRepository: IUserRepository,
-  ) { }
+  ) {}
 
   public createUser(userCreationDTO: UserCreationDTO) {
     const user = {

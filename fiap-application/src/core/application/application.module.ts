@@ -29,10 +29,10 @@ import UserRepository from 'src/infrastructure/adapters/repository/UserRepositor
       useClass: UserRepository,
     },
     {
-      provide: 'MongoDBAdapter',
+      provide: 'IMongoDBAdapter',
       useClass: MongoDBAdapter,
     },
   ],
   exports: [ProductService, OrderService, UserService],
 })
-export default class ApplicationModule { }
+export default class ApplicationModule {}
