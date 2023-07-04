@@ -6,8 +6,7 @@ import { IMongoDBAdapter } from '../core/application/repositories/IMongoDBAdapte
 class MongoDBAdapter implements IMongoDBAdapter {
   private client: any;
   constructor() {
-    // this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
-    this.client = new MongoClient('mongodb://localhost:27017/fiap');
+    this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
   }
   async connect() {
     try {
