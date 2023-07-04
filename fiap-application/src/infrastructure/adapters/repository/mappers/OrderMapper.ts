@@ -1,7 +1,8 @@
-import { Order } from '../../../../core/domain/entities/Order';
-import { OrderEntity } from '../entity/OrderEntity';
-import { UserMapper } from './UserMapper';
+import {Order, OrderItem} from '../../../../core/domain/entities/Order';
+import {OrderEntity, OrderItemEntity} from '../entity/OrderEntity';
 import { v4 } from 'uuid';
+import UserMapper from "./UserMapper";
+import ProductMapper from "./ProductMapper";
 
 export class OrderMapper {
   static toEntity(order: Order): OrderEntity {
@@ -15,22 +16,46 @@ export class OrderMapper {
       status: order.status,
       extraItems: order.extraItems,
       total: order.total,
-      items: order.items,
+      items: this.toOrderItemEntityList(order.items),
     };
   }
 
-  static toDomain(orderEntity: OrderEntity): Order {
+  static async toDomain(orderEntity: OrderEntity): Promise<Order> {
     return {
       id: orderEntity._id,
       customer: orderEntity.customer
-        ? UserMapper.toDomain(orderEntity.customer)
+        ? await UserMapper.toDomain(orderEntity.customer)
         : undefined,
       deliveredAt: orderEntity.deliveredAt,
       createdAt: orderEntity.createdAt,
       status: orderEntity.status,
       extraItems: orderEntity.extraItems,
       total: orderEntity.total,
-      items: orderEntity.items,
+      items: await this.toOrderItemList(orderEntity.items),
     };
+  }
+
+  static async toOrderItem(orderItemEntity: OrderItemEntity): Promise<OrderItem> {
+    return {
+      product: await ProductMapper.toDomain(orderItemEntity.product),
+      observation: orderItemEntity.observation,
+      quantity: orderItemEntity.quantity,
+    }
+  }
+
+  static async toOrderItemList(orderItemEntityList: OrderItemEntity[]): Promise<OrderItem[]> {
+    return Promise.all(orderItemEntityList.map((orderItemEntity) => this.toOrderItem(orderItemEntity)));
+  }
+
+  static toOrderItemEntity(orderItemEntity: OrderItem): OrderItemEntity {
+    return {
+      product: ProductMapper.toEntity(orderItemEntity.product),
+        observation: orderItemEntity.observation,
+      quantity: orderItemEntity.quantity,
+    }
+  }
+
+  static toOrderItemEntityList(orderItemEntityList: OrderItem[]): OrderItemEntity[] {
+    return (orderItemEntityList.map((orderItemEntity) => this.toOrderItemEntity(orderItemEntity)));
   }
 }

@@ -20,9 +20,9 @@ export default class OrderService {
   public async createOrder(orderCreationDTO: OrderCreationDTO) {
     const order = OrderMapper.toDomain(orderCreationDTO);
 
-    if (orderCreationDTO.customerCPF) {
-      order.customer = await this.userRepository.getByCpf(
-        orderCreationDTO.customerCPF,
+    if (orderCreationDTO.customerId) {
+      order.customer = await this.userRepository.getById(
+        orderCreationDTO.customerId,
       );
     }
 

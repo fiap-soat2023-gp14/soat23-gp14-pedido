@@ -8,7 +8,7 @@ export class OrderEntity {
   status: OrderStatus;
   customer: UserEntity;
   extraItems: string;
-  items: OrderItem[];
+  items: OrderItemEntity[];
   total: Decimal;
   createdAt: Date;
   deliveredAt: Date;

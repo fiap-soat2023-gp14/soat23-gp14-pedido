@@ -1,6 +1,7 @@
 import Decimal from 'decimal.js';
 import { OrderStatus } from '../enums/OrderStatus';
 import Product from './Product';
+import User from "./User";
 export interface OrderItem {
   product: Product;
   observation: string;
