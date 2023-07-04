@@ -15,7 +15,7 @@ import UserFilter from 'src/core/domain/entities/UserFilter';
 
 @Controller('users')
 export default class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {

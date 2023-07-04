@@ -1,4 +1,4 @@
-import {CPF} from "../../domain/valueObjects/Cpf";
+import { CPF } from '../../domain/valueObjects/Cpf';
 
 export class UserResponseDTO {
   id: string;

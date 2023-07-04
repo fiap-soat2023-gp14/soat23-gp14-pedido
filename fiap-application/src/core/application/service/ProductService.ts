@@ -7,7 +7,7 @@ import ProductMapper from '../mappers/ProductMapper';
 export default class ProductService {
   constructor(
     @Inject('IProductRepository') private productRepository: ProductRepository,
-  ) { }
+  ) {}
 
   public async getProductById(id) {
     const productResponse = ProductMapper.toDTO(

@@ -8,7 +8,7 @@ import { UserFilterDTO } from '../dto/UserFilterDTO';
 export default class UserService {
   constructor(
     @Inject('IUserRepository') private userRepository: IUserRepository,
-  ) { }
+  ) {}
 
   public async createUser(userCreationDTO: UserCreationDTO) {
     const user = await UserMapper.toDomain(userCreationDTO);
@@ -26,6 +26,6 @@ export default class UserService {
 
   public async updateUser(id, userDto: UserCreationDTO) {
     const user = await UserMapper.toDomain(userDto);
-    return this.userRepository.update(id, user)
+    return this.userRepository.update(id, user);
   }
 }
