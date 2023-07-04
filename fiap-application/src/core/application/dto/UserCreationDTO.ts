@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString, IsEmail, Length } from 'class-validator';
 
 export class UserCreationDTO {
+  id: string;
   @IsString()
   @IsNotEmpty()
   @Length(3, 50)
@@ -18,4 +19,8 @@ export class UserCreationDTO {
   @IsNotEmpty()
   @Length(11, 11)
   cpf: string;
+
+  createdAt: Date;
+
+  updatedAt: Date;
 }

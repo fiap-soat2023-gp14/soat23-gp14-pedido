@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import ProductRepository from '../../../infrastructure/adapters/repository/ProductRepository';
-import { v4 } from 'uuid';
 import ProductDTO from '../dto/ProductDTO';
 import ProductMapper from '../mappers/ProductMapper';
 
@@ -8,7 +7,7 @@ import ProductMapper from '../mappers/ProductMapper';
 export default class ProductService {
   constructor(
     @Inject('IProductRepository') private productRepository: ProductRepository,
-  ) {}
+  ) { }
 
   public async getProductById(id) {
     const productResponse = ProductMapper.toDTO(

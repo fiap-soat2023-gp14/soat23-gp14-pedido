@@ -14,9 +14,9 @@ import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 import { UserUpdateDTO } from 'src/core/application/dto/UserUpdateDTO';
 import UserService from 'src/core/application/service/UserService';
 
-@Controller('users/')
+@Controller('users')
 export default class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
@@ -29,23 +29,23 @@ export default class UserController {
     return this.userService.getAllUsers();
   }
 
-  @Get(':id')
+  @Get('/:id')
   getUserById(@Param('id') id: string) {
     return this.userService.getUserById(id);
   }
 
   @Get()
-  getUserByCpf(@Query('cpf') cpf: string) {
-    return this.userService.getUserByCpf(cpf);
+  getUserByCpf(@Query() params: any) {
+    return this.userService.getUserByCpf(params.cpf);
   }
 
-  @Put(':id')
+  @Put('/:id')
   async updateUser(
     @Res() response,
     @Param('id') id: string,
-    @Body() userUpdateDto: UserUpdateDTO,
+    @Body() userDto: UserCreationDTO,
   ) {
-    await this.userService.updateUser(id, userUpdateDto);
+    await this.userService.updateUser(id, userDto);
     return response.status(HttpStatus.OK).json();
   }
 }
