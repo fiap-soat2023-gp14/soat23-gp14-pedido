@@ -1,11 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductRepository } from '../repositories/IProductRepository';
 import Decimal from 'decimal.js';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
-import { OrderStatus } from '../../domain/enums/OrderStatus';
 import OrderMapper from '../mappers/OrderMapper';
 import { IUserRepository } from '../repositories/IUserRepository';
+import { IPaymentGateway } from '../external/IPaymentGateway';
+import * as Http from 'http';
 
 @Injectable()
 export default class OrderService {
@@ -13,6 +14,7 @@ export default class OrderService {
     @Inject('IOrderRepository') private orderRepository: IOrderRepository,
     @Inject('IProductRepository') private productRepository: IProductRepository,
     @Inject('IUserRepository') private userRepository: IUserRepository,
+    @Inject('IPaymentGateway') private paymentGateway: IPaymentGateway,
   ) {}
 
   public async createOrder(orderCreationDTO: OrderCreationDTO) {
@@ -36,7 +38,16 @@ export default class OrderService {
       );
     }
 
-    return OrderMapper.toDTO(await this.orderRepository.create(order));
+    const paymentSuccessful = await this.paymentGateway.processPayment(
+      order.total,
+    );
+    if (paymentSuccessful) {
+      console.info('Payment successful');
+      return OrderMapper.toDTO(await this.orderRepository.create(order));
+    } else {
+      console.error('Payment failed');
+      throw new HttpException('Payment failed', HttpStatus.BAD_GATEWAY);
+    }
   }
 
   public getAllOrders() {

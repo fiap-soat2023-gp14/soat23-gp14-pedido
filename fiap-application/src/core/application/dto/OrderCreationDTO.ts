@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class OrderItemCreationDTO {
   @IsNotEmpty()
   @IsString()
   productId: string;
-  @IsNumber({ maxDecimalPlaces: 0, allowNaN: false, allowInfinity: false })
+  @IsInt()
   quantity: number;
   @IsString()
   observation: string;

@@ -8,6 +8,7 @@ import OrderService from './service/OrderService';
 import OrderRepository from '../../infrastructure/adapters/repository/OrderRepository';
 import UserService from './service/UserService';
 import UserRepository from 'src/infrastructure/adapters/repository/UserRepository';
+import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
 
 @Module({
   imports: [DomainModule],
@@ -22,6 +23,10 @@ import UserRepository from 'src/infrastructure/adapters/repository/UserRepositor
     {
       provide: 'IOrderRepository',
       useClass: OrderRepository,
+    },
+    {
+      provide: 'IPaymentGateway',
+      useClass: PaymentGateway,
     },
     UserService,
     {
