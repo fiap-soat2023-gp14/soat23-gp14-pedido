@@ -3,6 +3,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import MongoDBAdapter from '../../MongoDBAdapter';
 import { Order } from '../../../core/domain/entities/Order';
 import { OrderMapper } from './mappers/OrderMapper';
+import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
+import { OrderEntity } from './entity/OrderEntity';
 
 @Injectable()
 export default class OrderRepository implements IOrderRepository {
@@ -33,10 +35,14 @@ export default class OrderRepository implements IOrderRepository {
       .toArray();
   }
 
-  getById(id: string): Promise<Order> {
-    return this.mongoDbAdapter
+  public async getById(id: string): Promise<Order> {
+    const order: OrderEntity = await this.mongoDbAdapter
       .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
+
+    if (!order)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    return Promise.resolve(OrderMapper.toDomain(order));
   }
 
   update(id: string, order: Order): Promise<Order> {
