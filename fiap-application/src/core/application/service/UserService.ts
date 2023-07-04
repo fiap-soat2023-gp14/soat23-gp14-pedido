@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import { UserCreationDTO } from '../dto/UserCreationDTO';
-import { UserUpdateDTO } from '../dto/UserUpdateDTO';
 import { UserMapper } from '../mappers/UserMapper';
+import { UserFilterDTO } from '../dto/UserFilterDTO';
 
 @Injectable()
 export default class UserService {
@@ -16,16 +16,12 @@ export default class UserService {
     return UserMapper.toResponse(userResponse);
   }
 
-  public async getAllUsers() {
-    return UserMapper.toResponseList(await this.userRepository.getAll());
+  public async getAllUsers(params: UserFilterDTO) {
+    return UserMapper.toResponseList(await this.userRepository.getAll(params));
   }
 
   public async getUserById(id) {
     return UserMapper.toResponse(await this.userRepository.getById(id));
-  }
-
-  public async getUserByCpf(cpf) {
-    return UserMapper.toResponse(await this.userRepository.getByCpf(cpf));
   }
 
   public async updateUser(id, userDto: UserCreationDTO) {
