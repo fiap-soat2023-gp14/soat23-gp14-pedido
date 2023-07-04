@@ -1,11 +1,11 @@
-import { Price } from "../valueObjects/Price";
+import { Money } from "../valueObjects/Money";
 
 export default interface Product {
   id: string;
   name: string;
   description: string;
   imageUrl: string;
-  price: Price;
+  price: Money;
   createdAt: Date;
   category: ProductCategory;
 }

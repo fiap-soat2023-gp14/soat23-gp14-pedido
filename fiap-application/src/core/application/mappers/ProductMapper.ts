@@ -1,5 +1,5 @@
 import ProductDTO from '../dto/ProductDTO';
-import { Price } from '../../domain/valueObjects/Price';
+import { Money } from '../../domain/valueObjects/Money';
 import Product from '../../domain/entities/Product';
 export default class ProductMapper {
   static async toDomain(productDTO: ProductDTO): Promise<Product> {
@@ -7,7 +7,7 @@ export default class ProductMapper {
       id: productDTO.id,
       name: productDTO.name,
       description: productDTO.description,
-      price: await Price.create(productDTO.price),
+      price: await Money.create(productDTO.price),
       category: productDTO.category,
       imageUrl: productDTO.imageUrl,
       createdAt: productDTO.createdAt || new Date(),

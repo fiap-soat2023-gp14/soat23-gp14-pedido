@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/core/domain/repositories/IUserRepository';
+import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import UserMapper from './mappers/UserMapper';
 import User from 'src/core/domain/entities/User';
 import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
