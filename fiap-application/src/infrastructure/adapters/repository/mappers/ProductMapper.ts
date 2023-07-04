@@ -1,13 +1,13 @@
 import { v4 } from 'uuid';
 import Product from 'src/core/domain/entities/Product';
-import { Price } from '../../../../core/domain/valueObjects/Price';
+import { Money } from '../../../../core/domain/valueObjects/Money';
 export default class ProductMapper {
   static async toDomain(product: ProductEntity): Promise<Product> {
     return {
       id: product._id,
       name: product.name,
       description: product.description,
-      price: await Price.create(product.price),
+      price: await Money.create(product.price),
       category: product.category,
       imageUrl: product.imageUrl,
       createdAt: product.createdAt || new Date(),
