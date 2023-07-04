@@ -1,11 +1,22 @@
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
 export class OrderItemCreationDTO {
+  @IsNotEmpty()
+  @IsString()
   productId: string;
+  @IsInt()
   quantity: number;
-  observation?: string;
+  @IsString()
+  observation: string;
 }
 
 export class OrderCreationDTO {
-  customer: string;
+  @IsString()
+  @IsOptional()
+  customerCPF: string;
+  @IsNotEmpty()
   items: OrderItemCreationDTO[];
-  extraItems?: string;
+  @IsString()
+  @IsOptional()
+  extraItems: string;
 }

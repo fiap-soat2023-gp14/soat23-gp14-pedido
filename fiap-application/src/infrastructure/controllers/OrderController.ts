@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Post,
   Put,
   Res,
@@ -27,8 +28,9 @@ export class OrderController {
     return await this.orderService.getAllOrders();
   }
   @Get(':id')
-  async getOrderById(id) {
-    return await this.orderService.getOrderById(id);
+  async getOrderById(@Param('id') id, @Res() response) {
+    const order = await this.orderService.getOrderById(id);
+    return response.status(HttpStatus.OK).json(order);
   }
   @Put(':id')
   async updateOrder(id, order) {
