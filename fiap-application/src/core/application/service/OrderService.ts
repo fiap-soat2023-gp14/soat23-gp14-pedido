@@ -4,24 +4,26 @@ import { IProductRepository } from '../repositories/IProductRepository';
 import Decimal from 'decimal.js';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
+import OrderMapper from '../mappers/OrderMapper';
+import { IUserRepository } from '../repositories/IUserRepository';
 
 @Injectable()
 export default class OrderService {
   constructor(
     @Inject('IOrderRepository') private orderRepository: IOrderRepository,
     @Inject('IProductRepository') private productRepository: IProductRepository,
+    @Inject('IUserRepository') private userRepository: IUserRepository,
   ) {}
 
   public async createOrder(orderCreationDTO: OrderCreationDTO) {
-    const order = {
-      id: null,
-      createdAt: new Date(),
-      status: OrderStatus.RECEIVED,
-      customer: orderCreationDTO.customer,
-      extraItems: orderCreationDTO.extraItems,
-      total: new Decimal(0),
-      items: [],
-    };
+    const order = OrderMapper.toDomain(orderCreationDTO);
+
+    if (orderCreationDTO.customerCPF) {
+      order.customer = await this.userRepository.getByCpf(
+        orderCreationDTO.customerCPF,
+      );
+    }
+
     for (const item of orderCreationDTO.items) {
       const orderItem = {
         product: await this.productRepository.getById(item.productId),
@@ -33,7 +35,8 @@ export default class OrderService {
         new Decimal(orderItem.product.price.value).mul(orderItem.quantity),
       );
     }
-    return this.orderRepository.create(order);
+
+    return OrderMapper.toDTO(await this.orderRepository.create(order));
   }
 
   public getAllOrders() {
