@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Inject,
   Param,
   Post,
   Put,
@@ -11,12 +10,12 @@ import {
   Res,
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
-import { UserUpdateDTO } from 'src/core/application/dto/UserUpdateDTO';
 import UserService from 'src/core/application/service/UserService';
+import UserFilter from 'src/core/domain/entities/UserFilter';
 
-@Controller('users/')
+@Controller('users')
 export default class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
@@ -25,27 +24,22 @@ export default class UserController {
   }
 
   @Get()
-  getAllUsers() {
-    return this.userService.getAllUsers();
+  getAllUsers(@Query('cpf') params: UserFilter) {
+    return this.userService.getAllUsers(params);
   }
 
-  @Get(':id')
+  @Get('/:id')
   getUserById(@Param('id') id: string) {
     return this.userService.getUserById(id);
   }
 
-  @Get()
-  getUserByCpf(@Query('cpf') cpf: string) {
-    return this.userService.getUserByCpf(cpf);
-  }
-
-  @Put(':id')
+  @Put('/:id')
   async updateUser(
     @Res() response,
     @Param('id') id: string,
-    @Body() userUpdateDto: UserUpdateDTO,
+    @Body() userDto: UserCreationDTO,
   ) {
-    await this.userService.updateUser(id, userUpdateDto);
+    await this.userService.updateUser(id, userDto);
     return response.status(HttpStatus.OK).json();
   }
 }
