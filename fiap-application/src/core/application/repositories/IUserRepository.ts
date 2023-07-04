@@ -1,5 +1,4 @@
-import User from "../entities/User";
-
+import User from '../../domain/entities/User';
 export interface IUserRepository {
   getAll(): Promise<User[]>;
   getById(id: string): Promise<User>;

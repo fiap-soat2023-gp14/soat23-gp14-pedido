@@ -12,8 +12,8 @@ export default class UserMapper {
       phone: user.phone,
       cpf: await CPF.isValidCPF(user.cpf),
       createdAt: user.createdAt || new Date(),
-      updatedAt: user.updatedAt || new Date()
-    }
+      updatedAt: user.updatedAt || new Date(),
+    };
   }
 
   static toEntity(user: User): UserEntity {
@@ -26,5 +26,9 @@ export default class UserMapper {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
+  }
+
+  static async toDomainList(users: UserEntity[]): Promise<User[]> {
+    return Promise.all(users.map((user) => this.toDomain(user)));
   }
 }

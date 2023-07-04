@@ -4,6 +4,7 @@ import UserMapper from './mappers/UserMapper';
 import User from 'src/core/domain/entities/User';
 import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
+import { UserEntity } from "./entity/UserEntity";
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
@@ -22,10 +23,10 @@ export default class UserRepository implements IUserRepository {
     }
 
     try {
-      const userCreated = await this.COLLECTION.insertOne(userEntity);
+      await this.COLLECTION.insertOne(userEntity);
       console.log('User created successfully.');
 
-      return UserMapper.toDomain(userCreated);
+      return UserMapper.toDomain(userEntity);
     } catch (error) {
       console.error('Error creating user:', error);
       throw error;
@@ -33,19 +34,22 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async getAll(): Promise<User[]> {
-    return this.COLLECTION.find().toArray();
+    const users: UserEntity[] = await this.COLLECTION.find().toArray();
+    return await UserMapper.toDomainList(users);
   }
 
   public async getById(id: string): Promise<User> {
-    return await this.COLLECTION.findOne({ id: id });
+    const userResponse = await this.COLLECTION.findOne({ id: id });
+    return UserMapper.toDomain(userResponse);
   }
 
   public async getByCpf(cpf: string): Promise<User> {
 
-    const userResponse = await this.COLLECTION.findOne({ cpf: cpf });
-    if (!userResponse) throw new Error(`User with cpf ${cpf} not found`);
+    const userValidation = await this.COLLECTION.findOne({ cpf: cpf });
+    if (!userValidation) throw new Error(`User with cpf ${cpf} not found`);
 
-    return await this.COLLECTION.findOne({ cpf: cpf });
+    const userResponse = await this.COLLECTION.findOne({ cpf: cpf });
+    return UserMapper.toDomain(userResponse);
   }
 
   public async update(id: string, user: User): Promise<User> {

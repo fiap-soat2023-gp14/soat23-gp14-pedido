@@ -4,9 +4,7 @@ import { CPF } from 'src/core/domain/valueObjects/Cpf';
 import { UserCreationDTO } from '../dto/UserCreationDTO';
 import { UserUpdateDTO } from '../dto/UserUpdateDTO';
 
-
 export class UserMapper {
-
   static async toDomain(user: UserCreationDTO): Promise<User> {
     return {
       id: user.id,
@@ -15,8 +13,8 @@ export class UserMapper {
       phone: user.phone,
       cpf: await CPF.isValidCPF(user.cpf),
       createdAt: user.createdAt || new Date(),
-      updatedAt: user.updatedAt || new Date()
-    }
+      updatedAt: user.updatedAt || new Date(),
+    };
   }
 
   static toResponse(user: User): UserResponseDTO {
@@ -24,7 +22,7 @@ export class UserMapper {
       id: user.id,
       name: user.name,
       email: user.email,
-      cpf: user.cpf,
+      cpf: user.cpf.value,
       phone: user.phone,
     };
   }
@@ -39,6 +37,6 @@ export class UserMapper {
       phone: user.phone,
       email: user.email,
       updatedAt: new Date(),
-    }
+    };
   }
 }

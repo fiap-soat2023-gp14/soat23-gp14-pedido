@@ -11,8 +11,9 @@ export default class UserService {
   ) { }
 
   public async createUser(userCreationDTO: UserCreationDTO) {
-    const user = await UserMapper.toDomain(userCreationDTO)
-    return this.userRepository.create(user);
+    const user = await UserMapper.toDomain(userCreationDTO);
+    const userResponse = await this.userRepository.create(user);
+    return UserMapper.toResponse(userResponse);
   }
 
   public async getAllUsers() {
