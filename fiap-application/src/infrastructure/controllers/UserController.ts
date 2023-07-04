@@ -34,9 +34,9 @@ export default class UserController {
     return this.userService.getUserById(id);
   }
 
-  @Get()
-  getUserByCpf(@Query() params: any) {
-    return this.userService.getUserByCpf(params.cpf);
+  @Get(':cpf/user')
+  getUserByCpf(@Param('cpf') cpf: string) {
+    return this.userService.getUserByCpf(cpf);
   }
 
   @Put('/:id')

@@ -41,8 +41,11 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async getByCpf(cpf: string): Promise<User> {
-    console.log('CPF', cpf)
-    return await this.COLLECTION.findOne({ where: { cpf: cpf } });
+
+    const userResponse = await this.COLLECTION.findOne({ cpf: cpf });
+    if (!userResponse) throw new Error(`User with cpf ${cpf} not found`);
+
+    return await this.COLLECTION.findOne({ cpf: cpf });
   }
 
   public async update(id: string, user: User): Promise<User> {
