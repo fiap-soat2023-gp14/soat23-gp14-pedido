@@ -1,4 +1,4 @@
-import { Money } from "../valueObjects/Money";
+import { Money } from '../valueObjects/Money';
 
 export default interface Product {
   id: string;

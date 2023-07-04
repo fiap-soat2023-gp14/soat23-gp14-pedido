@@ -1,15 +1,16 @@
 import { Order, OrderItem } from '../../domain/entities/Order';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
-import Decimal from 'decimal.js';
 import {
   OrderItemResponseDTO,
   OrderResponseDTO,
 } from '../dto/OrderResponseDTO';
 import ProductMapper from './ProductMapper';
+import { UserMapper } from './UserMapper';
+import { Money } from '../../domain/valueObjects/Money';
 
 export default class OrderMapper {
-  static toDomain(orderCreationDTO: OrderCreationDTO): Order {
+  static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
     return {
       id: null,
       customer: undefined,
@@ -17,7 +18,7 @@ export default class OrderMapper {
       createdAt: new Date(),
       status: OrderStatus.RECEIVED,
       extraItems: orderCreationDTO.extraItems,
-      total: new Decimal(0),
+      total: undefined,
       items: [],
     };
   }
@@ -26,13 +27,13 @@ export default class OrderMapper {
     console.log(order);
     return {
       id: order.id,
-      customer: order.customer,
+      customer: UserMapper.toResponse(order.customer),
       createdAt: order.createdAt,
       deliveredAt: order.deliveredAt,
       extraItems: order.extraItems,
       items: this.itemsToDTO(order.items),
       status: order.status,
-      total: order.total.toString(),
+      total: order.total.value,
     };
   }
 

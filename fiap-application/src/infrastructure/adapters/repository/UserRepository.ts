@@ -4,14 +4,14 @@ import UserMapper from './mappers/UserMapper';
 import User from 'src/core/domain/entities/User';
 import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
-import { UserEntity } from "./entity/UserEntity";
+import { UserEntity } from './entity/UserEntity';
 import UserFilter from 'src/core/domain/entities/UserFilter';
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
   constructor(
     @Inject('IMongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
-  ) { }
+  ) {}
 
   COLLECTION = this.mongoDbAdaptar.getCollection('Users');
 

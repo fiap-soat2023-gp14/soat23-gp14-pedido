@@ -15,5 +15,5 @@ export class OrderResponseDTO {
   extraItems: string;
   createdAt: Date;
   deliveredAt: Date;
-  total: string;
+  total: number;
 }

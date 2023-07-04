@@ -1,12 +1,11 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductRepository } from '../repositories/IProductRepository';
-import Decimal from 'decimal.js';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import OrderMapper from '../mappers/OrderMapper';
 import { IUserRepository } from '../repositories/IUserRepository';
 import { IPaymentGateway } from '../external/IPaymentGateway';
-import * as Http from 'http';
+import { Money } from '../../domain/valueObjects/Money';
 
 @Injectable()
 export default class OrderService {
@@ -18,14 +17,15 @@ export default class OrderService {
   ) {}
 
   public async createOrder(orderCreationDTO: OrderCreationDTO) {
-    const order = OrderMapper.toDomain(orderCreationDTO);
+    const order = await OrderMapper.toDomain(orderCreationDTO);
 
-    if (orderCreationDTO.customerCPF) {
-      order.customer = await this.userRepository.getByCpf(
-        orderCreationDTO.customerCPF,
+    if (orderCreationDTO.customerId) {
+      order.customer = await this.userRepository.getById(
+        orderCreationDTO.customerId,
       );
     }
 
+    let total = 0;
     for (const item of orderCreationDTO.items) {
       const orderItem = {
         product: await this.productRepository.getById(item.productId),
@@ -33,13 +33,12 @@ export default class OrderService {
         quantity: item.quantity,
       };
       order.items.push(orderItem);
-      order.total = order.total.plus(
-        new Decimal(orderItem.product.price.value).mul(orderItem.quantity),
-      );
+      total = total + orderItem.product.price.value * orderItem.quantity;
     }
+    order.total = await Money.create(total);
 
     const paymentSuccessful = await this.paymentGateway.processPayment(
-      order.total,
+      order.total.value,
     );
     if (paymentSuccessful) {
       console.info('Payment successful');

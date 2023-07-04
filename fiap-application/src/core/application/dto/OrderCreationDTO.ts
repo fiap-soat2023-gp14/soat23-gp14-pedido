@@ -13,7 +13,7 @@ export class OrderItemCreationDTO {
 export class OrderCreationDTO {
   @IsString()
   @IsOptional()
-  customerCPF: string;
+  customerId: string;
   @IsNotEmpty()
   items: OrderItemCreationDTO[];
   @IsString()

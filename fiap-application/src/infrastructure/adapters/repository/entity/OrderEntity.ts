@@ -1,5 +1,3 @@
-import Decimal from 'decimal.js';
-import { OrderItem } from '../../../../core/domain/entities/Order';
 import { OrderStatus } from '../../../../core/domain/enums/OrderStatus';
 import { UserEntity } from './UserEntity';
 
@@ -8,8 +6,8 @@ export class OrderEntity {
   status: OrderStatus;
   customer: UserEntity;
   extraItems: string;
-  items: OrderItem[];
-  total: Decimal;
+  items: OrderItemEntity[];
+  total: number;
   createdAt: Date;
   deliveredAt: Date;
 }
