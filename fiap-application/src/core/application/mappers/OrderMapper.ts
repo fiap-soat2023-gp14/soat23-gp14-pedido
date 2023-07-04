@@ -7,6 +7,7 @@ import {
   OrderResponseDTO,
 } from '../dto/OrderResponseDTO';
 import ProductMapper from './ProductMapper';
+import {UserMapper} from "./UserMapper";
 
 export default class OrderMapper {
   static toDomain(orderCreationDTO: OrderCreationDTO): Order {
@@ -26,7 +27,7 @@ export default class OrderMapper {
     console.log(order);
     return {
       id: order.id,
-      customer: order.customer,
+      customer: UserMapper.toResponse(order.customer),
       createdAt: order.createdAt,
       deliveredAt: order.deliveredAt,
       extraItems: order.extraItems,
