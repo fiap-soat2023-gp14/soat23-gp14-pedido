@@ -9,10 +9,10 @@ import { OrderMapper } from './mappers/OrderMapper';
 @Injectable()
 export default class OrderRepository implements IOrderRepository {
   COLLECTION_NAME = 'Orders';
-
   constructor(
     @Inject('IMongoDBAdapter') private mongoDbAdapter: MongoDBAdapter,
   ) {}
+
   public async create(order: Order): Promise<Order> {
     const orderEntity = OrderMapper.toEntity(order);
 
@@ -28,11 +28,16 @@ export default class OrderRepository implements IOrderRepository {
     }
   }
 
-  async getAll(): Promise<Array<Order>> {
+  public async getAll(queryParam?): Promise<Array<Order>> {
+    const query = queryParam ? { ...queryParam } : {};
     const orders: Array<OrderEntity> = await this.mongoDbAdapter
       .getCollection(this.COLLECTION_NAME)
-      .find()
+      .find(query)
       .toArray();
+
+    if (!orders) {
+      throw new HttpNotFoundException('Order not found'); //FIXME: not working properly
+    }
 
     return Promise.resolve(OrderMapper.toDomainList(orders));
   }
