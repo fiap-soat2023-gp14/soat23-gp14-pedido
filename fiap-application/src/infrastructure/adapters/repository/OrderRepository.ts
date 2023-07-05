@@ -1,10 +1,10 @@
-import { IOrderRepository } from '../../../core/application/repositories/IOrderRepository';
 import { Inject, Injectable } from '@nestjs/common';
-import MongoDBAdapter from '../../MongoDBAdapter';
+import { IOrderRepository } from '../../../core/application/repositories/IOrderRepository';
 import { Order } from '../../../core/domain/entities/Order';
-import { OrderMapper } from './mappers/OrderMapper';
+import MongoDBAdapter from '../../MongoDBAdapter';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import { OrderEntity } from './entity/OrderEntity';
+import { OrderMapper } from './mappers/OrderMapper';
 
 @Injectable()
 export default class OrderRepository implements IOrderRepository {
@@ -28,11 +28,13 @@ export default class OrderRepository implements IOrderRepository {
     }
   }
 
-  getAll(): Promise<Order[]> {
-    return this.mongoDbAdapter
+  async getAll(): Promise<Array<Order>> {
+    const orders: Array<OrderEntity> = await this.mongoDbAdapter
       .getCollection(this.COLLECTION_NAME)
-      .find({})
+      .find()
       .toArray();
+
+    return Promise.resolve(OrderMapper.toDomainList(orders));
   }
 
   public async getById(id: string): Promise<Order> {
@@ -41,7 +43,7 @@ export default class OrderRepository implements IOrderRepository {
       .findOne({ _id: id });
 
     if (!order)
-      throw new HttpNotFoundException(`Product with id ${id} not found`);
+      throw new HttpNotFoundException(`Order with id ${id} not found`);
     return Promise.resolve(OrderMapper.toDomain(order));
   }
 

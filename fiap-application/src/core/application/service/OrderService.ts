@@ -1,11 +1,11 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Money } from '../../domain/valueObjects/Money';
+import { OrderCreationDTO } from '../dto/OrderCreationDTO';
+import { IPaymentGateway } from '../external/IPaymentGateway';
+import OrderMapper from '../mappers/OrderMapper';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductRepository } from '../repositories/IProductRepository';
-import { OrderCreationDTO } from '../dto/OrderCreationDTO';
-import OrderMapper from '../mappers/OrderMapper';
 import { IUserRepository } from '../repositories/IUserRepository';
-import { IPaymentGateway } from '../external/IPaymentGateway';
-import { Money } from '../../domain/valueObjects/Money';
 
 @Injectable()
 export default class OrderService {
@@ -49,8 +49,8 @@ export default class OrderService {
     }
   }
 
-  public getAllOrders() {
-    return this.orderRepository.getAll();
+  public async getAllOrders() {
+    return OrderMapper.toDTOList(await this.orderRepository.getAll());
   }
 
   public async getOrderById(id) {

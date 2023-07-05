@@ -1,9 +1,9 @@
-import { Order, OrderItem } from '../../../../core/domain/entities/Order';
-import { OrderEntity, OrderItemEntity } from '../entity/OrderEntity';
 import { v4 } from 'uuid';
-import UserMapper from './UserMapper';
-import ProductMapper from './ProductMapper';
+import { Order, OrderItem } from '../../../../core/domain/entities/Order';
 import { Money } from '../../../../core/domain/valueObjects/Money';
+import { OrderEntity, OrderItemEntity } from '../entity/OrderEntity';
+import ProductMapper from './ProductMapper';
+import UserMapper from './UserMapper';
 
 export class OrderMapper {
   static toEntity(order: Order): OrderEntity {
@@ -21,6 +21,22 @@ export class OrderMapper {
     };
   }
 
+  static toOrderItemEntity(orderItemEntity: OrderItem): OrderItemEntity {
+    return {
+      product: ProductMapper.toEntity(orderItemEntity.product),
+      observation: orderItemEntity.observation,
+      quantity: orderItemEntity.quantity,
+    };
+  }
+
+  static toOrderItemEntityList(
+    orderItemDomainList: OrderItem[],
+  ): OrderItemEntity[] {
+    return orderItemDomainList.map((orderItemEntity) =>
+      this.toOrderItemEntity(orderItemEntity),
+    );
+  }
+
   static async toDomain(orderEntity: OrderEntity): Promise<Order> {
     return {
       id: orderEntity._id,
@@ -32,11 +48,15 @@ export class OrderMapper {
       status: orderEntity.status,
       extraItems: orderEntity.extraItems,
       total: await Money.create(orderEntity.total),
-      items: await this.toOrderItemList(orderEntity.items),
+      items: await this.toDomainOrderItemList(orderEntity.items),
     };
   }
 
-  static async toOrderItem(
+  static async toDomainList(orders: Array<OrderEntity>): Promise<Order[]> {
+    return Promise.all(orders.map((order) => this.toDomain(order)));
+  }
+
+  static async toDomainOrderItem(
     orderItemEntity: OrderItemEntity,
   ): Promise<OrderItem> {
     return {
@@ -46,29 +66,13 @@ export class OrderMapper {
     };
   }
 
-  static async toOrderItemList(
+  static async toDomainOrderItemList(
     orderItemEntityList: OrderItemEntity[],
   ): Promise<OrderItem[]> {
     return Promise.all(
-      orderItemEntityList.map((orderItemEntity) =>
-        this.toOrderItem(orderItemEntity),
+      orderItemEntityList.map((orderEntityItem) =>
+        this.toDomainOrderItem(orderEntityItem),
       ),
-    );
-  }
-
-  static toOrderItemEntity(orderItemEntity: OrderItem): OrderItemEntity {
-    return {
-      product: ProductMapper.toEntity(orderItemEntity.product),
-      observation: orderItemEntity.observation,
-      quantity: orderItemEntity.quantity,
-    };
-  }
-
-  static toOrderItemEntityList(
-    orderItemEntityList: OrderItem[],
-  ): OrderItemEntity[] {
-    return orderItemEntityList.map((orderItemEntity) =>
-      this.toOrderItemEntity(orderItemEntity),
     );
   }
 }
