@@ -1,3 +1,3 @@
 export class UserFilterDTO {
-  cpf: string;
+  cpf: { cpf: string };
 }
