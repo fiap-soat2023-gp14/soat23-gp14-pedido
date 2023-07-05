@@ -1,13 +1,12 @@
 import { Order, OrderItem } from '../../domain/entities/Order';
-import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
+import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import {
   OrderItemResponseDTO,
   OrderResponseDTO,
 } from '../dto/OrderResponseDTO';
 import ProductMapper from './ProductMapper';
 import { UserMapper } from './UserMapper';
-import { Money } from '../../domain/valueObjects/Money';
 
 export default class OrderMapper {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
@@ -47,5 +46,9 @@ export default class OrderMapper {
 
   private static itemsToDTO(items: OrderItem[]): OrderItemResponseDTO[] {
     return items.map((item) => this.itemToDTO(item));
+  }
+
+  static toDTOList(orders: Order[]): OrderResponseDTO[] {
+    return orders.map((order) => this.toDTO(order));
   }
 }
