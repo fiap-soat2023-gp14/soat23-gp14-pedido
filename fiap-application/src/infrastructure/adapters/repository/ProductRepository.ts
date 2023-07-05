@@ -21,6 +21,10 @@ export default class ProductRepository implements IProductRepository {
       .sort({ createdAt: -1 })
       .toArray();
 
+    if (!products || products.length == 0) {
+      throw new HttpNotFoundException('Product not found');
+    }
+
     return Promise.resolve(ProductMapper.toDomainList(products));
   }
 

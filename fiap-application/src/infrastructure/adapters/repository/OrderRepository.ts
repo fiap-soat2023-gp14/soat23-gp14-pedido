@@ -33,10 +33,11 @@ export default class OrderRepository implements IOrderRepository {
     const orders: Array<OrderEntity> = await this.mongoDbAdapter
       .getCollection(this.COLLECTION_NAME)
       .find(query)
+      .sort({ createdAt: +1 })
       .toArray();
 
-    if (!orders) {
-      throw new HttpNotFoundException('Order not found'); //FIXME: not working properly
+    if (!orders || orders.length == 0) {
+      throw new HttpNotFoundException('Order not found');
     }
 
     return Promise.resolve(OrderMapper.toDomainList(orders));

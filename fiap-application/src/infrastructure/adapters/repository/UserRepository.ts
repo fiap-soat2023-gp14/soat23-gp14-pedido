@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
-import UserMapper from './mappers/UserMapper';
 import User from 'src/core/domain/entities/User';
+import UserFilter from 'src/core/domain/entities/UserFilter';
 import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 import { UserEntity } from './entity/UserEntity';
-import UserFilter from 'src/core/domain/entities/UserFilter';
+import UserMapper from './mappers/UserMapper';
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
@@ -17,10 +17,10 @@ export default class UserRepository implements IUserRepository {
 
   public async create(user: User): Promise<User> {
     const userEntity = UserMapper.toEntity(user);
-    const userExist = await this.COLLECTION.findOne({ cpf: user.cpf });
+    const userExist = await this.COLLECTION.findOne({ cpf: user.cpf.value });
 
     if (userExist) {
-      throw new HttpNotFoundException('User already exists');
+      throw new HttpNotFoundException('User already exists'); //FIXME: change error to bad request
     }
 
     try {
@@ -37,7 +37,7 @@ export default class UserRepository implements IUserRepository {
   public async getAll(params: UserFilter): Promise<User[]> {
     const filter = params ? params : {};
     const users: UserEntity[] = await this.COLLECTION.find(filter).toArray();
-    if (!users) throw new Error(`User not found`);
+    if (!users || users.length == 0) throw new Error(`User not found`);
     return await UserMapper.toDomainList(users);
   }
 
