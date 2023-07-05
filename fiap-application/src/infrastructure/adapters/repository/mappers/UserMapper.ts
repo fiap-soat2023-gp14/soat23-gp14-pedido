@@ -1,12 +1,12 @@
-import { v4 } from 'uuid';
 import User from 'src/core/domain/entities/User';
 import { CPF } from 'src/core/domain/valueObjects/Cpf';
+import { v4 } from 'uuid';
 import { UserEntity } from '../entity/UserEntity';
 
 export default class UserMapper {
   static async toDomain(user: UserEntity): Promise<User> {
     return {
-      id: user.id,
+      id: user.id || v4(),
       name: user.name,
       email: user.email,
       phone: user.phone,

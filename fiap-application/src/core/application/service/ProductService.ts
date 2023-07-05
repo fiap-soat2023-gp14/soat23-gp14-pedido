@@ -6,7 +6,7 @@ import ProductMapper from '../mappers/ProductMapper';
 @Injectable()
 export default class ProductService {
   constructor(
-    @Inject('IProductRepository') private productRepository: ProductRepository,
+    @Inject('IProductRepository') private productRepository: ProductRepository, //FIXME: change dependency to IProductRepository?
   ) {}
 
   public async getProductById(id) {

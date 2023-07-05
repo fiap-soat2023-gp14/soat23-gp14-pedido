@@ -1,4 +1,3 @@
-import OrderService from '../../core/application/service/OrderService';
 import {
   Body,
   Controller,
@@ -7,9 +6,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
+import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
+import OrderService from '../../core/application/service/OrderService';
 
 @Controller('orders/')
 export class OrderController {
@@ -23,15 +25,20 @@ export class OrderController {
     const order = await this.orderService.createOrder(orderCreationDTO);
     return response.status(HttpStatus.OK).json(order);
   }
+
   @Get()
-  async getAllOrders() {
-    return await this.orderService.getAllOrders();
+  async getAllOrders(@Res() response, @Query('status') status: OrderStatus) {
+    const params = status ? { status: status } : {};
+    const orders = await this.orderService.getAllOrders(params);
+    return response.status(HttpStatus.OK).json(orders);
   }
+
   @Get(':id')
   async getOrderById(@Param('id') id, @Res() response) {
     const order = await this.orderService.getOrderById(id);
     return response.status(HttpStatus.OK).json(order);
   }
+
   @Put(':id')
   async updateOrder(id, order) {
     return await this.orderService.updateOrder(id, order);

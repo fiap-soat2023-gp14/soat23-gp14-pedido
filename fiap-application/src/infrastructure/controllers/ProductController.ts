@@ -1,19 +1,18 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   Post,
-  Res,
-  Req,
   Put,
-  Delete,
-  Body,
   Query,
+  Req,
+  Res,
 } from '@nestjs/common';
-import ProductService from '../../core/application/service/ProductService';
 import ProductDTO from '../../core/application/dto/ProductDTO';
-import { getBodyParserOptions } from '@nestjs/platform-express/adapters/utils/get-body-parser-options.util';
+import ProductService from '../../core/application/service/ProductService';
 
 @Controller('products/')
 export default class ProductController {
@@ -28,6 +27,7 @@ export default class ProductController {
     const products = await this.productService.getAllProducts(params);
     return response.status(HttpStatus.OK).json(products);
   }
+
   @Get(':id')
   public async getProduct(@Res() response, @Param('id') id) {
     const product = await this.productService.getProductById(id);
