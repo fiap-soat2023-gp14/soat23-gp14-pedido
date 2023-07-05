@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e169aeee-0bda-40b9-b0f7-2279d1d627c1",
+		"_postman_id": "41731a0b-4064-4d73-bc0e-40f105093a25",
 		"name": "SOAT2 - GRUPO 14 - FASE 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20085261"
+		"_exporter_id": "3979571"
 	},
 	"item": [
 		{
@@ -171,6 +171,95 @@
 					"path": [
 						"users",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Users with CPF filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users?cpf=69350522039",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "cpf",
+							"value": "69350522039"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "teste update 77",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "teste7@update.com",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "11998989888",
+							"type": "text"
+						},
+						{
+							"key": "cpf",
+							"value": "12943753009",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/0499c4f3-1289-4271-90c9-35931c7055fd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"0499c4f3-1289-4271-90c9-35931c7055fd"
 					]
 				}
 			},

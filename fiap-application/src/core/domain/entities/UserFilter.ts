@@ -1,3 +1,3 @@
 export default interface UserFilter {
-  cpf: string;
+  cpf: { cpf: string };
 }
