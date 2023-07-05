@@ -1,21 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IProductRepository } from '../../../core/application/repositories/IProductRepository';
+import Product from '../../../core/domain/entities/Product';
 import MongoDBAdapter from '../../MongoDBAdapter';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import ProductMapper from './mappers/ProductMapper';
-import Product from '../../../core/domain/entities/Product';
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
   collectionName = 'Products';
   constructor(
-    @Inject('IMongoDBAdapter') private mongdbAdater: MongoDBAdapter,
+    @Inject('IMongoDBAdapter') private mongdbAdapter: MongoDBAdapter,
   ) {}
 
   public async getAll(queryParam?): Promise<Product[]> {
     let query = {};
     if (queryParam) query = { ...queryParam };
-    const products: ProductEntity[] = await this.mongdbAdater
+    const products: ProductEntity[] = await this.mongdbAdapter
       .getCollection(this.collectionName)
       .find(query)
       .sort({ createdAt: -1 })
@@ -23,12 +23,13 @@ export default class ProductRepository implements IProductRepository {
 
     return Promise.resolve(ProductMapper.toDomainList(products));
   }
+
   public async create(product: Product): Promise<Product> {
     const productEntity = ProductMapper.toEntity(product);
     const Item = { ...productEntity };
 
     try {
-      await this.mongdbAdater
+      await this.mongdbAdapter
         .getCollection(this.collectionName)
         .insertOne(Item);
       console.log('Product created successfully.');
@@ -39,8 +40,9 @@ export default class ProductRepository implements IProductRepository {
       throw error;
     }
   }
+
   public async getById(id: string): Promise<Product> {
-    const product: ProductEntity = await this.mongdbAdater
+    const product: ProductEntity = await this.mongdbAdapter
       .getCollection(this.collectionName)
       .findOne({ _id: id });
     if (!product)
@@ -49,19 +51,19 @@ export default class ProductRepository implements IProductRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    const product = await this.mongdbAdater
+    const product = await this.mongdbAdapter
       .getCollection(this.collectionName)
       .findOne({ _id: id });
     if (!product)
       throw new HttpNotFoundException(`Product with id ${id} not found`);
-    await this.mongdbAdater
+    await this.mongdbAdapter
       .getCollection(this.collectionName)
       .deleteOne({ _id: id });
     return Promise.resolve();
   }
 
   public async update(id: string, product: Product): Promise<Product> {
-    const productValidate: ProductEntity = await this.mongdbAdater
+    const productValidate: ProductEntity = await this.mongdbAdapter
       .getCollection(this.collectionName)
       .find({ _id: id });
     if (!productValidate) throw new Error(`Product with id ${id} not found`);
@@ -71,7 +73,7 @@ export default class ProductRepository implements IProductRepository {
       const updateProduct = {
         $set: { ...productEnty },
       };
-      await this.mongdbAdater
+      await this.mongdbAdapter
         .getCollection(this.collectionName)
         .updateOne({ _id: id }, updateProduct);
       console.log('Product updated successfully.');

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export default class ProductDTO {
   id: string;
@@ -10,6 +10,7 @@ export default class ProductDTO {
   imageUrl: string;
   @IsNumber({ maxDecimalPlaces: 2, allowNaN: false, allowInfinity: false })
   price: number;
+  @IsNotEmpty()
   category: ProductCategory;
   createdAt: Date;
 }
