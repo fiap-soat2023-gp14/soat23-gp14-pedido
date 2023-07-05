@@ -27,6 +27,7 @@ export default class ProductController {
     const products = await this.productService.getAllProducts(params);
     return response.status(HttpStatus.OK).json(products);
   }
+
   @Get(':id')
   public async getProduct(@Res() response, @Param('id') id) {
     const product = await this.productService.getProductById(id);

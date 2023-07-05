@@ -7,7 +7,7 @@ import ProductMapper from './mappers/ProductMapper';
 
 @Injectable()
 export default class ProductRepository implements IProductRepository {
-  collectionName = 'Products';
+  COLLECTION_NAME = 'Products';
   constructor(
     @Inject('IMongoDBAdapter') private mongdbAdapter: MongoDBAdapter,
   ) {}
@@ -16,7 +16,7 @@ export default class ProductRepository implements IProductRepository {
     let query = {};
     if (queryParam) query = { ...queryParam };
     const products: ProductEntity[] = await this.mongdbAdapter
-      .getCollection(this.collectionName)
+      .getCollection(this.COLLECTION_NAME)
       .find(query)
       .sort({ createdAt: -1 })
       .toArray();
@@ -30,7 +30,7 @@ export default class ProductRepository implements IProductRepository {
 
     try {
       await this.mongdbAdapter
-        .getCollection(this.collectionName)
+        .getCollection(this.COLLECTION_NAME)
         .insertOne(Item);
       console.log('Product created successfully.');
 
@@ -43,7 +43,7 @@ export default class ProductRepository implements IProductRepository {
 
   public async getById(id: string): Promise<Product> {
     const product: ProductEntity = await this.mongdbAdapter
-      .getCollection(this.collectionName)
+      .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
     if (!product)
       throw new HttpNotFoundException(`Product with id ${id} not found`);
@@ -52,19 +52,19 @@ export default class ProductRepository implements IProductRepository {
 
   public async delete(id: string): Promise<void> {
     const product = await this.mongdbAdapter
-      .getCollection(this.collectionName)
+      .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
     if (!product)
       throw new HttpNotFoundException(`Product with id ${id} not found`);
     await this.mongdbAdapter
-      .getCollection(this.collectionName)
+      .getCollection(this.COLLECTION_NAME)
       .deleteOne({ _id: id });
     return Promise.resolve();
   }
 
   public async update(id: string, product: Product): Promise<Product> {
     const productValidate: ProductEntity = await this.mongdbAdapter
-      .getCollection(this.collectionName)
+      .getCollection(this.COLLECTION_NAME)
       .find({ _id: id });
     if (!productValidate) throw new Error(`Product with id ${id} not found`);
     try {
@@ -74,7 +74,7 @@ export default class ProductRepository implements IProductRepository {
         $set: { ...productEnty },
       };
       await this.mongdbAdapter
-        .getCollection(this.collectionName)
+        .getCollection(this.COLLECTION_NAME)
         .updateOne({ _id: id }, updateProduct);
       console.log('Product updated successfully.');
       return Promise.resolve(product);
