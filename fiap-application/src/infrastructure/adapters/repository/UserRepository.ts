@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
@@ -20,7 +20,7 @@ export default class UserRepository implements IUserRepository {
     const userExist = await this.COLLECTION.findOne({ cpf: user.cpf.value });
 
     if (userExist) {
-      throw new HttpNotFoundException('User already exists'); //FIXME: change error to bad request
+      throw new ConflictException('User already exists');
     }
 
     try {
