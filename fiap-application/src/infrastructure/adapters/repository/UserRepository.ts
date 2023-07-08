@@ -42,7 +42,7 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async getById(id: string): Promise<User> {
-    const userResponse = await this.COLLECTION.findOne({ id: id });
+    const userResponse = await this.COLLECTION.findOne({ _id: id });
     if (!userResponse)
       throw new HttpNotFoundException(`User with id ${id} not found`);
     return UserMapper.toDomain(userResponse);
@@ -54,7 +54,7 @@ export default class UserRepository implements IUserRepository {
       throw new HttpNotFoundException(`User with id ${id} not found`);
     try {
       const userEntity = UserMapper.toEntity(user);
-      delete userEntity.id;
+      delete userEntity._id;
       const updateUser = {
         $set: { ...userEntity },
       };
