@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
@@ -20,7 +20,7 @@ export default class UserRepository implements IUserRepository {
     const userExist = await this.COLLECTION.findOne({ cpf: user.cpf.value });
 
     if (userExist) {
-      throw new HttpNotFoundException('User already exists'); //FIXME: change error to bad request
+      throw new ConflictException('User already exists');
     }
 
     try {
@@ -37,25 +37,28 @@ export default class UserRepository implements IUserRepository {
   public async getAll(params: UserFilter): Promise<User[]> {
     const filter = params ? params : {};
     const users: UserEntity[] = await this.COLLECTION.find(filter).toArray();
-    if (!users || users.length == 0) throw new Error(`User not found`);
+
     return await UserMapper.toDomainList(users);
   }
 
   public async getById(id: string): Promise<User> {
-    const userResponse = await this.COLLECTION.findOne({ id: id });
+    const userResponse = await this.COLLECTION.findOne({ _id: id });
+    if (!userResponse)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
     return UserMapper.toDomain(userResponse);
   }
 
   public async update(id: string, user: User): Promise<User> {
     const userValidate = await this.getById(id);
-    if (!userValidate) throw new Error(`User with id ${id} not found`);
+    if (!userValidate)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
     try {
       const userEntity = UserMapper.toEntity(user);
-      delete userEntity.id;
+      delete userEntity._id;
       const updateUser = {
         $set: { ...userEntity },
       };
-      return await this.COLLECTION.updateOne({ id: id }, updateUser);
+      return await this.COLLECTION.updateOne({ _id: id }, updateUser);
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a5cfbb5-41ed-4f79-989f-6fbe4bccca4c",
+		"_postman_id": "a687cfba-224c-4df4-9f8e-6e81305b216b",
 		"name": "SOAT2 - GRUPO 14 - FASE 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25407976"
+		"_exporter_id": "20085261"
 	},
 	"item": [
 		{
@@ -51,14 +51,20 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/products/822c9de1-6401-41c2-b582-3bacf51bd3b1",
+							"raw": "localhost:8080/products/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"products",
-								"822c9de1-6401-41c2-b582-3bacf51bd3b1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "822c9de1-6401-41c2-b582-3bacf51bd3b1"
+								}
 							]
 						}
 					},
@@ -70,14 +76,20 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products/cb92d3da-5fc8-495c-8e88-e87f2ff8c38c",
+							"raw": "localhost:8080/products/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"products",
-								"cb92d3da-5fc8-495c-8e88-e87f2ff8c38c"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "cb92d3da-5fc8-495c-8e88-e87f2ff8c38c"
+								}
 							]
 						}
 					},
@@ -131,14 +143,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products/b901f700-2dec-426f-902a-815d5c58f4f4",
+							"raw": "localhost:8080/products/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"products",
-								"b901f700-2dec-426f-902a-815d5c58f4f4"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "b901f700-2dec-426f-902a-815d5c58f4f4"
+								}
 							]
 						}
 					},
@@ -173,14 +191,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders/155a4eaa-5795-4e62-a03f-4c26201079fc",
+							"raw": "localhost:8080/orders/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"orders",
-								"155a4eaa-5795-4e62-a03f-4c26201079fc"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "d0878d38-ccd1-4776-af49-105319192a2c"
+								}
 							]
 						}
 					},
@@ -192,7 +216,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders?status=IN_PROGRESS",
+							"raw": "localhost:8080/orders?status=FINISHED",
 							"host": [
 								"localhost"
 							],
@@ -203,7 +227,22 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "IN_PROGRESS"
+									"value": "FINISHED"
+								},
+								{
+									"key": "status",
+									"value": "RECEIVED",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "IN_PREPARATION",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "READY_FOR_DELIVERY",
+									"disabled": true
 								}
 							]
 						}
@@ -225,27 +264,33 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/orders/12e0ecb2-dfc9-4c21-bfa6-e120d2cf8ab2",
+							"raw": "localhost:8080/orders/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"orders",
-								"12e0ecb2-dfc9-4c21-bfa6-e120d2cf8ab2"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "15b16b63-c277-4151-bab2-f3aa0e986e49"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "orders",
+					"name": "Checkout Pedido - POST orders",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"822c9de1-6401-41c2-b582-3bacf51bd3b1\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
+							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"e6e8ff4c-3a77-4f9c-86c6-07d254d2b202\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -294,7 +339,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users?cpf=45828179802",
+							"raw": "localhost:8080/users?cpf=90233730060",
 							"host": [
 								"localhost"
 							],
@@ -305,7 +350,7 @@
 							"query": [
 								{
 									"key": "cpf",
-									"value": "45828179802"
+									"value": "90233730060"
 								}
 							]
 						}
@@ -318,14 +363,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users/90c5dd97-9eff-45ee-bfb2-828822f81310",
+							"raw": "localhost:8080/users/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"users",
-								"90c5dd97-9eff-45ee-bfb2-828822f81310"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ad95fe76-122c-491a-ab92-9ba1682e0053"
+								}
 							]
 						}
 					},
@@ -338,7 +389,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \n}",
+							"raw": "{\n    \"name\" : \"Malu\",\n    \"email\" : \"malu@mail.com\",\n    \"phone\": \"1234567890\",\n    \"cpf\": \"90233730060\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -358,7 +409,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "ad95fe76-122c-491a-ab92-9ba1682e0053"
 								}
 							]
 						}
