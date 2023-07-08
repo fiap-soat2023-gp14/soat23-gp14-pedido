@@ -61,10 +61,10 @@ export default class OrderService {
 
   public async updateOrder(id, status: OrderStatus) {
     const order = await this.orderRepository.getById(id);
+    order.status = status;
     if (order.status === OrderStatus.FINISHED) {
       order.deliveredAt = new Date();
     }
-    order.status = status;
     return this.orderRepository.update(id, order);
   }
 }
