@@ -12,6 +12,7 @@ import {
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
 import OrderService from '../../core/application/service/OrderService';
+import { OrderStatusUpdateDTO } from "../../core/application/dto/OrderStatusUpdateDTO";
 
 @Controller('orders/')
 export class OrderController {
@@ -40,7 +41,7 @@ export class OrderController {
   }
 
   @Put(':id')
-  async updateOrder(id, order) {
-    return await this.orderService.updateOrder(id, order);
+  async updateOrder(id, @Body() order: OrderStatusUpdateDTO) {
+    return await this.orderService.updateOrder(id, order.status);
   }
 }
