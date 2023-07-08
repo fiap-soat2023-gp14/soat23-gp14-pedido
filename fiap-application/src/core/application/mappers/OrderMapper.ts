@@ -26,7 +26,9 @@ export default class OrderMapper {
     console.log(order);
     return {
       id: order.id,
-      customer: UserMapper.toResponse(order.customer),
+      customer: order.customer
+        ? UserMapper.toResponse(order.customer)
+        : undefined,
       createdAt: order.createdAt,
       deliveredAt: order.deliveredAt,
       extraItems: order.extraItems,
