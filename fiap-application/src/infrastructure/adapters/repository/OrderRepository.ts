@@ -50,6 +50,25 @@ export default class OrderRepository implements IOrderRepository {
   }
 
   update(id: string, order: Order): Promise<Order> {
-    return Promise.resolve(undefined);
+    const orderValidate: OrderEntity = this.mongoDbAdapter
+        .getCollection(this.COLLECTION_NAME)
+        .find({ _id: id });
+    if (!orderValidate) throw new Error(`Order with id ${id} not found`);
+
+    try {
+      const orderEntity = OrderMapper.toEntity(order);
+      delete orderEntity._id;
+      const updateOrder = {
+        $set: { ...orderEntity },
+      };
+      this.mongoDbAdapter
+          .getCollection(this.COLLECTION_NAME)
+          .updateOne({ _id: id }, updateOrder);
+      console.log('Order updated successfully.');
+      return Promise.resolve(order);
+    } catch (error) {
+      console.error('Error updating order:', error);
+      throw error;
+    }
   }
 }
