@@ -37,7 +37,7 @@ export default class UserRepository implements IUserRepository {
   public async getAll(params: UserFilter): Promise<User[]> {
     const filter = params ? params : {};
     const users: UserEntity[] = await this.COLLECTION.find(filter).toArray();
-    if (!users || users.length == 0) throw new Error(`User not found`);
+
     return await UserMapper.toDomainList(users);
   }
 
