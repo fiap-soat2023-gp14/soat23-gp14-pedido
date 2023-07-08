@@ -65,6 +65,6 @@ export default class OrderService {
     if (order.status === OrderStatus.FINISHED) {
       order.deliveredAt = new Date();
     }
-    return this.orderRepository.update(id, order);
+    return OrderMapper.toDTO(await this.orderRepository.update(id, order));
   }
 }
