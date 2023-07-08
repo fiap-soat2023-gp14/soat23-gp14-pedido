@@ -30,15 +30,11 @@ export default class OrderRepository implements IOrderRepository {
 
   public async getAll(queryParam?): Promise<Array<Order>> {
     const query = queryParam ? { ...queryParam } : {};
-    const orders: Array<OrderEntity> = await this.mongoDbAdapter
-      .getCollection(this.COLLECTION_NAME)
-      .find(query)
-      .sort({ createdAt: +1 })
-      .toArray();
-
-    if (!orders || orders.length == 0) {
-      throw new HttpNotFoundException('Order not found');
-    }
+    const orders: Array<OrderEntity> = this.mongoDbAdapter
+        .getCollection(this.COLLECTION_NAME)
+        .find(query)
+        .sort({createdAt: +1})
+        .toArray();
 
     return Promise.resolve(OrderMapper.toDomainList(orders));
   }
