@@ -1,6 +1,5 @@
 # soat2023-gp14
 ### Pós Graduação - Software Archictecture / FIAP 2023/1 - Grupo 14
->  Projeto em construção
 
 #### COMPONENTES:
 - Alyne Salgado Scotini Rozario - RM349570
@@ -28,23 +27,27 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 
 - Identificar cliente via CPF
 
-- Selecionar produtos:
+- Criar, editar, listar e remover produtos
 
 - Fake checkout
+
+- Listar pedidos
 
 
 ### Pré-requisitos e como rodar a aplicação
 
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
-- Na pasta raiz do projeto, execute o docker compose:
-  - docker-compose up -d --build
-- Para executar o projeto manualmente:
-  - docker-compose -f docker-compose.yaml up -d mongodb 
-  - cd fiap-application
-  - executar: source local.env
-  - yarn
-  - start:dev
+- Existem duas opções para executar o projeto:
+1. Usando docker compose:
+    - Na pasta raiz do projeto, execute o docker compose:
+      - docker-compose up -d --build
+2. Executando o projeto manualmente:
+   - docker-compose -f docker-compose.yaml up -d mongodb 
+   - cd fiap-application
+   - source local.env
+   - yarn install
+   - yarn start:dev
 
 OBS: A aplicação ficaram disponivel na porta 8080, use a collection do Postman Collection
       - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
