@@ -58,7 +58,7 @@ export default class UserRepository implements IUserRepository {
       const updateUser = {
         $set: { ...userEntity },
       };
-      return await this.COLLECTION.updateOne({ id: id }, updateUser);
+      return await this.COLLECTION.updateOne({ _id: id }, updateUser);
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;
