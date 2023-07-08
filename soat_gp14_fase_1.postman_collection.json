@@ -228,6 +228,21 @@
 								{
 									"key": "status",
 									"value": "FINISHED"
+								},
+								{
+									"key": "status",
+									"value": "RECEIVED",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "IN_PREPARATION",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "READY_FOR_DELIVERY",
+									"disabled": true
 								}
 							]
 						}
