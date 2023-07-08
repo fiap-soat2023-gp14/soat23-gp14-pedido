@@ -5,12 +5,15 @@ services:
     image: mongo:latest
     container_name: "mongodb-fiap"
     environment:
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_DATABASE=fiap
     ports:
       - 27017:27017
       - 27020:27020
-    command: mongod
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - node-network
+
   mongoimport:
     image: mongo:latest
     container_name: fiap-import
@@ -19,6 +22,9 @@ services:
     command: mongoimport --host mongodb:27017 --db fiap --collection Products --file ./data/products.json --jsonArray
     depends_on:
       - mongodb
+    networks:
+      - node-network
+
   app:
     build: ./fiap-application
     container_name: fiap-pedido
@@ -28,5 +34,12 @@ services:
         - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/fiap
     depends_on:
       - mongodb
+    networks:
+      - node-network
 
+volumes:
+  dbdata6:
 
+networks:
+  node-network:
+    driver: bridge
