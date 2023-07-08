@@ -6,7 +6,7 @@ import OrderMapper from '../mappers/OrderMapper';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductRepository } from '../repositories/IProductRepository';
 import { IUserRepository } from '../repositories/IUserRepository';
-import { OrderStatus } from "../../domain/enums/OrderStatus";
+import { OrderStatus } from '../../domain/enums/OrderStatus';
 
 @Injectable()
 export default class OrderService {
@@ -60,12 +60,11 @@ export default class OrderService {
   }
 
   public async updateOrder(id, status: OrderStatus) {
-
-    const order = await this.getOrderById(id)
+    const order = await this.orderRepository.getById(id);
     if (order.status === OrderStatus.FINISHED) {
-      order.deliveredAt = new Date()
-
+      order.deliveredAt = new Date();
     }
+    order.status = status;
     return this.orderRepository.update(id, order);
   }
 }
