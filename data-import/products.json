@@ -1,33 +1,188 @@
 [{
   "_id": "42ac51f5-d67f-4dba-94d1-d4515a89fc19",
-  "name": "Novo Produto",
-  "description": "Description 3",
-  "price": 12.12,
+  "name": "Batata Frita",
+  "description": "Batatas fritas crocantes e temperadas",
+  "price": 9.99,
   "category": "GARNISH",
-  "imageUrl": "http://teste/image.jpeg",
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-fs_bIotp_NXSYFDBnT1eHewUjK315Vs42A&usqp=CAU",
   "createdAt": {
     "$date": "2023-07-03T16:27:25.898Z"
   }
 },
   {
     "_id": "97b06b68-0099-4006-9cef-b154f1f9630a",
-    "name": "Novo Produto",
-    "description": "Description 3",
-    "price": 12.12,
+    "name": "Onion Rings",
+    "description": "Anéis de cebola empanados e crocantes",
+    "price": 13.99,
     "category": "GARNISH",
-    "imageUrl": "http://teste/image.jpeg",
+    "imageUrl": "https://www.allrecipes.com/thmb/Oc_SPxEt3besQKgr1gMPZK_ktnA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/wnK3ZWtvbrIpDoK6kNeWu2U1m74W3L0izm0Zq8dEX8Y-2000-da52695aa0f24c0b91862feab9a10307.jpeg",
     "createdAt": {
       "$date": "2023-07-03T16:27:29.005Z"
     }
   },
   {
     "_id": "822c9de1-6401-41c2-b582-3bacf51bd3b1",
-    "name": "Novo Produto",
-    "description": "Description 3",
-    "price": 12.12,
+    "name": "Nuggets de Frango",
+    "description": "Pedacinhos de frango empanados e crocantes",
+    "price": 15.99,
     "category": "GARNISH",
-    "imageUrl": "http://teste/image.jpeg",
+    "imageUrl": "https://img.sitemercado.com.br/produtos/b0aeb03edd84db4d9a8cdf2545e6d6be91abf018c5bc2cd4627b71a5046d7122_full.jpg",
     "createdAt": {
       "$date": "2023-07-03T16:27:29.658Z"
     }
-  }]
+  },
+  {
+    "_id": "c1d6e1c1-1e77-4e1a-9a89-5913e3284af8",
+    "name": "Salada Verde",
+    "description": "Mix de folhas verdes, tomate, pepino e cenoura ralada",
+    "price": 9.99,
+    "category": "GARNISH",
+    "imageUrl": "https://example.com/salad.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "2c7c2ad5-1d10-4ad7-9ae8-9b8b25be13b3",
+    "name": "Salada Caesar",
+    "description": "Alface romana, croutons, parmesão e molho Caesar",
+    "price": 12.99,
+    "category": "GARNISH",
+    "imageUrl": "https://example.com/caesar_salad.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "8c4820f5-92f6-49b9-bfd9-d034c1b90be5",
+    "name": "Hambúrguer Clássico",
+    "description": "Pão, carne bovina, queijo, alface, tomate, cebola e molho especial",
+    "price": 15.99,
+    "category": "SANDWICH",
+    "imageUrl": "https://example.com/classic_burger.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "9d45fe1c-20cd-40b3-86f7-9e846a1067a0",
+    "name": "Cheeseburger",
+    "description": "Pão, carne bovina, queijo, alface, tomate, cebola e molho especial",
+    "price": 16.99,
+    "category": "SANDWICH",
+    "imageUrl": "https://example.com/cheeseburger.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "b7fe1d97-158b-409b-a86b-3dfde6230a1d",
+    "name": "Veggie Burger",
+    "description": "Pão, hambúrguer vegetariano, queijo, alface, tomate, cebola e molho especial",
+    "price": 13.99,
+    "category": "SANDWICH",
+    "imageUrl": "https://example.com/veggie_burger.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "e6e8ff4c-3a77-4f9c-86c6-07d254d2b202",
+    "name": "Chicken Burger",
+    "description": "Pão, filé de frango empanado, queijo, alface, tomate, cebola e molho especial",
+    "price": 14.99,
+    "category": "SANDWICH",
+    "imageUrl": "https://example.com/chicken_burger.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "3c1c3b57-c5ed-4a19-9cc7-0c9f7d06f88e",
+    "name": "Fish Burger",
+    "description": "Pão, filé de peixe empanado, alface, tomate, cebola e molho especial",
+    "price": 17.99,
+    "category": "SANDWICH",
+    "imageUrl": "https://example.com/fish_burger.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "bd8126e1-10b7-4f3e-8ef6-d012a2d77d80",
+    "name": "Refrigerante",
+    "description": "Coca-Cola, Coca-Cola Zero, Sprite, Fanta Laranja, Fanta Guaraná",
+    "price": 2.99,
+    "category": "DRINK",
+    "imageUrl": "https://example.com/soda.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "b1f3b90e-df5c-4e81-881f-4d7e77cb2e45",
+    "name": "Água Mineral",
+    "description": "Com gás ou sem gás",
+    "price": 1.99,
+    "category": "DRINK",
+    "imageUrl": "https://example.com/mineral_water.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "f7c5dfe3-9a3a-4a21-af60-1e6e7c2a9301",
+    "name": "Sucos Naturais",
+    "description": "Laranja, limão, abacaxi",
+    "price": 3.99,
+    "category": "DRINK",
+    "imageUrl": "https://example.com/fresh_juice.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "936f5d77-cd45-4b46-b4e3-5db457be97a4",
+    "name": "Milkshakes",
+    "description": "Chocolate, morango, baunilha",
+    "price": 4.99,
+    "category": "DRINK",
+    "imageUrl": "https://example.com/milkshake.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "0a7383e2-5b43-4852-8bfa-5d6841344f82",
+    "name": "Sundae",
+    "description": "Sorvete de baunilha, calda de chocolate, chantilly e cereja",
+    "price": 6.99,
+    "category": "DESSERT",
+    "imageUrl": "https://example.com/sundae.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "cbe9f10e-480f-4751-9878-99549e370d94",
+    "name": "Torta de Maçã",
+    "description": "Torta de maçã com cobertura de canela",
+    "price": 8.99,
+    "category": "DESSERT",
+    "imageUrl": "https://example.com/apple_pie.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "076853f3-c66a-4bc4-b2e1-0a790aaf1f80",
+    "name": "Sorvetes",
+    "description": "Casquinha, cascão ou potes de diferentes sabores",
+    "price": 3.99,
+    "category": "DESSERT",
+    "imageUrl": "https://example.com/ice_cream.jpg",
+    "createdAt": {
+      "$date": "2023-07-07T00:00:00.000Z"
+    }
+  }
+]
