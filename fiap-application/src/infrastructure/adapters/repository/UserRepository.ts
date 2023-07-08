@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable } from "@nestjs/common";
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
@@ -50,7 +50,8 @@ export default class UserRepository implements IUserRepository {
 
   public async update(id: string, user: User): Promise<User> {
     const userValidate = await this.getById(id);
-    if (!userValidate) throw new Error(`User with id ${id} not found`);
+    if (!userValidate)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
     try {
       const userEntity = UserMapper.toEntity(user);
       delete userEntity.id;
