@@ -24,8 +24,8 @@ services:
       - /bin/sh
       - -c
       - |
-        mongoimport --host mongodb --db fiap --collection users --type json --file /data/users.json --jsonArray
-        mongoimport --host mongodb --db fiap --collection products --type json --file /data/products.json --jsonArray
+        mongoimport --host mongodb --db fiap --collection Users --type json --file /data/users.json --jsonArray
+        mongoimport --host mongodb --db fiap --collection Products --type json --file /data/products.json --jsonArray
     depends_on:
       - mongodb
     networks:
