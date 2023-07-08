@@ -43,6 +43,8 @@ export default class UserRepository implements IUserRepository {
 
   public async getById(id: string): Promise<User> {
     const userResponse = await this.COLLECTION.findOne({ id: id });
+    if (!userResponse)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
     return UserMapper.toDomain(userResponse);
   }
 
