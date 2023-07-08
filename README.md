@@ -37,9 +37,14 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
-- Rode o comando npm init para inicializar o npm dentro do projeto. É necessário ter o Noje.js instalado para executar este projeto.
-- Rode o comando npm install -g json-server para instalar as dependências.
-- Rode o comando json-server --watch db.json para iniciar o servidor
-- Para executar a API apenas execute: 
-  - docker-compose up -d ou
-  - docker-compose -f docker-compose.yaml up -d mongodb > cd fiap-application > yarn start:dev
+- Na pasta raiz do projeto, execute o docker compose:
+  - docker-compose up -d --build
+- Para executar o projeto manualmente:
+  - docker-compose -f docker-compose.yaml up -d mongodb 
+  - cd fiap-application
+  - executar: source local.env
+  - yarn
+  - start:dev
+
+OBS: A aplicação ficaram disponivel na porta 8080, use a collection do Postman Collection
+      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
