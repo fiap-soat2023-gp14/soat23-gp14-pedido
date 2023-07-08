@@ -30,7 +30,7 @@ export default class OrderRepository implements IOrderRepository {
 
   public async getAll(queryParam?): Promise<Array<Order>> {
     const query = queryParam ? { ...queryParam } : {};
-    const orders: Array<OrderEntity> = this.mongoDbAdapter
+    const orders: Array<OrderEntity> =  await this.mongoDbAdapter
         .getCollection(this.COLLECTION_NAME)
         .find(query)
         .sort({createdAt: +1})
@@ -44,24 +44,23 @@ export default class OrderRepository implements IOrderRepository {
       .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
 
-    if (!order)
-      throw new HttpNotFoundException(`Order with id ${id} not found`);
-    return Promise.resolve(OrderMapper.toDomain(order));
+    if (order)
+      return Promise.resolve(OrderMapper.toDomain(order));
+
+    throw new HttpNotFoundException(`Order with id ${id} not found`);
   }
 
-  update(id: string, order: Order): Promise<Order> {
+  public async update(id: string, order: Order): Promise<Order> {
     const orderValidate: OrderEntity = this.mongoDbAdapter
         .getCollection(this.COLLECTION_NAME)
         .find({ _id: id });
     if (!orderValidate) throw new Error(`Order with id ${id} not found`);
 
     try {
-      const orderEntity = OrderMapper.toEntity(order);
-      delete orderEntity._id;
       const updateOrder = {
-        $set: { ...orderEntity },
+        $set: { status: order.status, deliveredAt: order.deliveredAt },
       };
-      this.mongoDbAdapter
+      await this.mongoDbAdapter
           .getCollection(this.COLLECTION_NAME)
           .updateOne({ _id: id }, updateOrder);
       console.log('Order updated successfully.');

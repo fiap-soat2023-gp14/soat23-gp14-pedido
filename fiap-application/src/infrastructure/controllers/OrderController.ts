@@ -41,7 +41,7 @@ export class OrderController {
   }
 
   @Put(':id')
-  async updateOrder(id, @Body() order: OrderStatusUpdateDTO) {
+  async updateOrder(@Param('id') id, @Body() order: OrderStatusUpdateDTO) {
     return await this.orderService.updateOrder(id, order.status);
   }
 }
