@@ -38,7 +38,7 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
-- Duas opções para executar o projeto:
+- Existem duas opções para executar o projeto:
 1. Usando docker compose:
     - Na pasta raiz do projeto, execute o docker compose:
       - docker-compose up -d --build
