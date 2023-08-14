@@ -39,6 +39,16 @@ export default class OrderRepository implements IOrderRepository {
     return Promise.resolve(OrderMapper.toDomainList(orders));
   }
 
+  public async getOrdersOrdered(): Promise<Array<Order>> {
+    const orders: Array<OrderEntity> = await this.mongoDbAdapter
+      .getCollection(this.COLLECTION_NAME)
+      .find({ $or: [{ status: 1 }, { status: 4 }, { status: 5 }] })
+      .sort({ status: -1 }, { createdAt: +1 })
+      .toArray();
+
+    return Promise.resolve(OrderMapper.toDomainList(orders));
+  }
+
   public async getById(id: string): Promise<Order> {
     const order: OrderEntity = await this.mongoDbAdapter
       .getCollection(this.COLLECTION_NAME)
@@ -55,9 +65,13 @@ export default class OrderRepository implements IOrderRepository {
       .find({ _id: id });
     if (!orderValidate) throw new Error(`Order with id ${id} not found`);
 
+    const orderEntity = OrderMapper.toEntity(order);
     try {
       const updateOrder = {
-        $set: { status: order.status, deliveredAt: order.deliveredAt },
+        $set: {
+          status: orderEntity.status,
+          deliveredAt: orderEntity.deliveredAt,
+        },
       };
       await this.mongoDbAdapter
         .getCollection(this.COLLECTION_NAME)
