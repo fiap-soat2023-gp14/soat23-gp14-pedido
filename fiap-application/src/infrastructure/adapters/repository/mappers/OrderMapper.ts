@@ -4,6 +4,8 @@ import { Money } from '../../../../core/domain/valueObjects/Money';
 import { OrderEntity, OrderItemEntity } from '../entity/OrderEntity';
 import ProductMapper from './ProductMapper';
 import UserMapper from './UserMapper';
+import { OrderStatus } from '../../../../core/domain/enums/OrderStatus';
+import { OrderEntityStatus } from '../enums/OrderEntityStatus';
 
 export class OrderMapper {
   static toEntity(order: Order): OrderEntity {
@@ -14,7 +16,7 @@ export class OrderMapper {
         : undefined,
       deliveredAt: order.deliveredAt,
       createdAt: order.createdAt,
-      status: order.status,
+      status: OrderEntityStatus[order.status],
       extraItems: order.extraItems,
       total: order.total.value,
       items: this.toOrderItemEntityList(order.items),
@@ -45,7 +47,7 @@ export class OrderMapper {
         : undefined,
       deliveredAt: orderEntity.deliveredAt,
       createdAt: orderEntity.createdAt,
-      status: orderEntity.status,
+      status: OrderStatus[OrderEntityStatus[orderEntity.status]],
       extraItems: orderEntity.extraItems,
       total: await Money.create(orderEntity.total),
       items: await this.toDomainOrderItemList(orderEntity.items),

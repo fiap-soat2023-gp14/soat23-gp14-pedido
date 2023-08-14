@@ -12,7 +12,7 @@ import {
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
 import OrderService from '../../core/application/service/OrderService';
-import { OrderStatusUpdateDTO } from "../../core/application/dto/OrderStatusUpdateDTO";
+import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
 
 @Controller('orders/')
 export class OrderController {
@@ -31,6 +31,12 @@ export class OrderController {
   async getAllOrders(@Res() response, @Query('status') status: OrderStatus) {
     const params = status ? { status: status } : {};
     const orders = await this.orderService.getAllOrders(params);
+    return response.status(HttpStatus.OK).json(orders);
+  }
+
+  @Get('/ordered/')
+  async getOrdersOrdered(@Res() response) {
+    const orders = await this.orderService.getOrdersOrdered();
     return response.status(HttpStatus.OK).json(orders);
   }
 
