@@ -1,23 +1,23 @@
 import { Module } from '@nestjs/common';
 
-import ProductService from './service/ProductService';
+import ProductUseCase from './usecase/ProductUseCase';
 import DomainModule from '../domain/domain.module';
-import ProductRepository from '../../infrastructure/adapters/repository/ProductRepository';
-import MongoDBAdapter from '../../infrastructure/MongoDBAdapter';
-import OrderService from './service/OrderService';
-import OrderRepository from '../../infrastructure/adapters/repository/OrderRepository';
-import UserService from './service/UserService';
-import UserRepository from 'src/infrastructure/adapters/repository/UserRepository';
+import ProductGateway from '../../infrastructure/adapters/gateway/ProductGateway';
+import OrderService from './usecase/OrderService';
+import OrderRepository from '../../infrastructure/adapters/gateway/OrderRepository';
+import UserService from './usecase/UserService';
+import UserRepository from 'src/infrastructure/adapters/gateway/UserRepository';
 import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
+import MongoConnection from "../../infrastructure/MongoConnection";
 
 @Module({
   imports: [DomainModule],
   controllers: [],
   providers: [
-    ProductService,
+    ProductUseCase,
     {
       provide: 'IProductRepository',
-      useClass: ProductRepository,
+      useClass: ProductGateway,
     },
     OrderService,
     {
@@ -35,9 +35,9 @@ import PaymentGateway from '../../infrastructure/adapters/external/PaymentGatewa
     },
     {
       provide: 'IMongoDBAdapter',
-      useClass: MongoDBAdapter,
+      useClass: MongoConnection,
     },
   ],
-  exports: [ProductService, OrderService, UserService],
+  exports: [ProductUseCase, OrderService, UserService],
 })
 export default class ApplicationModule {}

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IOrderRepository } from '../../../core/application/repositories/IOrderRepository';
 import { Order } from '../../../core/domain/entities/Order';
-import MongoDBAdapter from '../../MongoDBAdapter';
+import MongoConnection from '../../MongoConnection';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import { OrderEntity } from './entity/OrderEntity';
 import { OrderMapper } from './mappers/OrderMapper';
@@ -10,7 +10,7 @@ import { OrderMapper } from './mappers/OrderMapper';
 export default class OrderRepository implements IOrderRepository {
   COLLECTION_NAME = 'Orders';
   constructor(
-    @Inject('IMongoDBAdapter') private mongoDbAdapter: MongoDBAdapter,
+    @Inject('IMongoDBAdapter') private mongoDbAdapter: MongoConnection,
   ) {}
 
   public async create(order: Order): Promise<Order> {

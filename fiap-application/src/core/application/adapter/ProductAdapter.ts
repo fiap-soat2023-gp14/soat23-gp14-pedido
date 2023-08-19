@@ -1,7 +1,7 @@
 import ProductDTO from '../dto/ProductDTO';
 import { Money } from '../../domain/valueObjects/Money';
 import Product from '../../domain/entities/Product';
-export default class ProductMapper {
+export default class ProductAdapter {
   static async toDomain(productDTO: ProductDTO): Promise<Product> {
     const product = {
       id: productDTO.id,

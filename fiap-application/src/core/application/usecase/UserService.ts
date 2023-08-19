@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import { UserCreationDTO } from '../dto/UserCreationDTO';
-import { UserMapper } from '../mappers/UserMapper';
+import { UserMapper } from '../adapter/UserMapper';
 import { UserFilterDTO } from '../dto/UserFilterDTO';
 
 @Injectable()

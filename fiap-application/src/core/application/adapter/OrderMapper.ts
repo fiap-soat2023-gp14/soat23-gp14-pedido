@@ -5,7 +5,7 @@ import {
   OrderItemResponseDTO,
   OrderResponseDTO,
 } from '../dto/OrderResponseDTO';
-import ProductMapper from './ProductMapper';
+import ProductAdapter from './ProductAdapter';
 import { UserMapper } from './UserMapper';
 
 export default class OrderMapper {
@@ -40,7 +40,7 @@ export default class OrderMapper {
 
   private static itemToDTO(item: OrderItem): OrderItemResponseDTO {
     return {
-      product: ProductMapper.toDTO(item.product),
+      product: ProductAdapter.toDTO(item.product),
       observation: item.observation,
       quantity: item.quantity,
     };

@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Money } from '../../domain/valueObjects/Money';
 import { OrderCreationDTO } from '../dto/OrderCreationDTO';
 import { IPaymentGateway } from '../external/IPaymentGateway';
-import OrderMapper from '../mappers/OrderMapper';
+import OrderMapper from '../adapter/OrderMapper';
 import { IOrderRepository } from '../repositories/IOrderRepository';
-import { IProductRepository } from '../repositories/IProductRepository';
+import { IProductGateway } from '../repositories/IProductGateway';
 import { IUserRepository } from '../repositories/IUserRepository';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
 
@@ -12,7 +12,7 @@ import { OrderStatus } from '../../domain/enums/OrderStatus';
 export default class OrderService {
   constructor(
     @Inject('IOrderRepository') private orderRepository: IOrderRepository,
-    @Inject('IProductRepository') private productRepository: IProductRepository,
+    @Inject('IProductRepository') private productRepository: IProductGateway,
     @Inject('IUserRepository') private userRepository: IUserRepository,
     @Inject('IPaymentGateway') private paymentGateway: IPaymentGateway,
   ) {}
