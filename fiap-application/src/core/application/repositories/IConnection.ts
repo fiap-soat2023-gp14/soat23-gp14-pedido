@@ -1,4 +1,4 @@
-export interface IMongoDBAdapter {
+export interface IConnection {
   connect(): Promise<void>;
   getCollection(collectionName: string);
 }

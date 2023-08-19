@@ -10,7 +10,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
-import UserService from 'src/core/application/service/UserService';
+import UserService from 'src/core/application/usecase/UserService';
 import UserFilter from 'src/core/domain/entities/UserFilter';
 
 @Controller('users')

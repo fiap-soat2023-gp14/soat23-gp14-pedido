@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
-import OrderService from '../../core/application/service/OrderService';
+import OrderService from '../../core/application/usecase/OrderService';
 import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
 
 @Controller('orders/')

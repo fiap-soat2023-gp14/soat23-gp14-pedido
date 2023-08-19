@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
-import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
+import MongoConnection from 'src/infrastructure/MongoConnection';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
@@ -10,7 +10,7 @@ import UserMapper from './mappers/UserMapper';
 @Injectable()
 export default class UserRepository implements IUserRepository {
   constructor(
-    @Inject('IMongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
+    @Inject('IMongoDBAdapter') private mongoDbAdaptar: MongoConnection,
   ) {}
 
   COLLECTION = this.mongoDbAdaptar.getCollection('Users');
