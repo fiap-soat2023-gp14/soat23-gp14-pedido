@@ -1,6 +1,6 @@
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { ValidationException } from 'src/infrastructure/exceptions/ValidationException';
 import { ValueObject } from './ValueObject';
-import { IsNotEmpty, IsString, Length, validate } from 'class-validator';
 
 class ValueProps {
   @IsString()

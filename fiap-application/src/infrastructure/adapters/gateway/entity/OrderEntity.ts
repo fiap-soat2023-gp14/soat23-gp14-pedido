@@ -1,6 +1,6 @@
-import { OrderStatus } from '../../../../core/domain/enums/OrderStatus';
+import { OrderEntityStatus } from '../enums/OrderEntityStatus';
+import { ProductEntity } from './ProductEntity';
 import { UserEntity } from './UserEntity';
-import { OrderEntityStatus } from "../enums/OrderEntityStatus";
 
 export class OrderEntity {
   _id: string;

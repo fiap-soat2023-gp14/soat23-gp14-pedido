@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 import UserFilter from 'src/core/domain/entities/UserFilter';
-import { IConnection } from "../../core/application/repositories/IConnection";
-import MongoConnection from "../MongoConnection";
-import { UserController } from "../controller/UserController";
+import { IConnection } from '../../core/application/repositories/IConnection';
+import MongoConnection from '../MongoConnection';
+import { UserController } from '../controller/UserController';
 
 @Controller('users')
 export default class UserApi {

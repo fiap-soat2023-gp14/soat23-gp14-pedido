@@ -1,9 +1,8 @@
-
 import ProductDTO from '../../core/application/dto/ProductDTO';
 import ProductAdapter from '../../core/application/adapter/ProductAdapter';
 import { IConnection } from '../../core/application/repositories/IConnection';
-import ProductUseCase from "../../core/application/usecase/ProductUseCase";
-import ProductGateway from "../adapters/gateway/ProductGateway";
+import ProductUseCase from '../../core/application/usecase/ProductUseCase';
+import ProductGateway from '../adapters/gateway/ProductGateway';
 
 export class ProductController {
   static async getAllProducts(

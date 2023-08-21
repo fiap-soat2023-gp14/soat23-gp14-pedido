@@ -3,6 +3,6 @@ export enum OrderEntityStatus {
   PAID = 2,
   REJECTED = 3,
   IN_PREPARATION = 4,
-  READY_FOR_DELIVERY=5,
+  READY_FOR_DELIVERY = 5,
   FINISHED = 6,
 }

@@ -1,4 +1,4 @@
-import { IsString, IsEmail, Length } from 'class-validator';
+import { Length } from 'class-validator';
 
 export class UserUpdateDTO {
   @Length(3, 50)

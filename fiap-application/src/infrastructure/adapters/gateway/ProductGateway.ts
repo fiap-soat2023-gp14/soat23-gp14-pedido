@@ -1,8 +1,9 @@
+import { IConnection } from '../../../core/application/repositories/IConnection';
 import { IProductGateway } from '../../../core/application/repositories/IProductGateway';
 import Product from '../../../core/domain/entities/Product';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
-import ProductMapper from "./mappers/ProductMapper";
-import { IConnection } from "../../../core/application/repositories/IConnection";
+import { ProductEntity } from './entity/ProductEntity';
+import ProductMapper from './mappers/ProductMapper';
 
 export default class ProductGateway implements IProductGateway {
   COLLECTION_NAME = 'Products';
