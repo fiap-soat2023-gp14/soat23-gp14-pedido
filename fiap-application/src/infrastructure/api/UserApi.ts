@@ -10,27 +10,35 @@ import {
   Res,
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
-import UserService from 'src/core/application/service/UserService';
 import UserFilter from 'src/core/domain/entities/UserFilter';
+import { IConnection } from "../../core/application/repositories/IConnection";
+import MongoConnection from "../MongoConnection";
+import { UserController } from "../controller/UserController";
 
 @Controller('users')
-export default class UserController {
-  constructor(private readonly userService: UserService) {}
+export default class UserApi {
+  private dbConnection: IConnection;
+  constructor() {
+    this.dbConnection = new MongoConnection();
+  }
 
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
-    const user = await this.userService.createUser(userCreationDto);
+    const user = await UserController.createUser(
+      userCreationDto,
+      this.dbConnection,
+    );
     return response.status(HttpStatus.OK).json(user);
   }
 
   @Get()
   getAllUsers(@Query() params: UserFilter) {
-    return this.userService.getAllUsers(params);
+    return UserController.getAllUsers(params, this.dbConnection);
   }
 
   @Get('/:id')
   getUserById(@Param('id') id: string) {
-    return this.userService.getUserById(id);
+    return UserController.getUserById(id, this.dbConnection);
   }
 
   @Put('/:id')
@@ -39,7 +47,7 @@ export default class UserController {
     @Param('id') id: string,
     @Body() userDto: UserCreationDTO,
   ) {
-    await this.userService.updateUser(id, userDto);
+    await UserController.updateUser(id, userDto, this.dbConnection);
     return response.status(HttpStatus.OK).json();
   }
 }

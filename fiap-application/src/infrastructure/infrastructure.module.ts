@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 
-import ProductController from './controllers/ProductController';
 import ApplicationModule from '../core/application/application.module';
-import MongoDBAdapter from './MongoDBAdapter';
-import { OrderController } from './controllers/OrderController';
-import UserController from './controllers/UserController';
+import { OrderController } from './api/OrderController';
+import UserApi from './api/UserApi';
+import ProductApi from "./api/ProductApi";
+import MongoConnection from "./MongoConnection";
 
 @Module({
   imports: [ApplicationModule],
-  controllers: [ProductController, OrderController, UserController],
-  providers: [MongoDBAdapter],
-  exports: [MongoDBAdapter],
+  controllers: [ProductApi, OrderController, UserApi],
+  providers: [MongoConnection],
+  exports: [MongoConnection],
 })
 export default class InfrastructureModule {}

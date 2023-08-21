@@ -1,30 +1,33 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/core/application/repositories/IUserRepository';
+import { ConflictException } from '@nestjs/common';
+import { IUserGateway } from 'src/core/application/repositories/IUserGateway';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
-import MongoDBAdapter from 'src/infrastructure/MongoDBAdapter';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
+import { IConnection } from '../../../core/application/repositories/IConnection';
 
-@Injectable()
-export default class UserRepository implements IUserRepository {
-  constructor(
-    @Inject('IMongoDBAdapter') private mongoDbAdaptar: MongoDBAdapter,
-  ) {}
-
-  COLLECTION = this.mongoDbAdaptar.getCollection('Users');
+export default class UserGateway implements IUserGateway {
+  private COLLECTION_NAME = 'Users';
+  private dbConnection: IConnection;
+  constructor(dataBase: IConnection) {
+    this.dbConnection = dataBase;
+  }
 
   public async create(user: User): Promise<User> {
     const userEntity = UserMapper.toEntity(user);
-    const userExist = await this.COLLECTION.findOne({ cpf: user.cpf.value });
+    const userExist = await this.dbConnection
+      .getCollection(this.COLLECTION_NAME)
+      .findOne({ cpf: user.cpf.value });
 
     if (userExist) {
       throw new ConflictException('User already exists');
     }
 
     try {
-      await this.COLLECTION.insertOne(userEntity);
+      await this.dbConnection
+        .getCollection(this.COLLECTION_NAME)
+        .insertOne(userEntity);
       console.log('User created successfully.');
 
       return UserMapper.toDomain(userEntity);
@@ -36,13 +39,18 @@ export default class UserRepository implements IUserRepository {
 
   public async getAll(params: UserFilter): Promise<User[]> {
     const filter = params ? params : {};
-    const users: UserEntity[] = await this.COLLECTION.find(filter).toArray();
+    const users: UserEntity[] = await this.dbConnection
+      .getCollection(this.COLLECTION_NAME)
+      .find(filter)
+      .toArray();
 
     return await UserMapper.toDomainList(users);
   }
 
   public async getById(id: string): Promise<User> {
-    const userResponse = await this.COLLECTION.findOne({ _id: id });
+    const userResponse = await this.dbConnection
+      .getCollection(this.COLLECTION_NAME)
+      .findOne({ _id: id });
     if (!userResponse)
       throw new HttpNotFoundException(`User with id ${id} not found`);
     return UserMapper.toDomain(userResponse);
@@ -58,7 +66,11 @@ export default class UserRepository implements IUserRepository {
       const updateUser = {
         $set: { ...userEntity },
       };
-      return await this.COLLECTION.updateOne({ _id: id }, updateUser);
+      await this.dbConnection
+        .getCollection(this.COLLECTION_NAME)
+        .updateOne({ _id: id }, updateUser);
+
+      return UserMapper.toDomain(userEntity);
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;

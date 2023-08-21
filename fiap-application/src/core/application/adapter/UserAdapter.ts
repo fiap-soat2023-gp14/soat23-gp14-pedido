@@ -4,7 +4,7 @@ import { CPF } from 'src/core/domain/valueObjects/Cpf';
 import { UserCreationDTO } from '../dto/UserCreationDTO';
 import { UserUpdateDTO } from '../dto/UserUpdateDTO';
 
-export class UserMapper {
+export class UserAdapter {
   static async toDomain(user: UserCreationDTO): Promise<User> {
     return {
       id: user.id,

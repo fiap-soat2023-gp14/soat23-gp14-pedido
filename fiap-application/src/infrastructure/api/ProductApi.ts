@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
@@ -12,11 +13,16 @@ import {
   Res,
 } from '@nestjs/common';
 import ProductDTO from '../../core/application/dto/ProductDTO';
-import ProductService from '../../core/application/service/ProductService';
+import { ProductController } from '../controller/ProductController';
+import { IConnection } from '../../core/application/repositories/IConnection';
+import MongoConnection from '../MongoConnection';
 
 @Controller('products/')
-export default class ProductController {
-  constructor(private readonly productService: ProductService) {}
+export default class ProductApi {
+  private dbConnection: IConnection;
+  constructor() {
+    this.dbConnection = new MongoConnection();
+  }
 
   @Get()
   public async getAllProducts(
@@ -24,19 +30,28 @@ export default class ProductController {
     @Query('category') category: ProductCategory,
   ) {
     const params = category ? { category: category } : {};
-    const products = await this.productService.getAllProducts(params);
+    const products = await ProductController.getAllProducts(
+      params,
+      this.dbConnection,
+    );
     return response.status(HttpStatus.OK).json(products);
   }
 
   @Get(':id')
   public async getProduct(@Res() response, @Param('id') id) {
-    const product = await this.productService.getProductById(id);
+    const product = await ProductController.getProductById(
+      id,
+      this.dbConnection,
+    );
     return response.status(HttpStatus.OK).json(product);
   }
 
   @Post()
   public async createProduct(@Res() response, @Body() body: ProductDTO) {
-    const productResponse = await this.productService.createProduct(body);
+    const productResponse = await ProductController.createProduct(
+      body,
+      this.dbConnection,
+    );
     return response.status(HttpStatus.OK).json(productResponse);
   }
 
@@ -47,13 +62,13 @@ export default class ProductController {
     @Param('id') id,
     @Body() body: ProductDTO,
   ) {
-    await this.productService.updateProduct(id, body);
+    await ProductController.updateProduct(id, body, this.dbConnection);
     return response.status(HttpStatus.OK).json();
   }
 
   @Delete(':id')
   public async deleteProduct(@Res() response, @Param('id') id) {
-    await this.productService.deleteProduct(id);
+    await ProductController.deleteProduct(id, this.dbConnection);
     return response.status(HttpStatus.OK).json();
   }
 }

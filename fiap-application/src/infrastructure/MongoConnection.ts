@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
-import { IMongoDBAdapter } from '../core/application/repositories/IMongoDBAdapter';
+import { IConnection } from '../core/application/repositories/IConnection';
 
 @Injectable()
-class MongoDBAdapter implements IMongoDBAdapter {
+class MongoConnection implements IConnection {
   private client: any;
   constructor() {
     this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
@@ -22,4 +22,4 @@ class MongoDBAdapter implements IMongoDBAdapter {
   }
 }
 
-export default MongoDBAdapter;
+export default MongoConnection;
