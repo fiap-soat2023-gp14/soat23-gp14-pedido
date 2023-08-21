@@ -1,8 +1,5 @@
-import UserFilter from '../../domain/entities/UserFilter';
-import User from '../../domain/entities/User';
+import { UserCreationDTO } from '../dto/UserCreationDTO';
+
 export interface IUserGateway {
-  getAll(params: UserFilter): Promise<User[]>;
-  getById(id: string): Promise<User>;
-  create(user: User): Promise<User>;
-  update(id: string, user: User): Promise<User>;
+  getById(id: string, oauthToken: string): Promise<UserCreationDTO>;
 }

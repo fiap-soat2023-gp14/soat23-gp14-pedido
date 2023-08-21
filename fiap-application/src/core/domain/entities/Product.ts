@@ -1,6 +1,7 @@
+import { ProductCategory } from '../enums/ProductCategory';
 import { Money } from '../valueObjects/Money';
 
-export default interface Product {
+export default class Product {
   id: string;
   name: string;
   description: string;
@@ -8,4 +9,8 @@ export default interface Product {
   price: Money;
   createdAt: Date;
   category: ProductCategory;
+
+  constructor(id: string) {
+    this.id = id;
+  }
 }

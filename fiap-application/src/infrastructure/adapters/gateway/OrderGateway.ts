@@ -1,23 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { IOrderRepository } from '../../../core/application/repositories/IOrderRepository';
+import { IConnection } from '../external/IConnection';
+import { IOrderGateway } from '../../../core/application/repositories/IOrderGateway';
 import { Order } from '../../../core/domain/entities/Order';
-import MongoConnection from '../../MongoConnection';
-import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import { OrderEntity } from './entity/OrderEntity';
 import { OrderMapper } from './mappers/OrderMapper';
 
-@Injectable()
-export default class OrderRepository implements IOrderRepository {
+export default class OrderGateway implements IOrderGateway {
   COLLECTION_NAME = 'Orders';
-  constructor(
-    @Inject('IMongoDBAdapter') private mongoDbAdapter: MongoConnection,
-  ) {}
+  private dbConnection: IConnection;
+  constructor(database: IConnection) {
+    this.dbConnection = database;
+  }
 
   public async create(order: Order): Promise<Order> {
     const orderEntity = OrderMapper.toEntity(order);
 
     try {
-      await this.mongoDbAdapter
+      await this.dbConnection
         .getCollection(this.COLLECTION_NAME)
         .insertOne(orderEntity);
       console.log('Order created successfully.');
@@ -29,8 +27,15 @@ export default class OrderRepository implements IOrderRepository {
   }
 
   public async getAll(queryParam?): Promise<Array<Order>> {
-    const query = queryParam ? { ...queryParam } : {};
-    const orders: Array<OrderEntity> = await this.mongoDbAdapter
+    if (queryParam && queryParam.status) {
+      queryParam.status = await OrderMapper.toStatusEntity(queryParam.status);
+    }
+    const query = queryParam
+      ? {
+          ...queryParam,
+        }
+      : {};
+    const orders: Array<OrderEntity> = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .find(query)
       .sort({ createdAt: +1 })
@@ -39,8 +44,8 @@ export default class OrderRepository implements IOrderRepository {
     return Promise.resolve(OrderMapper.toDomainList(orders));
   }
 
-  public async getOrdersOrdered(): Promise<Array<Order>> {
-    const orders: Array<OrderEntity> = await this.mongoDbAdapter
+  public async getSorted(): Promise<Array<Order>> {
+    const orders: Array<OrderEntity> = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .find({ $or: [{ status: 1 }, { status: 4 }, { status: 5 }] })
       .sort({ status: -1 }, { createdAt: +1 })
@@ -50,21 +55,16 @@ export default class OrderRepository implements IOrderRepository {
   }
 
   public async getById(id: string): Promise<Order> {
-    const order: OrderEntity = await this.mongoDbAdapter
+    const order: OrderEntity = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
 
     if (order) return Promise.resolve(OrderMapper.toDomain(order));
 
-    throw new HttpNotFoundException(`Order with id ${id} not found`);
+    return Promise.resolve(null);
   }
 
-  public async update(id: string, order: Order): Promise<Order> {
-    const orderValidate: OrderEntity = this.mongoDbAdapter
-      .getCollection(this.COLLECTION_NAME)
-      .find({ _id: id });
-    if (!orderValidate) throw new Error(`Order with id ${id} not found`);
-
+  public async updateStatus(id: string, order: Order): Promise<Order> {
     const orderEntity = OrderMapper.toEntity(order);
     try {
       const updateOrder = {
@@ -73,7 +73,7 @@ export default class OrderRepository implements IOrderRepository {
           deliveredAt: orderEntity.deliveredAt,
         },
       };
-      await this.mongoDbAdapter
+      await this.dbConnection
         .getCollection(this.COLLECTION_NAME)
         .updateOne({ _id: id }, updateOrder);
       console.log('Order updated successfully.');

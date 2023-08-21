@@ -1,11 +1,87 @@
 {
 	"info": {
-		"_postman_id": "a687cfba-224c-4df4-9f8e-6e81305b216b",
-		"name": "SOAT2 - GRUPO 14 - FASE 1",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20085261"
+		"_postman_id": "8ffa0ef8-b553-4b09-a2f7-0313751827ad",
+		"name": "SOAT2 - GRUPO 14 - FASE 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario\",\n    \"document\": \"48996710083\",\n    \"email\": \"usuario@gmail.com\",\n    \"password\": \"Teste@1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/sign-up",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"48996710083\",\n    \"password\": \"Teste@1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/login",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/ping",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "products",
 			"item": [
@@ -24,11 +100,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/products",
+							"raw": "{{uri-gp14-app}}/products",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products"
 							]
@@ -51,11 +126,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/products/:id",
+							"raw": "{{uri-gp14-app}}/products/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products",
 								":id"
@@ -76,11 +150,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products/:id",
+							"raw": "{{uri-gp14-app}}/products/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products",
 								":id"
@@ -88,7 +161,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "cb92d3da-5fc8-495c-8e88-e87f2ff8c38c"
+									"value": ""
 								}
 							]
 						}
@@ -101,11 +174,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products",
+							"raw": "{{uri-gp14-app}}/products",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products"
 							]
@@ -119,11 +191,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products?category=SANDWICH",
+							"raw": "{{uri-gp14-app}}/products?category=SANDWICH",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products"
 							],
@@ -143,11 +214,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products/:id",
+							"raw": "{{uri-gp14-app}}/products/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"products",
 								":id"
@@ -173,13 +243,30 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders",
+							"raw": "{{uri-gp14-app}}/orders",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders sorted",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders/sorted",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders",
+								"sorted"
 							]
 						}
 					},
@@ -191,11 +278,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders/:id",
+							"raw": "{{uri-gp14-app}}/orders/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"orders",
 								":id"
@@ -203,7 +289,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "d0878d38-ccd1-4776-af49-105319192a2c"
+									"value": "fc62ddbe-415c-4be1-903a-c25ab323e472"
 								}
 							]
 						}
@@ -216,11 +302,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders?status=FINISHED",
+							"raw": "{{uri-gp14-app}}/orders?status=FINISHED",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"orders"
 							],
@@ -228,6 +313,11 @@
 								{
 									"key": "status",
 									"value": "FINISHED"
+								},
+								{
+									"key": "status",
+									"value": "PAID",
+									"disabled": true
 								},
 								{
 									"key": "status",
@@ -264,11 +354,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/orders/:id",
+							"raw": "{{uri-gp14-app}}/orders/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"orders",
 								":id"
@@ -290,7 +379,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"e6e8ff4c-3a77-4f9c-86c6-07d254d2b202\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
+							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"03375d42-db6c-4661-963e-8083e22be9f9\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -298,13 +387,64 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/orders",
+							"raw": "{{uri-gp14-app}}/orders",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order que deseja confirmar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"approved\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/payments",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order para negar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"declined\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/payments",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"payments"
 							]
 						}
 					},
@@ -321,11 +461,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users",
+							"raw": "{{uri-gp14-app}}/users",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"users"
 							]
@@ -339,18 +478,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users?cpf=90233730060",
+							"raw": "{{uri-gp14-app}}/users?cpf=45828179802",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"users"
 							],
 							"query": [
 								{
 									"key": "cpf",
-									"value": "90233730060"
+									"value": "45828179802"
 								}
 							]
 						}
@@ -363,11 +501,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users/:id",
+							"raw": "{{uri-gp14-app}}/users/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"users",
 								":id"
@@ -397,11 +534,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/users/:id",
+							"raw": "{{uri-gp14-app}}/users/:id",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"users",
 								":id"
@@ -431,11 +567,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/users",
+							"raw": "{{uri-gp14-app}}/users",
 							"host": [
-								"localhost"
+								"{{uri-gp14-app}}"
 							],
-							"port": "8080",
 							"path": [
 								"users"
 							]

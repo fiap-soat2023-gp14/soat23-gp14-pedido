@@ -1,40 +1,17 @@
 import Product from '../../domain/entities/Product';
 import { IProductGateway } from '../repositories/IProductGateway';
+import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
+import ProductAdapter from '../adapter/ProductAdapter';
 
 export default class ProductUseCase {
   public static async getProductById(
     id: string,
+    oauthToken: string,
     productGateway: IProductGateway,
   ): Promise<Product> {
-    return await productGateway.getById(id);
-  }
-
-  public static async getAllProducts(
-    params: any,
-    productGateway: IProductGateway,
-  ) {
-    return await productGateway.getAll(params);
-  }
-
-  public static async createProduct(
-    product: Product,
-    productGateway: IProductGateway,
-  ) {
-    return await productGateway.create(product);
-  }
-
-  public static async updateProduct(
-    id: string,
-    product: Product,
-    productGateway: IProductGateway,
-  ) {
-    await productGateway.update(id, product);
-    return product;
-  }
-  public static async deleteProduct(
-    id: string,
-    productGateway: IProductGateway,
-  ) {
-    return await productGateway.delete(id);
+    const product = await productGateway.getById(id, oauthToken);
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    return ProductAdapter.toDomain(product);
   }
 }

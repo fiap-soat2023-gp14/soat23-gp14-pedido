@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { ProductCategory } from 'src/core/domain/enums/ProductCategory';
 
 export default class ProductDTO {
   id: string;

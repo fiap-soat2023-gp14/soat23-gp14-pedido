@@ -1,6 +1,7 @@
 import Product from 'src/core/domain/entities/Product';
 import { v4 } from 'uuid';
 import { Money } from '../../../../core/domain/valueObjects/Money';
+import { ProductEntity } from '../entity/ProductEntity';
 export default class ProductMapper {
   static async toDomain(product: ProductEntity): Promise<Product> {
     return {
