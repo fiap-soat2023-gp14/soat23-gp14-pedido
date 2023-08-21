@@ -6,7 +6,7 @@ import {
   OrderResponseDTO,
 } from '../dto/OrderResponseDTO';
 import ProductAdapter from './ProductAdapter';
-import { UserMapper } from './UserMapper';
+import { UserAdapter } from './UserAdapter';
 
 export default class OrderMapper {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
@@ -27,7 +27,7 @@ export default class OrderMapper {
     return {
       id: order.id,
       customer: order.customer
-        ? UserMapper.toResponse(order.customer)
+        ? UserAdapter.toResponse(order.customer)
         : undefined,
       createdAt: order.createdAt,
       deliveredAt: order.deliveredAt,

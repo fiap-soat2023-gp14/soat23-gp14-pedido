@@ -5,7 +5,7 @@ import { IPaymentGateway } from '../external/IPaymentGateway';
 import OrderMapper from '../adapter/OrderMapper';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 import { IProductGateway } from '../repositories/IProductGateway';
-import { IUserRepository } from '../repositories/IUserRepository';
+import { IUserGateway } from '../repositories/IUserGateway';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
 
 @Injectable()
@@ -13,7 +13,7 @@ export default class OrderService {
   constructor(
     @Inject('IOrderRepository') private orderRepository: IOrderRepository,
     @Inject('IProductRepository') private productRepository: IProductGateway,
-    @Inject('IUserRepository') private userRepository: IUserRepository,
+    @Inject('IUserRepository') private userRepository: IUserGateway,
     @Inject('IPaymentGateway') private paymentGateway: IPaymentGateway,
   ) {}
 
