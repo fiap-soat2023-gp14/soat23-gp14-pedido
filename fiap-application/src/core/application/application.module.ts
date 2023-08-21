@@ -5,8 +5,8 @@ import DomainModule from '../domain/domain.module';
 import ProductGateway from '../../infrastructure/adapters/gateway/ProductGateway';
 import OrderService from './usecase/OrderService';
 import OrderRepository from '../../infrastructure/adapters/gateway/OrderRepository';
-import UserService from './usecase/UserService';
-import UserRepository from 'src/infrastructure/adapters/gateway/UserRepository';
+import UserUseCase from './usecase/UserUseCase';
+import UserGateway from 'src/infrastructure/adapters/gateway/UserGateway';
 import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
 import MongoConnection from "../../infrastructure/MongoConnection";
 
@@ -28,16 +28,16 @@ import MongoConnection from "../../infrastructure/MongoConnection";
       provide: 'IPaymentGateway',
       useClass: PaymentGateway,
     },
-    UserService,
+    UserUseCase,
     {
       provide: 'IUserRepository',
-      useClass: UserRepository,
+      useClass: UserGateway,
     },
     {
       provide: 'IMongoDBAdapter',
       useClass: MongoConnection,
     },
   ],
-  exports: [ProductUseCase, OrderService, UserService],
+  exports: [ProductUseCase, OrderService, UserUseCase],
 })
 export default class ApplicationModule {}
