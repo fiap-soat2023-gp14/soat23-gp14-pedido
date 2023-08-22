@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-application
+  labels:
+    app: fiap-application
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fiap-application
+  template:
+    metadata:
+      labels:
+        app: fiap-application
+    spec:
+      containers:
+        - name: fiap-pedido
+          image: alynesalgado/soat2023-gp14_app:v2
+          env:
+            - name: MONGO_INITDB_APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: username
+            - name: MONGO_INITDB_APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: password
+            - name: MONGODB_CONNECTION_STRING
+              value: "mongodb://$(MONGO_INITDB_APP_USERNAME):$(MONGO_INITDB_APP_PASSWORD)@mongodb-0.mongodb-headless-svc:27017/fiap"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2G
+            limits:
+              cpu: 500m
+              memory: 2G

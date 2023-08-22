@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  serviceName: mongodb-headless-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:5.0
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: rootusername
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: rootpassword
+            - name: MONGO_INITDB_APP_DATABASE
+              value: fiap
+            - name: MONGO_INITDB_APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: username
+            - name: MONGO_INITDB_APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-app-secret
+                  key: password
+          ports:
+            - containerPort: 27017
+              name: mongodb
+          volumeMounts:
+            - name: mongodb-init
+              mountPath: /docker-entrypoint-initdb.d
+            - name: mongodb-data
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-init
+          configMap:
+            name: mongodb-init-cm
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
