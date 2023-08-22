@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpStatus,
-  Inject,
   Param,
   Post,
   Put,
@@ -12,10 +11,11 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
+import { ProductCategory } from 'src/core/domain/enums/ProductCategory';
 import ProductDTO from '../../core/application/dto/ProductDTO';
-import { ProductController } from '../controller/ProductController';
 import { IConnection } from '../../core/application/repositories/IConnection';
 import MongoConnection from '../MongoConnection';
+import { ProductController } from '../controller/ProductController';
 
 @Controller('products/')
 export default class ProductApi {

@@ -54,7 +54,7 @@ export default class OrderService {
     return OrderMapper.toDTOList(await this.orderRepository.getAll(params));
   }
 
-  public async getOrdersOrdered(){
+  public async getOrdersOrdered() {
     return OrderMapper.toDTOList(await this.orderRepository.getOrdersOrdered());
   }
 

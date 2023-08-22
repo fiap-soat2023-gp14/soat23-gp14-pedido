@@ -8,7 +8,7 @@ import OrderRepository from '../../infrastructure/adapters/gateway/OrderReposito
 import UserUseCase from './usecase/UserUseCase';
 import UserGateway from 'src/infrastructure/adapters/gateway/UserGateway';
 import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
-import MongoConnection from "../../infrastructure/MongoConnection";
+import MongoConnection from '../../infrastructure/MongoConnection';
 
 @Module({
   imports: [DomainModule],

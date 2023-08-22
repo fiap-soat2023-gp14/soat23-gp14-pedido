@@ -1,3 +1,4 @@
+import { ProductCategory } from '../enums/ProductCategory';
 import { Money } from '../valueObjects/Money';
 
 export default interface Product {

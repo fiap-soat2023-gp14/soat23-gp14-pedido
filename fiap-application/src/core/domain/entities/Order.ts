@@ -1,7 +1,8 @@
 import { OrderStatus } from '../enums/OrderStatus';
+import { Money } from '../valueObjects/Money';
 import Product from './Product';
 import User from './User';
-import { Money } from '../valueObjects/Money';
+
 export interface OrderItem {
   product: Product;
   observation: string;
