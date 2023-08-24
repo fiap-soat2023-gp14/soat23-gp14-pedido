@@ -14,29 +14,13 @@ services:
 
     networks:
       - fiap-network
-  mongoimport:
-    image: mongo:latest
-    container_name: fiap-import
-    volumes:
-      - ./data-import/products.json:/data/products.json
-      - ./data-import/users.json:/data/users.json
-    command:
-      - /bin/sh
-      - -c
-      - |
-        mongoimport --host mongodb --db fiap --collection Users --type json --file /data/users.json --jsonArray
-        mongoimport --host mongodb --db fiap --collection Products --type json --file /data/products.json --jsonArray
-    depends_on:
-      - mongodb
-    networks:
-      - fiap-network
   app:
     build: ./fiap-application
     container_name: fiap-pedido
     ports:
       - 8080:8080
     environment:
-        - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/fiap
+      - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/fiap
     depends_on:
       - mongodb
     networks:
@@ -44,5 +28,3 @@ services:
 networks:
   fiap-network:
     driver: bridge
-
-
