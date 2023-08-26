@@ -1,4 +1,5 @@
 import Product from '../../domain/entities/Product';
+
 export interface IProductGateway {
   getAll(params): Promise<Product[]>;
   getById(id: string): Promise<Product>;

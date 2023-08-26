@@ -1,9 +1,9 @@
 import { Order } from '../../domain/entities/Order';
 
-export interface IOrderRepository {
-  create(order: Order): Promise<Order>;
+export interface IOrderGateway {
   getAll(params?): Promise<Order[]>;
-  getOrdersOrdered(params?): Promise<Order[]>;
   getById(id: string): Promise<Order>;
+  getSorted(params?): Promise<Order[]>;
+  create(order: Order): Promise<Order>;
   update(id: string, order: Order): Promise<Order>;
 }
