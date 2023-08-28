@@ -8,7 +8,7 @@ import {
 import ProductAdapter from './ProductAdapter';
 import { UserAdapter } from './UserAdapter';
 
-export default class OrderMapper {
+export default class OrderAdapter {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
     return {
       id: null,

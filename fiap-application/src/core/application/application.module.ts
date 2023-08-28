@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-
-import ProductUseCase from './usecase/ProductUseCase';
-import DomainModule from '../domain/domain.module';
-import ProductGateway from '../../infrastructure/adapters/gateway/ProductGateway';
-import OrderService from './usecase/OrderService';
-import OrderRepository from '../../infrastructure/adapters/gateway/OrderRepository';
-import UserUseCase from './usecase/UserUseCase';
 import UserGateway from 'src/infrastructure/adapters/gateway/UserGateway';
-import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
 import MongoConnection from '../../infrastructure/MongoConnection';
+import PaymentGateway from '../../infrastructure/adapters/external/PaymentGateway';
+import OrderGateway from '../../infrastructure/adapters/gateway/OrderGateway';
+import ProductGateway from '../../infrastructure/adapters/gateway/ProductGateway';
+import DomainModule from '../domain/domain.module';
+import OrderUseCase from './usecase/OrderUseCase';
+import ProductUseCase from './usecase/ProductUseCase';
+import UserUseCase from './usecase/UserUseCase';
 
 @Module({
   imports: [DomainModule],
@@ -19,10 +18,10 @@ import MongoConnection from '../../infrastructure/MongoConnection';
       provide: 'IProductRepository',
       useClass: ProductGateway,
     },
-    OrderService,
+    OrderUseCase,
     {
       provide: 'IOrderRepository',
-      useClass: OrderRepository,
+      useClass: OrderGateway,
     },
     {
       provide: 'IPaymentGateway',
@@ -38,6 +37,6 @@ import MongoConnection from '../../infrastructure/MongoConnection';
       useClass: MongoConnection,
     },
   ],
-  exports: [ProductUseCase, OrderService, UserUseCase],
+  exports: [ProductUseCase, OrderUseCase, UserUseCase],
 })
 export default class ApplicationModule {}
