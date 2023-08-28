@@ -80,6 +80,7 @@ export default class OrderUseCase {
     gateway: IOrderGateway,
   ): Promise<Order> {
     const order = await this.getOrderById(id, gateway);
+    return await gateway.updateStatus(id, order);
     if (!order)
       throw new HttpNotFoundException(`Order with id ${id} not found`);
 

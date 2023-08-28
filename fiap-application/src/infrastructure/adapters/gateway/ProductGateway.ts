@@ -1,4 +1,4 @@
-import { IConnection } from '../../../core/application/repositories/IConnection';
+import { IConnection } from '../external/IConnection';
 import { IProductGateway } from '../../../core/application/repositories/IProductGateway';
 import Product from '../../../core/domain/entities/Product';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';

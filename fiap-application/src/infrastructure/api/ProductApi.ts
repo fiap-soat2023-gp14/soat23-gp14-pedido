@@ -4,26 +4,21 @@ import {
   Delete,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
   Query,
-  Req,
   Res,
 } from '@nestjs/common';
 import { ProductCategory } from 'src/core/domain/enums/ProductCategory';
 import ProductDTO from '../../core/application/dto/ProductDTO';
-import { IConnection } from '../../core/application/repositories/IConnection';
-import MongoConnection from '../MongoConnection';
 import { ProductController } from '../controller/ProductController';
+import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('products/')
 export default class ProductApi {
-  private dbConnection: IConnection;
-  constructor() {
-    this.dbConnection = new MongoConnection();
-  }
-
+  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
   @Get()
   public async getAllProducts(
     @Res() response,

@@ -1,4 +1,4 @@
-import { IConnection } from '../../core/application/repositories/IConnection';
+import { IConnection } from '../adapters/external/IConnection';
 import UserGateway from '../adapters/gateway/UserGateway';
 import UserUseCase from '../../core/application/usecase/UserUseCase';
 import { UserAdapter } from '../../core/application/adapter/UserAdapter';

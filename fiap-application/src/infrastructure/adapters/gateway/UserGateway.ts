@@ -5,7 +5,7 @@ import UserFilter from 'src/core/domain/entities/UserFilter';
 import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
-import { IConnection } from '../../../core/application/repositories/IConnection';
+import { IConnection } from '../external/IConnection';
 import { CPF } from '../../../core/domain/valueObjects/Cpf';
 
 export default class UserGateway implements IUserGateway {

@@ -1,10 +1,12 @@
 import OrderAdapter from 'src/core/application/adapter/OrderAdapter';
 import { OrderCreationDTO } from 'src/core/application/dto/OrderCreationDTO';
 import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
-import { IConnection } from 'src/core/application/repositories/IConnection';
+import { IConnection } from 'src/infrastructure/adapters/external/IConnection';
 import OrderUseCase from 'src/core/application/usecase/OrderUseCase';
 import OrderGateway from '../adapters/gateway/OrderGateway';
+import {OrderStatusUpdateDTO} from "../../core/application/dto/OrderStatusUpdateDTO";
 import { OrderStatus } from '../../core/domain/enums/OrderStatus';
+import {PaymentController} from "./PaymentController";
 import UserGateway from '../adapters/gateway/UserGateway';
 import ProductGateway from '../adapters/gateway/ProductGateway';
 import { IOrderGateway } from '../../core/application/repositories/IOrderGateway';
@@ -26,7 +28,7 @@ export class OrderController {
       userGateway,
       productGateway,
     );
-
+    await PaymentController.createPayment(order, dbConnection);
     const response = OrderAdapter.toDTO(order);
     return response;
   }
@@ -74,5 +76,17 @@ export class OrderController {
 
     const response = OrderAdapter.toDTO(order);
     return response;
+  }
+
+  static async updateOrderStatus(
+      id: string,
+      body: OrderStatusUpdateDTO,
+      dbConnection: IConnection,
+  ): Promise<OrderResponseDTO> {
+    const gateway = new OrderGateway(dbConnection);
+    const orderBody = await OrderAdapter.toOrderUpdateDomain(body);
+    const order = await OrderUseCase.updateOrder(id, orderBody, gateway);
+
+    return OrderAdapter.toDTO(order);
   }
 }

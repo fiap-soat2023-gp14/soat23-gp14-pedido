@@ -8,6 +8,7 @@ import {
 import ProductAdapter from './ProductAdapter';
 import { UserAdapter } from './UserAdapter';
 import User from '../../domain/entities/User';
+import {OrderStatusUpdateDTO} from "../dto/OrderStatusUpdateDTO";
 
 export default class OrderAdapter {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
@@ -24,6 +25,19 @@ export default class OrderAdapter {
       createdAt: new Date(),
       status: OrderStatus.RECEIVED,
       extraItems: orderCreationDTO.extraItems,
+      total: undefined,
+      items: [],
+    };
+  }
+
+  static async toOrderUpdateDomain(orderStatusUpdateDTO: OrderStatusUpdateDTO): Promise<Order> {
+    return {
+      id: null,
+      customer: undefined,
+      deliveredAt: undefined,
+      createdAt: undefined,
+      status: orderStatusUpdateDTO.status,
+      extraItems: undefined,
       total: undefined,
       items: orderItemList,
     };

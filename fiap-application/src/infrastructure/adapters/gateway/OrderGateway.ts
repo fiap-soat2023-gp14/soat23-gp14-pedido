@@ -1,4 +1,4 @@
-import { IConnection } from '../../../core/application/repositories/IConnection';
+import { IConnection } from '../external/IConnection';
 import { IOrderGateway } from '../../../core/application/repositories/IOrderGateway';
 import { Order } from '../../../core/domain/entities/Order';
 import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
@@ -65,7 +65,8 @@ export default class OrderGateway implements IOrderGateway {
     return Promise.resolve(null);
   }
 
-  public async update(id: string, order: Order): Promise<Order> {
+  public async updateStatus(id: string, order: Order): Promise<Order> {
+    const orderValidate = this.getById(id);
     const orderEntity = OrderMapper.toEntity(order);
     try {
       const updateOrder = {

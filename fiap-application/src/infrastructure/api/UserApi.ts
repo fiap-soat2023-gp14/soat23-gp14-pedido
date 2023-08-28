@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
@@ -11,17 +12,12 @@ import {
 } from '@nestjs/common';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 import UserFilter from 'src/core/domain/entities/UserFilter';
-import { IConnection } from '../../core/application/repositories/IConnection';
-import MongoConnection from '../MongoConnection';
 import { UserController } from '../controller/UserController';
+import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('users')
 export default class UserApi {
-  private dbConnection: IConnection;
-  constructor() {
-    this.dbConnection = new MongoConnection();
-  }
-
+  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
     const user = await UserController.createUser(
