@@ -7,5 +7,5 @@ export interface ProductEntity {
   imageUrl: string;
   price: number;
   createdAt: Date;
-  category: ProductCategory; //FIXME: é correto importar direto o core/domain ou deixar generico (string)?
+  category: ProductCategory;
 }

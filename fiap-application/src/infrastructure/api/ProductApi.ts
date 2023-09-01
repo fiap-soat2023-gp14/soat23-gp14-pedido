@@ -58,7 +58,6 @@ export default class ProductApi {
   @Put(':id')
   public async updateProduct(
     @Res() response,
-    @Req() request,
     @Param('id') id,
     @Body() body: ProductDTO,
   ) {

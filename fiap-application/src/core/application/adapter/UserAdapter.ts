@@ -11,7 +11,7 @@ export class UserAdapter {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      cpf: await CPF.isValidCPF(user.cpf),
+      cpf: await CPF.create(user.cpf),
       createdAt: user.createdAt || new Date(),
       updatedAt: user.updatedAt || new Date(),
     };
