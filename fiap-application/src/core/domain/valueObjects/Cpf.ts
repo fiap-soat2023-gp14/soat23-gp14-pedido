@@ -17,17 +17,19 @@ export class CPF extends ValueObject<ValueProps> {
     this.value = props.value;
   }
 
-  public static async isValidCPF(value: string): Promise<CPF> {
-    const valueProps = { value: value };
+  public static async create(value: string): Promise<CPF> {
     const cpfValue = value.replace(/[^\d]+/g, '');
-
+    const valueProps = { value: cpfValue };
+    return new CPF(valueProps);
+  }
+  public async validate(): Promise<void> {
     if (
-      cpfValue.length !== 11 ||
-      !Array.from(cpfValue).filter((e) => e !== cpfValue[0]).length
+      this.value.length !== 11 ||
+      !Array.from(this.value).filter((e) => e !== this.value[0]).length
     ) {
       throw new ValidationException('Invalid CPF');
     }
-    const values = cpfValue.split('').map((el) => +el);
+    const values = this.value.split('').map((el) => +el);
     const rest = (count) =>
       ((values
         .slice(0, count - 12)
@@ -36,9 +38,7 @@ export class CPF extends ValueObject<ValueProps> {
         11) %
       10;
 
-    if (rest(10) === values[9] && rest(11) === values[10]) {
-      return new CPF(valueProps);
-    } else {
+    if (!(rest(10) === values[9] && rest(11) === values[10])) {
       throw new ValidationException('Invalid CPF');
     }
   }

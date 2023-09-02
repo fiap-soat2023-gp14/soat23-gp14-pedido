@@ -6,6 +6,7 @@ import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoun
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
 import { IConnection } from '../../../core/application/repositories/IConnection';
+import { CPF } from "../../../core/domain/valueObjects/Cpf";
 
 export default class UserGateway implements IUserGateway {
   private COLLECTION_NAME = 'Users';
@@ -29,7 +30,6 @@ export default class UserGateway implements IUserGateway {
         .getCollection(this.COLLECTION_NAME)
         .insertOne(userEntity);
       console.log('User created successfully.');
-
       return UserMapper.toDomain(userEntity);
     } catch (error) {
       console.error('Error creating user:', error);
@@ -57,7 +57,7 @@ export default class UserGateway implements IUserGateway {
   }
 
   public async update(id: string, user: User): Promise<User> {
-    const userValidate = await this.getById(id);
+    const userValidate = await this.getById(id);//TODO: Move to UseCase
     if (!userValidate)
       throw new HttpNotFoundException(`User with id ${id} not found`);
     try {

@@ -10,7 +10,7 @@ export default class UserMapper {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      cpf: await CPF.isValidCPF(user.cpf),
+      cpf: await CPF.create(user.cpf), //TODO: Fix this
       createdAt: user.createdAt || new Date(),
       updatedAt: user.updatedAt || new Date(),
     };
