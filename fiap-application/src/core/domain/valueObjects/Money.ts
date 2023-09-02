@@ -23,13 +23,16 @@ export class Money extends ValueObject<ValueProps> {
 
   public static async create(value: number): Promise<Money> {
     const valueProps = { value: value, currency: 'BRL' };
-    const requiredErrors = await validate(valueProps);
+
+    return new Money(valueProps);
+  }
+
+  public async validate() {
+    const requiredErrors = await validate(this.props);
     if (requiredErrors.length > 0) {
       throw new ValidationException(requiredErrors);
-    } else if (value <= 0) {
+    } else if (this.value <= 0) {
       throw new ValidationException('The price needs to be greater than 0');
-    } else {
-      return new Money(valueProps);
     }
   }
 }

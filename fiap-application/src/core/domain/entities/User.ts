@@ -1,6 +1,6 @@
 import { CPF } from '../valueObjects/Cpf';
 
-export default interface User {
+export default class User {
   id: string;
   name: string;
   email: string;
@@ -8,4 +8,8 @@ export default interface User {
   phone: string;
   createdAt: Date;
   updatedAt?: Date;
+
+  constructor(id: string) {
+    this.id = id;
+  }
 }

@@ -3,6 +3,7 @@ import { UserFilterDTO } from '../dto/UserFilterDTO';
 import User from '../../domain/entities/User';
 import UserMapper from '../../../infrastructure/adapters/gateway/mappers/UserMapper';
 import { ConflictException } from '@nestjs/common';
+import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
 
 export default class UserUseCase {
   static async createUser(user: User, userGateway: IUserGateway) {
@@ -23,7 +24,10 @@ export default class UserUseCase {
   }
 
   public static async getUserById(id: string, userGateway: IUserGateway) {
-    return await userGateway.getById(id);
+    const userResponse = await userGateway.getById(id);
+    if (!userResponse)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
+    return userResponse;
   }
 
   public static async updateUser(
@@ -31,6 +35,9 @@ export default class UserUseCase {
     user: User,
     userGateway: IUserGateway,
   ) {
+    const userValidate = await this.getUserById(id, userGateway);
+    if (!userValidate)
+      throw new HttpNotFoundException(`User with id ${id} not found`);
     return userGateway.update(id, user);
   }
 }

@@ -1,12 +1,17 @@
 import Product from '../../domain/entities/Product';
 import { IProductGateway } from '../repositories/IProductGateway';
+import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
+import { ProductEntity } from '../../../infrastructure/adapters/gateway/entity/ProductEntity';
 
 export default class ProductUseCase {
   public static async getProductById(
     id: string,
     productGateway: IProductGateway,
   ): Promise<Product> {
-    return await productGateway.getById(id);
+    const product = await productGateway.getById(id);
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    return product;
   }
 
   public static async getAllProducts(
@@ -20,6 +25,8 @@ export default class ProductUseCase {
     product: Product,
     productGateway: IProductGateway,
   ) {
+    await product.price.validate();
+
     return await productGateway.create(product);
   }
 
@@ -28,6 +35,10 @@ export default class ProductUseCase {
     product: Product,
     productGateway: IProductGateway,
   ) {
+    await product.price.validate();
+
+    const productValidate = await this.getProductById(id, productGateway);
+    if (!productValidate) throw new Error(`Product with id ${id} not found`);
     await productGateway.update(id, product);
     return product;
   }
@@ -35,6 +46,9 @@ export default class ProductUseCase {
     id: string,
     productGateway: IProductGateway,
   ) {
+    const product = await this.getProductById(id, productGateway);
+    if (!product)
+      throw new HttpNotFoundException(`Product with id ${id} not found`);
     return await productGateway.delete(id);
   }
 }

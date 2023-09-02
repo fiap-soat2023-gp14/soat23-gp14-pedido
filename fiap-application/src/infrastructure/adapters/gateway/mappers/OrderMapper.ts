@@ -77,4 +77,8 @@ export class OrderMapper {
       ),
     );
   }
+
+  static async toStatusEntity(status: OrderStatus): Promise<OrderEntityStatus> {
+    return OrderEntityStatus[status];
+  }
 }

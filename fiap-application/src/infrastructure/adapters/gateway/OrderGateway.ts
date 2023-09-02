@@ -28,7 +28,14 @@ export default class OrderGateway implements IOrderGateway {
   }
 
   public async getAll(queryParam?): Promise<Array<Order>> {
-    const query = queryParam ? { ...queryParam } : {};
+    if (queryParam && queryParam.status) {
+      queryParam.status = await OrderMapper.toStatusEntity(queryParam.status);
+    }
+    const query = queryParam
+      ? {
+          ...queryParam,
+        }
+      : {};
     const orders: Array<OrderEntity> = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .find(query)
@@ -55,15 +62,10 @@ export default class OrderGateway implements IOrderGateway {
 
     if (order) return Promise.resolve(OrderMapper.toDomain(order));
 
-    throw new HttpNotFoundException(`Order with id ${id} not found`);
+    return Promise.resolve(null);
   }
 
   public async update(id: string, order: Order): Promise<Order> {
-    const orderValidate: OrderEntity = this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .find({ _id: id });
-    if (!orderValidate) throw new Error(`Order with id ${id} not found`);
-
     const orderEntity = OrderMapper.toEntity(order);
     try {
       const updateOrder = {

@@ -4,15 +4,28 @@ import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
 import { IConnection } from 'src/core/application/repositories/IConnection';
 import OrderUseCase from 'src/core/application/usecase/OrderUseCase';
 import OrderGateway from '../adapters/gateway/OrderGateway';
+import { OrderStatus } from '../../core/domain/enums/OrderStatus';
+import UserGateway from '../adapters/gateway/UserGateway';
+import ProductGateway from '../adapters/gateway/ProductGateway';
+import { IOrderGateway } from '../../core/application/repositories/IOrderGateway';
+import { IUserGateway } from '../../core/application/repositories/IUserGateway';
+import { IProductGateway } from '../../core/application/repositories/IProductGateway';
 
 export class OrderController {
   static async createOrder(
     body: OrderCreationDTO,
     dbConnection: IConnection,
   ): Promise<OrderResponseDTO> {
-    const gateway = new OrderGateway(dbConnection);
+    const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
+    const userGateway: IUserGateway = new UserGateway(dbConnection);
+    const productGateway: IProductGateway = new ProductGateway(dbConnection);
     const orderBody = await OrderAdapter.toDomain(body);
-    const order = await OrderUseCase.createOrder(orderBody, gateway);
+    const order = await OrderUseCase.createOrder(
+      orderBody,
+      orderGateway,
+      userGateway,
+      productGateway,
+    );
 
     const response = OrderAdapter.toDTO(order);
     return response;
@@ -53,12 +66,11 @@ export class OrderController {
 
   static async updateOrder(
     id: string,
-    body: OrderCreationDTO,
+    status: OrderStatus,
     dbConnection: IConnection,
   ): Promise<OrderResponseDTO> {
     const gateway = new OrderGateway(dbConnection);
-    const orderBody = await OrderAdapter.toDomain(body);
-    const order = await OrderUseCase.updateOrder(id, orderBody, gateway);
+    const order = await OrderUseCase.updateOrder(id, status, gateway);
 
     const response = OrderAdapter.toDTO(order);
     return response;

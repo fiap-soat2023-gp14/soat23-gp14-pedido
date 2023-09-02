@@ -21,10 +21,6 @@ export default class ProductGateway implements IProductGateway {
       .sort({ createdAt: -1 })
       .toArray();
 
-    if (!products || products.length == 0) {
-      throw new HttpNotFoundException('Product not found');
-    }
-
     return Promise.resolve(ProductMapper.toDomainList(products));
   }
 
@@ -49,17 +45,11 @@ export default class ProductGateway implements IProductGateway {
     const product: ProductEntity = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
-    if (!product)
-      throw new HttpNotFoundException(`Product with id ${id} not found`);
+    if (!product) return Promise.resolve(null);
     return Promise.resolve(ProductMapper.toDomain(product));
   }
 
   public async delete(id: string): Promise<void> {
-    const product = await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .findOne({ _id: id });
-    if (!product)
-      throw new HttpNotFoundException(`Product with id ${id} not found`);
     await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .deleteOne({ _id: id });
@@ -67,10 +57,6 @@ export default class ProductGateway implements IProductGateway {
   }
 
   public async update(id: string, product: Product): Promise<Product> {
-    const productValidate: ProductEntity = await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .find({ _id: id });
-    if (!productValidate) throw new Error(`Product with id ${id} not found`);
     try {
       const productEnty = ProductMapper.toEntity(product);
       delete productEnty._id;
