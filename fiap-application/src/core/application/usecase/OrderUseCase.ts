@@ -8,6 +8,7 @@ import ProductUseCase from './ProductUseCase';
 import { IProductGateway } from '../repositories/IProductGateway';
 import { Money } from '../../domain/valueObjects/Money';
 import { IPaymentGateway } from '../external/IPaymentGateway';
+import {PaymentUseCase} from "./PaymentUseCase";
 
 export default class OrderUseCase {
   public static async getOrderById(
@@ -61,7 +62,7 @@ export default class OrderUseCase {
     order.total = await Money.create(total);
     await order.total.validate();
     const createdOrder = await orderGateway.create(order);
-    await paymentGateway.createPayment(order);
+    await PaymentUseCase.createPayment(order, paymentGateway);
     return createdOrder;
   }
 

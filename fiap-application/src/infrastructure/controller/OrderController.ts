@@ -21,7 +21,7 @@ export class OrderController {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway(dbConnection);
     const productGateway: IProductGateway = new ProductGateway(dbConnection);
-    const paymentGateway = new MercadoPagoPaymentGateway(dbConnection);
+    const paymentGateway = new MercadoPagoPaymentGateway();
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
       orderBody,
@@ -30,7 +30,7 @@ export class OrderController {
       productGateway,
       paymentGateway,
     );
-    await PaymentController.createPayment(order, dbConnection);
+    await PaymentController.createPayment(order);
     return OrderAdapter.toDTO(order);
   }
 

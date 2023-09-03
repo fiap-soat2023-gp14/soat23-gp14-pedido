@@ -12,14 +12,16 @@ import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('payments/')
 export default class PaymentApi {
-  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
+  constructor(
+    @Inject(IConnection) private readonly dbConnection: IConnection,
+  ) {}
 
   @Post()
   public async receivePaymentFeedback(
     @Body() body: PaymentFeedbackDTO,
     @Res() response,
-  ){
+  ) {
     await PaymentController.receivePaymentFeedback(body, this.dbConnection);
-    return response.status(HttpStatus.OK).json();
+    return response.status(HttpStatus.NO_CONTENT).json();
   }
 }
