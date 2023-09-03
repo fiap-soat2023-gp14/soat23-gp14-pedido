@@ -6,8 +6,8 @@ data:
   init.js: |
     db = db.getSiblingDB('fiap');
     db.createUser({
-      user: "alyne",
-      pwd: "123456",
+      user: "application",
+      pwd: "fiap123456",
       roles: [{ role: "readWrite", db: "fiap" }]
     });
   init-mongo.sh: |
@@ -27,20 +27,3 @@ data:
 
     print('User created with username:', username);
     EOF
-  load-data.js: |
-    db = db.getSiblingDB('fiap');
-    db.Users.insertMany([
-      {
-        "_id": "ad95fe76-122c-491a-ab92-9ba1682e0053",
-        "name": "Joao Paulo",
-        "email": "joao@fiap.com",
-        "cpf": "90233730060",
-        "phone": "1234567890",
-        "createdAt": {
-          "$date": "2023-07-08T18:54:41.080Z"
-        },
-        "updatedAt": {
-          "$date": "2023-07-08T18:54:41.080Z"
-        }
-      }
-    ]);
