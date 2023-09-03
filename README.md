@@ -60,4 +60,4 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
    - yarn start:dev
 
 OBS: A aplicação está disponivel na porta 8080, use a collection do Postman Collection
-      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - soat_gp14_fase_1.postman_collection-fase-2.json
+      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - soat_gp14_fase_2.postman_collection.json
