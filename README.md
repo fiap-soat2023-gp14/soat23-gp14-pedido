@@ -18,6 +18,13 @@
    - Postman Collection 
      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
 
+### ENTREGA FASE 2
+1. Arquivos de configuração do Kubernetes
+   - /soat2023-gp14/fiap-k8s
+2. Atualizar a aplicação desenvolvida na Fase 1 refatorando o código para seguir os
+padrões Clean Code e Clean Architecture
+    - /soat2023-gp14/fiap-application
+
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
 
@@ -39,9 +46,12 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
 - Existem duas opções para executar o projeto:
-1. Usando docker compose:
-    - Na pasta raiz do projeto, execute o docker compose:
-      - docker-compose up -d --build
+1. Usando K8s:
+   - Para Criar: make -f Makefile create-stack
+   - Para Deletar: make -f Makefile delete-stack
+   - Port para testes: make -f Makefile port-forward
+
+     
 2. Executando o projeto manualmente:
    - docker-compose -f docker-compose.yaml up -d mongodb 
    - cd fiap-application
@@ -49,5 +59,5 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
    - yarn install
    - yarn start:dev
 
-OBS: A aplicação ficaram disponivel na porta 8080, use a collection do Postman Collection
-      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
+OBS: A aplicação está disponivel na porta 8080, use a collection do Postman Collection
+      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - soat_gp14_fase_1.postman_collection-fase-2.json
