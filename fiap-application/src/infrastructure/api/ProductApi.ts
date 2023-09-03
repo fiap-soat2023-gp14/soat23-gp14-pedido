@@ -18,7 +18,9 @@ import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('products/')
 export default class ProductApi {
-  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
+  constructor(
+    @Inject(IConnection) private readonly dbConnection: IConnection,
+  ) {}
   @Get()
   public async getAllProducts(
     @Res() response,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
-import { IConnection } from './adapters/external/IConnection';
+import { IConnection } from './IConnection';
 
 @Injectable()
 export class MongoConnection implements IConnection {

@@ -1,7 +1,6 @@
 import { IConnection } from '../adapters/external/IConnection';
 import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
 import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDTO';
-import { PaymentCreationDTO } from '../../core/application/dto/PaymentCreationDTO';
 import { Order } from '../../core/domain/entities/Order';
 
 export class PaymentController {

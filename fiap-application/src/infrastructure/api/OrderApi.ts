@@ -2,7 +2,8 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus, Inject,
+  HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
@@ -14,11 +15,13 @@ import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderController } from '../controller/OrderController';
 import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
-import {IConnection} from "../adapters/external/IConnection";
+import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('orders/')
 export default class OrderApi {
-  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
+  constructor(
+    @Inject(IConnection) private readonly dbConnection: IConnection,
+  ) {}
   @Get()
   public async getAllOrders(
     @Res() response,

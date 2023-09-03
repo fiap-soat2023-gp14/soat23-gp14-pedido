@@ -1,7 +1,6 @@
 import { IConnection } from '../external/IConnection';
 import { IProductGateway } from '../../../core/application/repositories/IProductGateway';
 import Product from '../../../core/domain/entities/Product';
-import { HttpNotFoundException } from '../../exceptions/HttpNotFoundException';
 import { ProductEntity } from './entity/ProductEntity';
 import ProductMapper from './mappers/ProductMapper';
 
@@ -58,10 +57,10 @@ export default class ProductGateway implements IProductGateway {
 
   public async update(id: string, product: Product): Promise<Product> {
     try {
-      const productEnty = ProductMapper.toEntity(product);
-      delete productEnty._id;
+      const productEntity = ProductMapper.toEntity(product);
+      delete productEntity._id;
       const updateProduct = {
-        $set: { ...productEnty },
+        $set: { ...productEntity },
       };
       await this.dbConnection
         .getCollection(this.COLLECTION_NAME)

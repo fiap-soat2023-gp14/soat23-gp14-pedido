@@ -17,7 +17,9 @@ import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('users')
 export default class UserApi {
-  constructor(@Inject(IConnection) private readonly dbConnection: IConnection) {}
+  constructor(
+    @Inject(IConnection) private readonly dbConnection: IConnection,
+  ) {}
   @Post()
   async createUser(@Res() response, @Body() userCreationDto: UserCreationDTO) {
     const user = await UserController.createUser(

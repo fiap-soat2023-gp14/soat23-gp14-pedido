@@ -1,7 +1,6 @@
 import Product from '../../domain/entities/Product';
 import { IProductGateway } from '../repositories/IProductGateway';
 import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
-import { ProductEntity } from '../../../infrastructure/adapters/gateway/entity/ProductEntity';
 
 export default class ProductUseCase {
   public static async getProductById(

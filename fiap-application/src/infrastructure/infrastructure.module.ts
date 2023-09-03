@@ -5,7 +5,7 @@ import OrderApi from './api/OrderApi';
 import ProductApi from './api/ProductApi';
 import UserApi from './api/UserApi';
 import PaymentApi from './api/PaymentApi';
-import { MongoConnection } from './MongoConnection';
+import { MongoConnection } from './adapters/external/MongoConnection';
 import { IConnection } from './adapters/external/IConnection';
 
 @Module({
