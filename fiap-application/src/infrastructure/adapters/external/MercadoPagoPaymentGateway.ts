@@ -1,31 +1,52 @@
 import { IPaymentGateway } from '../../../core/application/external/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
-import { IConnection } from './IConnection';
-import OrderGateway from '../gateway/OrderGateway';
-import { PaymentUseCase } from '../../../core/application/usecase/PaymentUseCase';
 import { Order } from '../../../core/domain/entities/Order';
-import {HttpException, HttpStatus} from "@nestjs/common";
+import { OrderStatus } from '../../../core/domain/enums/OrderStatus';
+import { OrderStatusUpdateDTO } from '../../../core/application/dto/OrderStatusUpdateDTO';
 
 export default class MercadoPagoPaymentGateway implements IPaymentGateway {
-  private readonly dbConnection: IConnection;
-  constructor(IConnection: IConnection) {
-    this.dbConnection = IConnection;
-  }
+  private static readonly DEFAULT_PAYMENT_METHOD = 'visa';
+  private static readonly DESCRIPTION_PREFIX = 'Order Nº ';
+  private static readonly DEFAULT_NOTIFICATION_URL =
+    'http://localhost:3000/payments/';
+  private static readonly DEFAULT_EMAIL = 'email_lojinha_x@gmail.com';
 
   async createPayment(order: Order): Promise<void> {
     console.info('Sending payment.');
-    await PaymentUseCase.createPayment(order);
-    //Recuperar o paymentCreationDTO do use case e enviar pro MERCADO PAGO API
+    const paymentCreationDTO = {
+      externalId: order.id,
+      amount: order.total.value,
+      installments: 1,
+      description: MercadoPagoPaymentGateway.DESCRIPTION_PREFIX + order.id,
+      paymentMethodId: MercadoPagoPaymentGateway.DEFAULT_PAYMENT_METHOD,
+      payerEmail: order.customer
+        ? order.customer.email
+        : MercadoPagoPaymentGateway.DEFAULT_EMAIL,
+      notificationUrl: MercadoPagoPaymentGateway.DEFAULT_NOTIFICATION_URL,
+    };
+
+    //Enviar pro MERCADO PAGO API
     console.info('Awaiting payment.');
   }
 
   async receiveNotification(
     paymentFeedbackDTO: PaymentFeedbackDTO,
-  ): Promise<void> {
-    await PaymentUseCase.processPayment(
-      paymentFeedbackDTO,
-      new OrderGateway(this.dbConnection),
-    );
+  ): Promise<OrderStatusUpdateDTO> {
+    const orderStatusUpdateDTO = {
+      id: paymentFeedbackDTO.data.id,
+      status: OrderStatus.RECEIVED,
+    };
+    if (paymentFeedbackDTO.type === 'payment') {
+      if (paymentFeedbackDTO.status === 'approved') {
+        console.info('Payment approved.');
+        orderStatusUpdateDTO.status = OrderStatus.PAID;
+      } else if (paymentFeedbackDTO.status === 'declined') {
+        console.info('Payment declined.');
+        orderStatusUpdateDTO.status = OrderStatus.CANCELLED;
+      }
+    }
+
     console.info('Payment processed.');
+    return Promise.resolve(orderStatusUpdateDTO);
   }
 }
