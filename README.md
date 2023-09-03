@@ -47,22 +47,7 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 - Acesse o diretório do projeto pelo seu terminal;
 - Existem duas opções para executar o projeto:
 1. Usando K8s:
-   - delete-stack:
-       kubectl delete -f mongodb-statefulset.yaml
-       kubectl delete -f mongodb-svc.yaml
-       kubectl delete -f mongodb-init-cm.yaml
-       kubectl delete -f app-deployment.yaml
-       kubectl delete -f mongodb-secrets.yaml
-     
-   - create-stack:
-       kubectl apply -f mongodb-secrets.yaml
-       kubectl apply -f mongodb-init-cm.yaml
-       kubectl apply -f mongodb-statefulset.yaml
-       kubectl apply -f mongodb-svc.yaml
-       kubectl apply -f app-deployment.yaml
-    
-   - port-forward:
-       kubectl port-forward deployment/fiap-application 8080:8080
+   - make -f Makefile create-stack
      
 2. Executando o projeto manualmente:
    - docker-compose -f docker-compose.yaml up -d mongodb 
