@@ -11,7 +11,20 @@ services:
       - 27017:27017
       - 27020:27020
     command: mongod
-
+  mongoimport:
+    image: mongo:latest
+    container_name: fiap-import
+    volumes:
+      - ./data-import/products.json:/data/products.json
+      - ./data-import/users.json:/data/users.json
+    command:
+      - /bin/sh
+      - -c
+      - |
+        mongoimport --host mongodb --db fiap --collection Users --type json --file /data/users.json --jsonArray
+        mongoimport --host mongodb --db fiap --collection Products --type json --file /data/products.json --jsonArray
+    depends_on:
+      - mongodb
     networks:
       - fiap-network
   app:
