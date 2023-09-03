@@ -18,7 +18,6 @@ export class PaymentUseCase {
     orderGateway: IOrderGateway,
   ) {
     if (paymentFeedback.type === 'payment') {
-
       if (paymentFeedback.status === 'approved') {
         console.info('Payment approved.');
         await OrderUseCase.updateOrder(
