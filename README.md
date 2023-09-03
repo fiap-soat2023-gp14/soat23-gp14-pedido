@@ -47,7 +47,10 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 - Acesse o diretório do projeto pelo seu terminal;
 - Existem duas opções para executar o projeto:
 1. Usando K8s:
-   - make -f Makefile create-stack
+   - Para Criar: make -f Makefile create-stack
+   - Para Deletar: make -f Makefile delete-stack
+   - Port para testes: make -f Makefile port-forward
+
      
 2. Executando o projeto manualmente:
    - docker-compose -f docker-compose.yaml up -d mongodb 
