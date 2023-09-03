@@ -2,8 +2,9 @@ import { IConnection } from '../adapters/external/IConnection';
 import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
 import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDTO';
 import { Order } from '../../core/domain/entities/Order';
-import {PaymentUseCase} from "../../core/application/usecase/PaymentUseCase";
-import OrderGateway from "../adapters/gateway/OrderGateway";
+import { PaymentUseCase } from '../../core/application/usecase/PaymentUseCase';
+import OrderGateway from '../adapters/gateway/OrderGateway';
+import PaymentAdapter from '../../core/application/adapter/PaymentAdapter';
 
 export class PaymentController {
   public static async createPayment(order: Order) {
@@ -16,8 +17,7 @@ export class PaymentController {
     dbConnection: IConnection,
   ): Promise<void> {
     const orderGateway = new OrderGateway(dbConnection);
-    const paymentGateway = new MercadoPagoPaymentGateway(); //Verificar se essa instacia aqui é OK
-    const orderStatusUpdateDTO = await paymentGateway.receiveNotification(paymentFeedbackDTO);
-    await PaymentUseCase.processPayment(orderStatusUpdateDTO.status, orderStatusUpdateDTO.id, orderGateway);
+    const paymentFeedback = await PaymentAdapter.toDomain(paymentFeedbackDTO);
+    await PaymentUseCase.processPayment(paymentFeedback, orderGateway);
   }
 }

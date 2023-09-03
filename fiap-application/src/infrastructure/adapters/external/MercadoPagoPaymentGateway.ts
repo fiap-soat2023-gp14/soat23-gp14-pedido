@@ -1,8 +1,5 @@
 import { IPaymentGateway } from '../../../core/application/external/IPaymentGateway';
-import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
 import { Order } from '../../../core/domain/entities/Order';
-import { OrderStatus } from '../../../core/domain/enums/OrderStatus';
-import { OrderStatusUpdateDTO } from '../../../core/application/dto/OrderStatusUpdateDTO';
 
 export default class MercadoPagoPaymentGateway implements IPaymentGateway {
   private static readonly DEFAULT_PAYMENT_METHOD = 'visa';
@@ -27,26 +24,5 @@ export default class MercadoPagoPaymentGateway implements IPaymentGateway {
 
     //Enviar pro MERCADO PAGO API
     console.info('Awaiting payment.');
-  }
-
-  async receiveNotification(
-    paymentFeedbackDTO: PaymentFeedbackDTO,
-  ): Promise<OrderStatusUpdateDTO> {
-    const orderStatusUpdateDTO = {
-      id: paymentFeedbackDTO.data.id,
-      status: OrderStatus.RECEIVED,
-    };
-    if (paymentFeedbackDTO.type === 'payment') {
-      if (paymentFeedbackDTO.status === 'approved') {
-        console.info('Payment approved.');
-        orderStatusUpdateDTO.status = OrderStatus.PAID;
-      } else if (paymentFeedbackDTO.status === 'declined') {
-        console.info('Payment declined.');
-        orderStatusUpdateDTO.status = OrderStatus.CANCELLED;
-      }
-    }
-
-    console.info('Payment processed.');
-    return Promise.resolve(orderStatusUpdateDTO);
   }
 }

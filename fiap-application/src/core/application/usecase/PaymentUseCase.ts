@@ -1,25 +1,39 @@
-import { OrderStatusUpdateDTO } from '../dto/OrderStatusUpdateDTO';
 import { OrderStatus } from '../../domain/enums/OrderStatus';
-import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
 import OrderUseCase from './OrderUseCase';
 import { IOrderGateway } from '../repositories/IOrderGateway';
-import OrderAdapter from '../adapter/OrderAdapter';
-import { PaymentCreationDTO } from '../dto/PaymentCreationDTO';
 import { Order } from '../../domain/entities/Order';
 import { IPaymentGateway } from '../external/IPaymentGateway';
+import { PaymentFeedback } from '../../domain/entities/PaymentFeedback';
 
 export class PaymentUseCase {
-
-  public static async createPayment(order: Order, paymentGateway: IPaymentGateway) {
+  public static async createPayment(
+    order: Order,
+    paymentGateway: IPaymentGateway,
+  ) {
     await paymentGateway.createPayment(order);
   }
+
   public static async processPayment(
-    newStatus: OrderStatus,
-    orderId: string,
+    paymentFeedback: PaymentFeedback,
     orderGateway: IOrderGateway,
   ) {
-    if (newStatus === OrderStatus.PAID || newStatus === OrderStatus.CANCELLED) {
-      await OrderUseCase.updateOrder(orderId, newStatus, orderGateway);
+    if (paymentFeedback.type === 'payment') {
+
+      if (paymentFeedback.status === 'approved') {
+        console.info('Payment approved.');
+        await OrderUseCase.updateOrder(
+          paymentFeedback.orderId,
+          OrderStatus.PAID,
+          orderGateway,
+        );
+      } else if (paymentFeedback.status === 'declined') {
+        console.info('Payment declined.');
+        await OrderUseCase.updateOrder(
+          paymentFeedback.orderId,
+          OrderStatus.CANCELLED,
+          orderGateway,
+        );
+      }
     }
   }
 }
