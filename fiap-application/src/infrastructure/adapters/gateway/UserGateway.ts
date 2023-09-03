@@ -1,12 +1,9 @@
-import { ConflictException } from '@nestjs/common';
 import { IUserGateway } from 'src/core/application/repositories/IUserGateway';
 import User from 'src/core/domain/entities/User';
 import UserFilter from 'src/core/domain/entities/UserFilter';
-import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoundException';
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
-import { IConnection } from '../../../core/application/repositories/IConnection';
-import { CPF } from '../../../core/domain/valueObjects/Cpf';
+import { IConnection } from '../external/IConnection';
 
 export default class UserGateway implements IUserGateway {
   private COLLECTION_NAME = 'Users';
@@ -17,14 +14,6 @@ export default class UserGateway implements IUserGateway {
 
   public async create(user: User): Promise<User> {
     const userEntity = UserMapper.toEntity(user);
-    // const userExist = await this.dbConnection
-    //   .getCollection(this.COLLECTION_NAME)
-    //   .findOne({ cpf: user.cpf.value });
-    //
-    // if (userExist) {
-    //   throw new ConflictException('User already exists');
-    // }
-
     try {
       await this.dbConnection
         .getCollection(this.COLLECTION_NAME)
@@ -58,7 +47,6 @@ export default class UserGateway implements IUserGateway {
   }
 
   public async update(id: string, user: User): Promise<User> {
-
     try {
       const userEntity = UserMapper.toEntity(user);
       delete userEntity._id;

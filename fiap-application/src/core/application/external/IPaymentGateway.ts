@@ -1,3 +1,8 @@
+import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
+import { Order } from '../../domain/entities/Order';
+
 export interface IPaymentGateway {
-  processPayment(amount: number): Promise<boolean>;
+  createPayment(order: Order): Promise<void>;
+
+  receiveNotification(notification: PaymentFeedbackDTO): Promise<void>;
 }

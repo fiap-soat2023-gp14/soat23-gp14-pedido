@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
@@ -11,19 +12,16 @@ import {
 } from '@nestjs/common';
 import { OrderCreationDTO } from 'src/core/application/dto/OrderCreationDTO';
 import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
-import { IConnection } from 'src/core/application/repositories/IConnection';
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
-import MongoConnection from '../MongoConnection';
 import { OrderController } from '../controller/OrderController';
 import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
+import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('orders/')
 export default class OrderApi {
-  private dbConnection: IConnection;
-  constructor() {
-    this.dbConnection = new MongoConnection();
-  }
-
+  constructor(
+    @Inject(IConnection) private readonly dbConnection: IConnection,
+  ) {}
   @Get()
   public async getAllOrders(
     @Res() response,

@@ -1,6 +1,6 @@
 import ProductDTO from '../../core/application/dto/ProductDTO';
 import ProductAdapter from '../../core/application/adapter/ProductAdapter';
-import { IConnection } from '../../core/application/repositories/IConnection';
+import { IConnection } from '../adapters/external/IConnection';
 import ProductUseCase from '../../core/application/usecase/ProductUseCase';
 import ProductGateway from '../adapters/gateway/ProductGateway';
 

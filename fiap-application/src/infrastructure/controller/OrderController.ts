@@ -1,15 +1,17 @@
 import OrderAdapter from 'src/core/application/adapter/OrderAdapter';
 import { OrderCreationDTO } from 'src/core/application/dto/OrderCreationDTO';
 import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
-import { IConnection } from 'src/core/application/repositories/IConnection';
+import { IConnection } from 'src/infrastructure/adapters/external/IConnection';
 import OrderUseCase from 'src/core/application/usecase/OrderUseCase';
 import OrderGateway from '../adapters/gateway/OrderGateway';
 import { OrderStatus } from '../../core/domain/enums/OrderStatus';
+import { PaymentController } from './PaymentController';
 import UserGateway from '../adapters/gateway/UserGateway';
 import ProductGateway from '../adapters/gateway/ProductGateway';
 import { IOrderGateway } from '../../core/application/repositories/IOrderGateway';
 import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
+import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
 
 export class OrderController {
   static async createOrder(
@@ -19,16 +21,17 @@ export class OrderController {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway(dbConnection);
     const productGateway: IProductGateway = new ProductGateway(dbConnection);
+    const paymentGateway = new MercadoPagoPaymentGateway(dbConnection);
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
       orderBody,
       orderGateway,
       userGateway,
       productGateway,
+      paymentGateway,
     );
-
-    const response = OrderAdapter.toDTO(order);
-    return response;
+    await PaymentController.createPayment(order, dbConnection);
+    return OrderAdapter.toDTO(order);
   }
 
   static async getAllOrders(
@@ -38,8 +41,7 @@ export class OrderController {
     const gateway = new OrderGateway(dbConnection);
     const orders = await OrderUseCase.getAllOrders(params, gateway);
 
-    const response = OrderAdapter.toDTOList(orders);
-    return response;
+    return OrderAdapter.toDTOList(orders);
   }
 
   static async getSortedOrders(
@@ -49,8 +51,7 @@ export class OrderController {
     const gateway = new OrderGateway(dbConnection);
     const orders = await OrderUseCase.getSortedOrders(params, gateway);
 
-    const response = OrderAdapter.toDTOList(orders);
-    return response;
+    return OrderAdapter.toDTOList(orders);
   }
 
   static async getOrderById(
@@ -60,8 +61,7 @@ export class OrderController {
     const gateway = new OrderGateway(dbConnection);
     const order = await OrderUseCase.getOrderById(id, gateway);
 
-    const response = OrderAdapter.toDTO(order);
-    return response;
+    return OrderAdapter.toDTO(order);
   }
 
   static async updateOrder(
@@ -72,7 +72,6 @@ export class OrderController {
     const gateway = new OrderGateway(dbConnection);
     const order = await OrderUseCase.updateOrder(id, status, gateway);
 
-    const response = OrderAdapter.toDTO(order);
-    return response;
+    return OrderAdapter.toDTO(order);
   }
 }

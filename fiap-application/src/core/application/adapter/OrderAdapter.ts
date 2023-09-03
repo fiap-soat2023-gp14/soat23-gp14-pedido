@@ -8,6 +8,7 @@ import {
 import ProductAdapter from './ProductAdapter';
 import { UserAdapter } from './UserAdapter';
 import User from '../../domain/entities/User';
+import { OrderStatusUpdateDTO } from '../dto/OrderStatusUpdateDTO';
 
 export default class OrderAdapter {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {

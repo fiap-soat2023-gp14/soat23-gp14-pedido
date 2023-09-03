@@ -1,5 +1,5 @@
 export enum ProductCategory {
-  SANDWICH = 'SANDWICH', // TODO: Is this the correct translation for LANCHE?
+  SANDWICH = 'SANDWICH',
   GARNISH = 'GARNISH',
   DRINK = 'DRINK',
   DESSERT = 'DESSERT',
