@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6f0b7810-f98a-48bd-b4c8-656d3e5f4f09",
-		"name": "SOAT2 - GRUPO 14 - FASE 1",
+		"_postman_id": "9fe4228a-2344-4a59-ac77-f2eb94255f0a",
+		"name": "SOAT2 - GRUPO 14 - FASE 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2463941",
-		"_collection_link": "https://martian-meteor-524617.postman.co/workspace/BEES~d7eeedf9-27fd-450f-bcfa-1a1b544c143b/collection/2463941-6f0b7810-f98a-48bd-b4c8-656d3e5f4f09?action=share&source=collection_link&creator=2463941"
+		"_exporter_id": "20085261"
 	},
 	"item": [
 		{
@@ -315,7 +314,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"e6e8ff4c-3a77-4f9c-86c6-07d254d2b202\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
+							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"03375d42-db6c-4661-963e-8083e22be9f9\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -330,6 +329,60 @@
 							"port": "8080",
 							"path": [
 								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order que deseja confirmar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"approved\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/payments",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order para negar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"declined\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/payments",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payments"
 							]
 						}
 					},
@@ -364,7 +417,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users?cpf=90233730060",
+							"raw": "localhost:8080/users?cpf=45828179802",
 							"host": [
 								"localhost"
 							],
@@ -375,7 +428,7 @@
 							"query": [
 								{
 									"key": "cpf",
-									"value": "90233730060"
+									"value": "45828179802"
 								}
 							]
 						}
