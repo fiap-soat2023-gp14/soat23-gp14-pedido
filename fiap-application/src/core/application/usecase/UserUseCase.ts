@@ -12,7 +12,7 @@ export default class UserUseCase {
     params.cpf = user.cpf.value;
     const userExist = await this.getAllUsers(params, userGateway);
 
-    if (userExist) {
+    if (userExist.length > 0) {
       throw new ConflictException('User already exists');
     }
 
