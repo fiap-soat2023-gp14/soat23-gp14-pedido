@@ -4,15 +4,14 @@ import { OrderResponseDTO } from 'src/core/application/dto/OrderResponseDTO';
 import { IConnection } from 'src/infrastructure/adapters/external/IConnection';
 import OrderUseCase from 'src/core/application/usecase/OrderUseCase';
 import OrderGateway from '../adapters/gateway/OrderGateway';
-import {OrderStatusUpdateDTO} from "../../core/application/dto/OrderStatusUpdateDTO";
 import { OrderStatus } from '../../core/domain/enums/OrderStatus';
-import {PaymentController} from "./PaymentController";
+import { PaymentController } from './PaymentController';
 import UserGateway from '../adapters/gateway/UserGateway';
 import ProductGateway from '../adapters/gateway/ProductGateway';
 import { IOrderGateway } from '../../core/application/repositories/IOrderGateway';
 import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
-import MercadoPagoPaymentGateway from "../adapters/external/MercadoPagoPaymentGateway";
+import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
 
 export class OrderController {
   static async createOrder(
@@ -29,7 +28,7 @@ export class OrderController {
       orderGateway,
       userGateway,
       productGateway,
-        paymentGateway
+      paymentGateway,
     );
     await PaymentController.createPayment(order, dbConnection);
     return OrderAdapter.toDTO(order);
@@ -75,5 +74,4 @@ export class OrderController {
 
     return OrderAdapter.toDTO(order);
   }
-
 }

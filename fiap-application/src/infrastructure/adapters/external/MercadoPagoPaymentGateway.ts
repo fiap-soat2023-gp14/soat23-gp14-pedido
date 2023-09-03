@@ -13,23 +13,10 @@ export default class MercadoPagoPaymentGateway implements IPaymentGateway {
   }
 
   async createPayment(order: Order): Promise<void> {
-
-    //
-    // const paymentSuccessful = await this.paymentGateway.processPayment(
-    //   order.total.value,
-    // );
-
-    const paymentSuccessful = true; //TODO: change to PaymentUseCase
-    if (paymentSuccessful) {
-      console.info('Payment successful');
-
-    } else {
-      console.error('Payment failed');
-      throw new HttpException('Payment failed', HttpStatus.BAD_GATEWAY);
-    }
-
+    console.info('Sending payment');
     await PaymentUseCase.createPayment(order);
     //Recuperar o paymentCreationDTO do use case e enviar pro MERCADO PAGO API
+    console.info('Awaiting payment');
   }
 
   async receiveNotification(
@@ -39,5 +26,6 @@ export default class MercadoPagoPaymentGateway implements IPaymentGateway {
       paymentFeedbackDTO,
       new OrderGateway(this.dbConnection),
     );
+    console.info('Payment successfully processed');
   }
 }

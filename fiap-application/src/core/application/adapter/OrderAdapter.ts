@@ -30,21 +30,6 @@ export default class OrderAdapter {
     };
   }
 
-  static async toOrderUpdateDomain(
-    orderStatusUpdateDTO: OrderStatusUpdateDTO,
-  ): Promise<Order> {
-    return {
-      id: null,
-      customer: undefined,
-      deliveredAt: undefined,
-      createdAt: undefined,
-      status: orderStatusUpdateDTO.status,
-      extraItems: undefined,
-      total: undefined,
-      items: [],
-    };
-  }
-
   static toDTO(order: Order): OrderResponseDTO {
     console.log(order);
     return {

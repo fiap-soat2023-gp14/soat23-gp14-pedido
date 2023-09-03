@@ -18,8 +18,8 @@ export default class PaymentApi {
   public async receivePaymentFeedback(
     @Body() body: PaymentFeedbackDTO,
     @Res() response,
-  ) {
+  ){
     await PaymentController.receivePaymentFeedback(body, this.dbConnection);
-    return response.status(HttpStatus.OK);
+    return response.status(HttpStatus.OK).json();
   }
 }

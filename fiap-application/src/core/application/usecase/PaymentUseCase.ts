@@ -12,6 +12,7 @@ export class PaymentUseCase {
   private static readonly DESCRIPTION_PREFIX = 'Order Nº ';
   private static readonly DEFAULT_NOTIFICATION_URL =
     'http://localhost:3000/payments/';
+  private static readonly DEFAULT_EMAIL = 'email_lojinha_x@gmail.com';
 
   public static async createPayment(order: Order): Promise<PaymentCreationDTO> {
     return {
@@ -20,7 +21,9 @@ export class PaymentUseCase {
       installments: 1,
       description: PaymentUseCase.DESCRIPTION_PREFIX + order.id,
       paymentMethodId: PaymentUseCase.DEFAULT_PAYMENT_METHOD,
-      payerEmail: order.customer.email,
+      payerEmail: order.customer
+        ? order.customer.email
+        : PaymentUseCase.DEFAULT_EMAIL,
       notificationUrl: PaymentUseCase.DEFAULT_NOTIFICATION_URL,
     };
   }
@@ -30,17 +33,15 @@ export class PaymentUseCase {
     orderGateway: IOrderGateway,
   ) {
     if (paymentFeedbackDTO.type === 'payment') {
-      const orderStatusToUpdate = new OrderStatusUpdateDTO();
-      orderStatusToUpdate.id = paymentFeedbackDTO.data.id;
+      let newStatus = OrderStatus.RECEIVED;
       if (paymentFeedbackDTO.status === 'approved') {
-        orderStatusToUpdate.status = OrderStatus.PAID;
+        newStatus = OrderStatus.PAID;
       } else if (paymentFeedbackDTO.status === 'declined') {
-        orderStatusToUpdate.status = OrderStatus.CANCELLED;
+        newStatus = OrderStatus.CANCELLED;
       }
-      const order = await OrderAdapter.toOrderUpdateDomain(orderStatusToUpdate);
       await OrderUseCase.updateOrder(
         paymentFeedbackDTO.data.id,
-        order,
+        newStatus,
         orderGateway,
       );
     }
