@@ -18,6 +18,13 @@
    - Postman Collection 
      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
 
+### ENTREGA FASE 2
+1. Arquivos de configuração do Kubernetes
+   - /soat2023-gp14/fiap-k8s
+2. Atualizar a aplicação desenvolvida na Fase 1 refatorando o código para seguir os
+padrões Clean Code e Clean Architecture
+    - /soat2023-gp14/fiap-application
+
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
 
@@ -39,9 +46,24 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
 - Existem duas opções para executar o projeto:
-1. Usando docker compose:
-    - Na pasta raiz do projeto, execute o docker compose:
-      - docker-compose up -d --build
+1. Usando K8s:
+   - delete-stack:
+       kubectl delete -f mongodb-statefulset.yaml
+       kubectl delete -f mongodb-svc.yaml
+       kubectl delete -f mongodb-init-cm.yaml
+       kubectl delete -f app-deployment.yaml
+       kubectl delete -f mongodb-secrets.yaml
+     
+   - create-stack:
+       kubectl apply -f mongodb-secrets.yaml
+       kubectl apply -f mongodb-init-cm.yaml
+       kubectl apply -f mongodb-statefulset.yaml
+       kubectl apply -f mongodb-svc.yaml
+       kubectl apply -f app-deployment.yaml
+    
+   - port-forward:
+       kubectl port-forward deployment/fiap-application 8080:8080
+     
 2. Executando o projeto manualmente:
    - docker-compose -f docker-compose.yaml up -d mongodb 
    - cd fiap-application
@@ -49,5 +71,5 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
    - yarn install
    - yarn start:dev
 
-OBS: A aplicação ficaram disponivel na porta 8080, use a collection do Postman Collection
+OBS: A aplicação está disponivel na porta 8080, use a collection do Postman Collection
       - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
