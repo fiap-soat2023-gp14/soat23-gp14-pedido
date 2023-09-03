@@ -22,6 +22,6 @@ export default class PaymentApi {
     @Res() response,
   ) {
     await PaymentController.receivePaymentFeedback(body, this.dbConnection);
-    return response.status(HttpStatus.OK).json();
+    return response.status(HttpStatus.NO_CONTENT).json();
   }
 }
