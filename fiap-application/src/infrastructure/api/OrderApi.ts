@@ -15,6 +15,7 @@ import { IConnection } from 'src/core/application/repositories/IConnection';
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import MongoConnection from '../MongoConnection';
 import { OrderController } from '../controller/OrderController';
+import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
 
 @Controller('orders/')
 export default class OrderApi {
@@ -36,6 +37,12 @@ export default class OrderApi {
     return response.status(HttpStatus.OK).json(orders);
   }
 
+  @Get('/sorted/')
+  public async getSorted(@Res() response): Promise<Array<OrderResponseDTO>> {
+    const orders = await OrderController.getSortedOrders({}, this.dbConnection);
+    return response.status(HttpStatus.OK).json(orders);
+  }
+
   @Get(':id')
   public async getOrders(
     @Res() response,
@@ -43,12 +50,6 @@ export default class OrderApi {
   ): Promise<OrderResponseDTO> {
     const order = await OrderController.getOrderById(id, this.dbConnection);
     return response.status(HttpStatus.OK).json(order);
-  }
-
-  @Get('/ordered/')
-  public async getSorted(@Res() response): Promise<Array<OrderResponseDTO>> {
-    const orders = await OrderController.getSortedOrders({}, this.dbConnection);
-    return response.status(HttpStatus.OK).json(orders);
   }
 
   @Post()
@@ -61,11 +62,11 @@ export default class OrderApi {
   public async updateOrder(
     @Res() response,
     @Param('id') id: string,
-    @Body() body: OrderCreationDTO,
+    @Body() body: OrderStatusUpdateDTO,
   ): Promise<OrderResponseDTO> {
     const order = await OrderController.updateOrder(
       id,
-      body,
+      body.status,
       this.dbConnection,
     );
     return response.status(HttpStatus.OK).json(order);

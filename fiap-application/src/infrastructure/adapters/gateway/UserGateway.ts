@@ -6,7 +6,7 @@ import { HttpNotFoundException } from 'src/infrastructure/exceptions/HttpNotFoun
 import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
 import { IConnection } from '../../../core/application/repositories/IConnection';
-import { CPF } from "../../../core/domain/valueObjects/Cpf";
+import { CPF } from '../../../core/domain/valueObjects/Cpf';
 
 export default class UserGateway implements IUserGateway {
   private COLLECTION_NAME = 'Users';
@@ -17,13 +17,13 @@ export default class UserGateway implements IUserGateway {
 
   public async create(user: User): Promise<User> {
     const userEntity = UserMapper.toEntity(user);
-    const userExist = await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .findOne({ cpf: user.cpf.value });
-
-    if (userExist) {
-      throw new ConflictException('User already exists');
-    }
+    // const userExist = await this.dbConnection
+    //   .getCollection(this.COLLECTION_NAME)
+    //   .findOne({ cpf: user.cpf.value });
+    //
+    // if (userExist) {
+    //   throw new ConflictException('User already exists');
+    // }
 
     try {
       await this.dbConnection
@@ -51,15 +51,14 @@ export default class UserGateway implements IUserGateway {
     const userResponse = await this.dbConnection
       .getCollection(this.COLLECTION_NAME)
       .findOne({ _id: id });
-    if (!userResponse)
-      throw new HttpNotFoundException(`User with id ${id} not found`);
-    return UserMapper.toDomain(userResponse);
+
+    if (!userResponse) return Promise.resolve(null);
+
+    return await UserMapper.toDomain(userResponse);
   }
 
   public async update(id: string, user: User): Promise<User> {
-    const userValidate = await this.getById(id);//TODO: Move to UseCase
-    if (!userValidate)
-      throw new HttpNotFoundException(`User with id ${id} not found`);
+
     try {
       const userEntity = UserMapper.toEntity(user);
       delete userEntity._id;

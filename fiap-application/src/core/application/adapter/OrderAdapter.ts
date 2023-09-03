@@ -7,18 +7,25 @@ import {
 } from '../dto/OrderResponseDTO';
 import ProductAdapter from './ProductAdapter';
 import { UserAdapter } from './UserAdapter';
+import User from '../../domain/entities/User';
 
 export default class OrderAdapter {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
+    const orderItemList = orderCreationDTO.items.map((item) => {
+      return OrderItem.create(item.productId, item.observation, item.quantity);
+    });
+    const customer = orderCreationDTO.customerId
+      ? new User(orderCreationDTO.customerId)
+      : null;
     return {
       id: null,
-      customer: undefined,
+      customer: customer,
       deliveredAt: undefined,
       createdAt: new Date(),
       status: OrderStatus.RECEIVED,
       extraItems: orderCreationDTO.extraItems,
       total: undefined,
-      items: [],
+      items: orderItemList,
     };
   }
 

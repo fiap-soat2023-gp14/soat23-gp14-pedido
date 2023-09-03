@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "2e03ef44-105d-46cd-a356-c22bcbe35fd2",
+		"_postman_id": "6f0b7810-f98a-48bd-b4c8-656d3e5f4f09",
 		"name": "SOAT2 - GRUPO 14 - FASE 1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2463941",
-		"_collection_link": "https://martian-meteor-524617.postman.co/workspace/BEES~d7eeedf9-27fd-450f-bcfa-1a1b544c143b/collection/2463941-2e03ef44-105d-46cd-a356-c22bcbe35fd2?action=share&creator=2463941&source=collection_link"
+		"_collection_link": "https://martian-meteor-524617.postman.co/workspace/BEES~d7eeedf9-27fd-450f-bcfa-1a1b544c143b/collection/2463941-6f0b7810-f98a-48bd-b4c8-656d3e5f4f09?action=share&source=collection_link&creator=2463941"
 	},
 	"item": [
 		{
@@ -187,7 +187,7 @@
 					"response": []
 				},
 				{
-					"name": "orders ordered",
+					"name": "orders sorted",
 					"request": {
 						"method": "GET",
 						"header": [],
