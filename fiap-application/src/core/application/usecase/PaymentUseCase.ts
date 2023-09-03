@@ -35,8 +35,10 @@ export class PaymentUseCase {
     if (paymentFeedbackDTO.type === 'payment') {
       let newStatus = OrderStatus.RECEIVED;
       if (paymentFeedbackDTO.status === 'approved') {
+        console.info('Payment approved.');
         newStatus = OrderStatus.PAID;
       } else if (paymentFeedbackDTO.status === 'declined') {
+        console.info('Payment declined.');
         newStatus = OrderStatus.CANCELLED;
       }
       await OrderUseCase.updateOrder(
