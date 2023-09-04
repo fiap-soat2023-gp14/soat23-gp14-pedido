@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fiap-pedido
-          image: alynesalgado/soat2023-gp14_app:v3
+          image: alynesalgado/soat2023-gp14_app:v4
           env:
             - name: MONGO_INITDB_APP_USERNAME
               valueFrom:
