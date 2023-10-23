@@ -1,0 +1,12 @@
+[submodule "fiap-deliverables"]
+	path = fiap-deliverables
+	url = https://github.com/oivinig/soat23-gp14-deliverables
+[submodule "fiap-microservice"]
+	path = fiap-microservice
+	url = https://github.com/oivinig/soat23-gp14-microservice
+[submodule "fiap-infra"]
+	path = fiap-infra
+	url = https://github.com/oivinig/soat23-gp14-infra
+[submodule "fiap-serverless"]
+	path = fiap-serverless
+	url = https://github.com/oivinig/soat23-gp14-serverless
