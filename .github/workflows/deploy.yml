@@ -33,7 +33,7 @@ jobs:
           REPOSITORY: fiap-soat2-project
           IMAGE_TAG: fiap-soat2-project
         run: |
-          docker build -t $IMAGE_TAG .
+          docker build -t $IMAGE_TAG -f fiap-application/Dockerfile .
           docker tag $IMAGE_TAG:latest $REGISTRY/$REGISTRY_ALIAS/$IMAGE_TAG:latest
           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest
  
