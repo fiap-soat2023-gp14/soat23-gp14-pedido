@@ -6,7 +6,9 @@ import { IConnection } from './IConnection';
 export class MongoConnection implements IConnection {
   private client: any;
   constructor() {
-    this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING);
+    this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, {
+      tlsCAFile: 'global-bundle.pem',
+    });
   }
   async connect() {
     try {
