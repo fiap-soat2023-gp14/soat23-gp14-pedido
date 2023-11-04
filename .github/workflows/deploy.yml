@@ -30,7 +30,7 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
           REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          REGISTRY_ALIAS: z9c5a9n6
+          REGISTRY_ALIAS: ${{ secrets.AWS_ECR_REGISTRY_ALIAS }}
           REPOSITORY: fiap-soat2-project
           IMAGE_TAG: fiap-soat2-project
         run: |
