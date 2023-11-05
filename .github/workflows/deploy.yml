@@ -5,7 +5,11 @@ on:
     branches:
       - main
   workflow_dispatch:
- 
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: ecr-fiap-project
+
 jobs:
   create-docker-image:
     name: Build and push the Docker image to ECR
@@ -19,24 +23,21 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR Public
-        id: login-ecr-public
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry-type: public
 
       - name: Build, tag, and push docker image to Amazon ECR Public
+        id: build-image
         env:
-          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          REGISTRY_ALIAS: ${{ secrets.AWS_ECR_REGISTRY_ALIAS }}
-          REPOSITORY: fiap-soat2-project
-          IMAGE_TAG: fiap-soat2-project
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest
         run: |
-          docker build -t $IMAGE_TAG -f fiap-application/Dockerfile .
-          docker tag $IMAGE_TAG:latest $REGISTRY/$REGISTRY_ALIAS/$IMAGE_TAG:latest
-          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f fiap-application/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
  
   deploy:
     name: Build and deploy the new Docker image to ECS
@@ -48,7 +49,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Update ECS service
         run: |
