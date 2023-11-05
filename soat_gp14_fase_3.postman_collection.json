@@ -1,0 +1,584 @@
+{
+	"info": {
+		"_postman_id": "8ffa0ef8-b553-4b09-a2f7-0313751827ad",
+		"name": "SOAT2 - GRUPO 14 - FASE 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"blablabla\",\n    \"document\": \"02479057550\",\n    \"email\": \"malumatos@gmail.com\",\n    \"password\": \"Teste@1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/sign-up",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"02479057550\",\n    \"password\": \"Teste@1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/login",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-auth}}/prod/ping",
+							"host": [
+								"{{uri-gp14-auth}}"
+							],
+							"path": [
+								"prod",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"name\": \"cheese_burger\",\n    \"description\": \"Cheese Burger\",\n    \"category\": \"SANDWICH\",\n    \"imageUrl\": \"\",\n    \"price\": 10.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/products",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"cheese_burger\",\n    \"description\": \"Cheese Burger\",\n    \"category\": \"SANDWICH\",\n    \"imageUrl\": \"\",\n    \"price\": 10.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/products/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "822c9de1-6401-41c2-b582-3bacf51bd3b1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/products/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/products",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products?category=",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/products?category=SANDWICH",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "SANDWICH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/products/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "b901f700-2dec-426f-902a-815d5c58f4f4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders sorted",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders/sorted",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders",
+								"sorted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "fc62ddbe-415c-4be1-903a-c25ab323e472"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders?status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders?status=FINISHED",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "FINISHED"
+								},
+								{
+									"key": "status",
+									"value": "PAID",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "RECEIVED",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "IN_PREPARATION",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "READY_FOR_DELIVERY",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"IN_PREPARATION\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "15b16b63-c277-4151-bab2-f3aa0e986e49"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout Pedido - POST orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": \"\",\n    \"items\": [\n        {\n            \"productId\": \"03375d42-db6c-4661-963e-8083e22be9f9\",\n            \"quantity\": 30,\n            \"observation\": \"\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/orders",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order que deseja confirmar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"approved\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/payments",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback pagamento - data.id deve ser o id da order para negar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 123456,\n    \"type\": \"payment\",\n    \"status\": \"declined\",\n    \"data\": {\n        \"id\": \"42a72d17-0cdd-48ee-a03b-07502272e217\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/payments",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/users",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users?cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/users?cpf=45828179802",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "cpf",
+									"value": "45828179802"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri-gp14-app}}/users/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ad95fe76-122c-491a-ab92-9ba1682e0053"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Malu\",\n    \"email\" : \"malu@mail.com\",\n    \"phone\": \"1234567890\",\n    \"cpf\": \"90233730060\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/users/:id",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ad95fe76-122c-491a-ab92-9ba1682e0053"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fulano Ciclano\",\n    \"email\": \"fulano@email.com\",\n    \"phone\": \"11987896525\",\n    \"cpf\": \"45828179802\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri-gp14-app}}/users",
+							"host": [
+								"{{uri-gp14-app}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
