@@ -11,19 +11,18 @@
 ### ENTREGA FASE 1
 1. Documentação do sistema (DDD):
    - [Link do Board do Miro com Contextos Delimitados](https://miro.com/app/board/uXjVMLGA6LU=/)
-     - /soat2023-gp14-main/Contextos-Delimitados-Fase -1.pdf
    - WIKI com dicionário e linguagem ubíqua 
-     - /soat2023-gp14-main/WIKI-Fase1-gp14.pdf
 2. Uma aplicação para todo o sistema Backend
-   - Postman Collection 
-     - /soat2023-gp14-main/SOAT2 - GRUPO 14 - FASE 1.postman_collection.json
 
 ### ENTREGA FASE 2
 1. Arquivos de configuração do Kubernetes
-   - /soat2023-gp14/fiap-k8s
 2. Atualizar a aplicação desenvolvida na Fase 1 refatorando o código para seguir os
 padrões Clean Code e Clean Architecture
     - /soat2023-gp14/fiap-application
+
+### ENTREGA FASE 3
+1. Vídeos e documentação disponível no drive
+    - https://drive.google.com/drive/folders/1eCyaAoSrPSkFK8s1atDo6YCKTueJKw0_?usp=sharing
 
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
