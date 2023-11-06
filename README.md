@@ -25,6 +25,10 @@
 padrões Clean Code e Clean Architecture
     - /soat2023-gp14/fiap-application
 
+### ENTREGA FASE 3
+1. Vídeos e documentação disponível no drive
+    - https://drive.google.com/drive/folders/1eCyaAoSrPSkFK8s1atDo6YCKTueJKw0_?usp=sharing
+
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
 
