@@ -33,6 +33,7 @@ export default class OrderUseCase {
 
   public static async createOrder(
     order: Order,
+    oauthToken: string,
     orderGateway: IOrderGateway,
     userGateway: IUserGateway,
     productGateway: IProductGateway,
@@ -41,6 +42,7 @@ export default class OrderUseCase {
     if (order.customer && order.customer.id) {
       const customerDTo = await UserUseCase.getUserById(
         order.customer.id,
+        oauthToken,
         userGateway,
       );
       order.customer = await UserAdapter.toDomain(customerDTo);

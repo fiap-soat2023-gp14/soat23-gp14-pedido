@@ -16,6 +16,7 @@ import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGa
 export class OrderController {
   static async createOrder(
     body: OrderCreationDTO,
+    oauthToken: string,
     dbConnection: IConnection,
   ): Promise<OrderResponseDTO> {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
@@ -25,6 +26,7 @@ export class OrderController {
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
       orderBody,
+      oauthToken,
       orderGateway,
       userGateway,
       productGateway,

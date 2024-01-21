@@ -2,12 +2,14 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   HttpStatus,
   Inject,
   Param,
   Post,
   Put,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { OrderCreationDTO } from 'src/core/application/dto/OrderCreationDTO';
@@ -51,8 +53,16 @@ export default class OrderApi {
   }
 
   @Post()
-  public async createOrder(@Res() response, @Body() body: OrderCreationDTO) {
-    const order = await OrderController.createOrder(body, this.dbConnection);
+  public async createOrder(
+    @Res() response,
+    @Req() req,
+    @Body() body: OrderCreationDTO,
+  ) {
+    const order = await OrderController.createOrder(
+      body,
+      req.headers['authorization'],
+      this.dbConnection,
+    );
     return response.status(HttpStatus.OK).json(order);
   }
 
