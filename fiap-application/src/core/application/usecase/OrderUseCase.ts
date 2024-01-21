@@ -54,6 +54,7 @@ export default class OrderUseCase {
       const orderItem = {
         product: await ProductUseCase.getProductById(
           item.product.id,
+          oauthToken,
           productGateway,
         ),
         observation: item.observation,

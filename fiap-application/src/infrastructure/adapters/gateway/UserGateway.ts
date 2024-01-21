@@ -3,9 +3,9 @@ import axios from 'axios';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 
 export default class UserGateway implements IUserGateway {
-  private userUrl: string;
+  private clusterUrl: string;
   constructor() {
-    this.userUrl = process.env.CLUSTER_URL;
+    this.clusterUrl = process.env.CLUSTER_URL;
   }
 
   public async getById(
@@ -17,7 +17,7 @@ export default class UserGateway implements IUserGateway {
     };
     console.log(' header: ', headers);
     try {
-      const response = await axios.get(this.userUrl + '/users/' + id, {
+      const response = await axios.get(this.clusterUrl + '/users/' + id, {
         headers,
       });
 

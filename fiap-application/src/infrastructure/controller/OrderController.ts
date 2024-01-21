@@ -21,7 +21,7 @@ export class OrderController {
   ): Promise<OrderResponseDTO> {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway();
-    const productGateway: IProductGateway = new ProductGateway(dbConnection);
+    const productGateway: IProductGateway = new ProductGateway();
     const paymentGateway = new MercadoPagoPaymentGateway();
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
