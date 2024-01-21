@@ -2,6 +2,8 @@ import { IUserGateway } from 'src/core/application/repositories/IUserGateway';
 import User from 'src/core/domain/entities/User';
 import UserMapper from './mappers/UserMapper';
 import axios from 'axios';
+import { UserResponseDTO } from 'src/core/application/dto/UserResponseDTO';
+import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 
 export default class UserGateway implements IUserGateway {
   private userUrl: string;
@@ -9,7 +11,7 @@ export default class UserGateway implements IUserGateway {
     this.userUrl = process.env.CLUSTER_URL;
   }
 
-  public async getById(id: string): Promise<User> {
+  public async getById(id: string): Promise<UserCreationDTO> {
     const oauthToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
@@ -26,12 +28,9 @@ export default class UserGateway implements IUserGateway {
     } else {
       console.log(response.status, response.statusText);
     }
-    // const userResponse = await this.dbConnection
-    //   .getCollection(this.COLLECTION_NAME)
-    //   .findOne({ _id: id });
 
-    // if (!userResponse) return Promise.resolve(null);
+    if (!response) return Promise.resolve(null);
 
-    return await UserMapper.toDomain(null);
+    return Promise.resolve(response.data);
   }
 }

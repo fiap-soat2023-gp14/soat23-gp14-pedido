@@ -1,4 +1,5 @@
-import User from '../../domain/entities/User';
+import { UserCreationDTO } from '../dto/UserCreationDTO';
+
 export interface IUserGateway {
-  getById(id: string): Promise<User>;
+  getById(id: string): Promise<UserCreationDTO>;
 }
