@@ -8,7 +8,6 @@ import {
 import ProductAdapter from './ProductAdapter';
 import { UserAdapter } from './UserAdapter';
 import User from '../../domain/entities/User';
-import { OrderStatusUpdateDTO } from '../dto/OrderStatusUpdateDTO';
 
 export default class OrderAdapter {
   static async toDomain(orderCreationDTO: OrderCreationDTO): Promise<Order> {
@@ -31,7 +30,6 @@ export default class OrderAdapter {
   }
 
   static toDTO(order: Order): OrderResponseDTO {
-    console.log(order);
     return {
       id: order.id,
       customer: order.customer
@@ -54,7 +52,7 @@ export default class OrderAdapter {
     };
   }
 
-  private static itemsToDTO(items: OrderItem[]): OrderItemResponseDTO[] {
+  static itemsToDTO(items: OrderItem[]): OrderItemResponseDTO[] {
     return items.map((item) => this.itemToDTO(item));
   }
 

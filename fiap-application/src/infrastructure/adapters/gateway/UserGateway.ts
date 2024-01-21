@@ -1,66 +1,37 @@
 import { IUserGateway } from 'src/core/application/repositories/IUserGateway';
 import User from 'src/core/domain/entities/User';
-import UserFilter from 'src/core/domain/entities/UserFilter';
-import { UserEntity } from './entity/UserEntity';
 import UserMapper from './mappers/UserMapper';
-import { IConnection } from '../external/IConnection';
+import axios from 'axios';
 
 export default class UserGateway implements IUserGateway {
-  private COLLECTION_NAME = 'Users';
-  private dbConnection: IConnection;
-  constructor(dataBase: IConnection) {
-    this.dbConnection = dataBase;
-  }
-
-  public async create(user: User): Promise<User> {
-    const userEntity = UserMapper.toEntity(user);
-    try {
-      await this.dbConnection
-        .getCollection(this.COLLECTION_NAME)
-        .insertOne(userEntity);
-      console.log('User created successfully.');
-      return UserMapper.toDomain(userEntity);
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
-  }
-
-  public async getAll(params: UserFilter): Promise<User[]> {
-    const filter = params ? params : {};
-    const users: UserEntity[] = await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .find(filter)
-      .toArray();
-
-    return await UserMapper.toDomainList(users);
+  private userUrl: string;
+  constructor() {
+    this.userUrl = process.env.CLUSTER_URL;
   }
 
   public async getById(id: string): Promise<User> {
-    const userResponse = await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .findOne({ _id: id });
+    const oauthToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
-    if (!userResponse) return Promise.resolve(null);
+    const headers = {
+      Authorization: 'Bearer ' + oauthToken,
+    };
 
-    return await UserMapper.toDomain(userResponse);
-  }
+    const response = await axios.get(this.userUrl + '/users/' + id, {
+      headers,
+    });
 
-  public async update(id: string, user: User): Promise<User> {
-    try {
-      const userEntity = UserMapper.toEntity(user);
-      delete userEntity._id;
-      const updateUser = {
-        $set: { ...userEntity },
-      };
-      await this.dbConnection
-        .getCollection(this.COLLECTION_NAME)
-        .updateOne({ _id: id }, updateUser);
-
-      return UserMapper.toDomain(userEntity);
-    } catch (error) {
-      console.error('Error updating user:', error);
-      throw error;
+    if (response.status === 200) {
+      console.log(response.data);
+    } else {
+      console.log(response.status, response.statusText);
     }
+    // const userResponse = await this.dbConnection
+    //   .getCollection(this.COLLECTION_NAME)
+    //   .findOne({ _id: id });
+
+    // if (!userResponse) return Promise.resolve(null);
+
+    return await UserMapper.toDomain(null);
   }
 }
