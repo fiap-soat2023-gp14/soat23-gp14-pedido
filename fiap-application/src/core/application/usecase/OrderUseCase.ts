@@ -9,6 +9,7 @@ import { IProductGateway } from '../repositories/IProductGateway';
 import { Money } from '../../domain/valueObjects/Money';
 import { IPaymentGateway } from '../external/IPaymentGateway';
 import {PaymentUseCase} from "./PaymentUseCase";
+import { UserAdapter } from '../adapter/UserAdapter';
 
 export default class OrderUseCase {
   public static async getOrderById(
@@ -32,16 +33,19 @@ export default class OrderUseCase {
 
   public static async createOrder(
     order: Order,
+    oauthToken: string,
     orderGateway: IOrderGateway,
     userGateway: IUserGateway,
     productGateway: IProductGateway,
     paymentGateway: IPaymentGateway,
   ): Promise<Order> {
     if (order.customer && order.customer.id) {
-      order.customer = await UserUseCase.getUserById(
+      const customerDTo = await UserUseCase.getUserById(
         order.customer.id,
+        oauthToken,
         userGateway,
       );
+      order.customer = await UserAdapter.toDomain(customerDTo);
     }
 
     let total = 0;
@@ -50,6 +54,7 @@ export default class OrderUseCase {
       const orderItem = {
         product: await ProductUseCase.getProductById(
           item.product.id,
+          oauthToken,
           productGateway,
         ),
         observation: item.observation,

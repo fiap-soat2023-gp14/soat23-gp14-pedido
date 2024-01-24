@@ -16,15 +16,17 @@ import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGa
 export class OrderController {
   static async createOrder(
     body: OrderCreationDTO,
+    oauthToken: string,
     dbConnection: IConnection,
   ): Promise<OrderResponseDTO> {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
-    const userGateway: IUserGateway = new UserGateway(dbConnection);
-    const productGateway: IProductGateway = new ProductGateway(dbConnection);
+    const userGateway: IUserGateway = new UserGateway();
+    const productGateway: IProductGateway = new ProductGateway();
     const paymentGateway = new MercadoPagoPaymentGateway();
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
       orderBody,
+      oauthToken,
       orderGateway,
       userGateway,
       productGateway,
