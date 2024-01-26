@@ -1,7 +1,4 @@
 import { IUserGateway } from 'src/core/application/repositories/IUserGateway';
-import { UserFilterDTO } from '../dto/UserFilterDTO';
-import User from '../../domain/entities/User';
-import { ConflictException } from '@nestjs/common';
 import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
 
 export default class UserUseCase {

@@ -15,13 +15,11 @@ export default class UserGateway implements IUserGateway {
     const headers = {
       Authorization: oauthToken,
     };
-    console.log(' header: ', headers);
     try {
       const response = await axios.get(this.clusterUrl + '/users/' + id, {
         headers,
       });
 
-      console.log('Status code:', response.status);
       if (response.status != 200) {
         return Promise.resolve(null);
       } else {
