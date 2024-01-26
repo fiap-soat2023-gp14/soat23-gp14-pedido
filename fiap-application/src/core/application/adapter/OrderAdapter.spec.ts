@@ -1,6 +1,5 @@
 import OrderAdapter from 'src/core/application/adapter/OrderAdapter';
-import { OrderCreationDTO } from 'src/core/application/dto/OrderCreationDTO';
-import { Order, OrderItem } from 'src/core/domain/entities/Order';
+import { OrderItem } from 'src/core/domain/entities/Order';
 import User from 'src/core/domain/entities/User';
 import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { ProductCategory } from 'src/core/domain/enums/ProductCategory';
