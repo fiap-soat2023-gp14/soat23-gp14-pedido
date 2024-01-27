@@ -3,7 +3,7 @@ import { IProductGateway } from '../../../core/application/repositories/IProduct
 import axios from 'axios';
 
 export default class ProductGateway implements IProductGateway {
-  private clusterUrl: string;
+  clusterUrl: string;
   constructor() {
     this.clusterUrl = process.env.CLUSTER_URL;
   }
