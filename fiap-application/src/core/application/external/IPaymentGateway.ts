@@ -1,5 +1,9 @@
 import { Order } from '../../domain/entities/Order';
+import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
 
 export interface IPaymentGateway {
-  createPayment(order: Order): Promise<void>;
+  receivePaymentFeedback(
+    paymentFeedbackDTO: PaymentFeedbackDTO,
+    oauthToken: string,
+  ): Promise<void>;
 }
