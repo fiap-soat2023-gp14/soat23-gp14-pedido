@@ -15,7 +15,7 @@ import PaymentGateway from '../adapters/gateway/PaymentGateway';
 import { PaymentMapper } from '../adapters/gateway/mappers/PaymentMapper';
 
 export class OrderController {
-  static async createOrder(
+  public async createOrder(
     body: OrderCreationDTO,
     oauthToken: string,
     dbConnection: IConnection,
@@ -40,7 +40,7 @@ export class OrderController {
     return OrderAdapter.toDTO(order);
   }
 
-  static async getAllOrders(
+  public async getAllOrders(
     params: any,
     dbConnection: IConnection,
   ): Promise<Array<OrderResponseDTO>> {
@@ -50,7 +50,7 @@ export class OrderController {
     return OrderAdapter.toDTOList(orders);
   }
 
-  static async getSortedOrders(
+  public async getSortedOrders(
     params: any,
     dbConnection: IConnection,
   ): Promise<Array<OrderResponseDTO>> {
@@ -60,7 +60,7 @@ export class OrderController {
     return OrderAdapter.toDTOList(orders);
   }
 
-  static async getOrderById(
+  public async getOrderById(
     id: string,
     dbConnection: IConnection,
   ): Promise<OrderResponseDTO> {
@@ -70,7 +70,7 @@ export class OrderController {
     return OrderAdapter.toDTO(order);
   }
 
-  static async updateOrder(
+  public async updateOrder(
     id: string,
     status: OrderStatus,
     dbConnection: IConnection,
