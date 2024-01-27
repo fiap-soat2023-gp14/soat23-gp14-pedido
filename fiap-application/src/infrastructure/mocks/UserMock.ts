@@ -32,8 +32,8 @@ export class UserMock {
       email: 'test@example.com',
       cpf: '123456789',
       phone: '1234567890',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date('2024-01-26T17:41:00Z'),
+      updatedAt: new Date('2024-01-26T17:41:00Z'),
     };
   }
 
@@ -45,8 +45,8 @@ export class UserMock {
         email: 'test1@example.com',
         cpf: '123456789',
         phone: '1234567890',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date('2024-01-23T17:41:00Z'),
+        updatedAt: new Date('2024-01-25T17:41:00Z'),
       },
       {
         _id: '456',
@@ -54,8 +54,8 @@ export class UserMock {
         email: 'test2@example.com',
         cpf: '987654321',
         phone: '0987654321',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date('2024-01-26T17:41:00Z'),
+        updatedAt: new Date('2024-01-26T17:41:00Z'),
       },
     ];
   }
@@ -67,8 +67,8 @@ export class UserMock {
       email: 'fulanob@gmail.com',
       cpf: '59370565078',
       phone: '11987896525',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date('2024-01-26T17:41:00Z'),
+      updatedAt: new Date('2024-01-26T17:41:00Z'),
     };
   }
 
@@ -77,7 +77,7 @@ export class UserMock {
       name: 'Fulano Beltrano',
       email: 'fulanob2@gmail.com',
       phone: '11987896525',
-      updatedAt: new Date(),
+      updatedAt: new Date('2024-01-26T17:41:00Z'),
     };
   }
   public static async getUserList(): Promise<User[]> {

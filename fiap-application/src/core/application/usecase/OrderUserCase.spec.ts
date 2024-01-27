@@ -34,7 +34,6 @@ describe('OrderUseCase', () => {
       const orderGateway = new OrderGateway(mongoConnection);
       const userGateway = new UserGateway();
       const productGateway = new ProductGateway();
-      const paymentGateway = new PaymentGateway();
       const price = await Money.create(100);
       const cpf = await CPF.create('12345678910');
       // Mock all dependencies
