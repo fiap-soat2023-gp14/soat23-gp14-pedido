@@ -44,6 +44,79 @@ export class OrderMock {
     return orderMock;
   }
 
+  public static async getOrderList(): Promise<Order[]> {
+    const orderMock: Order[] = [
+      {
+        id: '1',
+        customer: {
+          id: '42',
+          email: 'test@test.com',
+          name: 'test untario',
+          cpf: await CPF.create('12345678910'),
+          phone: '123456789',
+          createdAt: new Date('2024-01-26T17:41:00Z'),
+        },
+        createdAt: new Date('2024-01-26T17:41:00Z'),
+        deliveredAt: new Date('2024-01-26T17:41:00Z'),
+        extraItems: undefined,
+        items: [
+          {
+            product: {
+              id: '3',
+              name: 'test product',
+              description: 'only unit test',
+              imageUrl: 'http://imagetest.com.png',
+              price: await Money.create(100),
+              category: ProductCategory.SANDWICH,
+              createdAt: new Date('2024-01-26T17:41:00Z'),
+            },
+            observation: undefined,
+            quantity: 1,
+          },
+        ],
+        status: OrderStatus.RECEIVED,
+        total: await Money.create(100),
+      },
+    ];
+    return orderMock;
+  }
+
+  public static async getExpectedOrderList(): Promise<OrderResponseDTO[]> {
+    const orderMock: OrderResponseDTO[] = [
+      {
+        id: '1',
+        customer: {
+          id: '42',
+          email: 'test@test.com',
+          name: 'test untario',
+          cpf: '12345678910',
+          phone: '123456789',
+        },
+        createdAt: new Date('2024-01-26T17:41:00Z'),
+        deliveredAt: new Date('2024-01-26T17:41:00Z'),
+        extraItems: undefined,
+        items: [
+          {
+            product: {
+              id: '3',
+              name: 'test product',
+              description: 'only unit test',
+              imageUrl: 'http://imagetest.com.png',
+              price: 100,
+              category: ProductCategory.SANDWICH,
+              createdAt: new Date('2024-01-26T17:41:00Z'),
+            },
+            observation: undefined,
+            quantity: 1,
+          },
+        ],
+        status: OrderStatus.RECEIVED,
+        total: 100,
+      },
+    ];
+    return orderMock;
+  }
+
   public static getOrderEntity(): OrderEntity {
     return {
       _id: '1',
@@ -131,6 +204,4 @@ export class OrderMock {
       extraItems: 'Extra item details',
     };
   }
-
-
 }
