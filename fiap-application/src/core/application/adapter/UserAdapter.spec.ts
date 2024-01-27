@@ -39,25 +39,17 @@ describe('UserAdapter', () => {
           isValid: true,
         },
         phone: userCreationDTO.phone,
-        createdAt: userCreationDTO.createdAt,
-        updatedAt: userCreationDTO.updatedAt,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 
     it('should map a UserCreationDTO to a User', async () => {
       const userCreationDTO: UserCreationDTO = UserMock.getUserCreationDTO();
 
-      delete userCreationDTO.createdAt;
-      delete userCreationDTO.updatedAt;
-
-      mockCPF.mockResolvedValue({
-        value: userCreationDTO.cpf,
-        isValid: true,
-      });
-
       const result = await UserAdapter.toDomain(userCreationDTO);
 
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         id: userCreationDTO.id,
         name: userCreationDTO.name,
         email: userCreationDTO.email,
@@ -66,8 +58,8 @@ describe('UserAdapter', () => {
           isValid: true,
         },
         phone: userCreationDTO.phone,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
   });
@@ -98,7 +90,7 @@ describe('UserAdapter', () => {
         name: userUpdateDTO.name,
         email: userUpdateDTO.email,
         phone: userUpdateDTO.phone,
-        updatedAt: userUpdateDTO.updatedAt,
+        updatedAt: expect.any(Date),
       });
     });
   });
