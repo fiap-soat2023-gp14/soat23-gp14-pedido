@@ -7,11 +7,10 @@ export class PaymentMetadataDTO {
 }
 
 export class PaymentFeedbackDTO {
-  id: number;
+  id: string;
   @IsString()
   @IsNotEmpty()
   type: string;
-  dateCreated: Date;
   @IsString()
   @IsNotEmpty()
   status: string;

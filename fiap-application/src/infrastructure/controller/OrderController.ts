@@ -11,7 +11,8 @@ import ProductGateway from '../adapters/gateway/ProductGateway';
 import { IOrderGateway } from '../../core/application/repositories/IOrderGateway';
 import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
-import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
+import PaymentGateway from '../adapters/gateway/PaymentGateway';
+import { PaymentMapper } from '../adapters/gateway/mappers/PaymentMapper';
 
 export class OrderController {
   static async createOrder(
@@ -22,7 +23,7 @@ export class OrderController {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway();
     const productGateway: IProductGateway = new ProductGateway();
-    const paymentGateway = new MercadoPagoPaymentGateway();
+    const paymentGateway: PaymentGateway = new PaymentGateway();
     const orderBody = await OrderAdapter.toDomain(body);
     const order = await OrderUseCase.createOrder(
       orderBody,
@@ -30,9 +31,12 @@ export class OrderController {
       orderGateway,
       userGateway,
       productGateway,
+    );
+    await PaymentController.receivePaymentFeedback(
+      PaymentMapper.toPaymnent(order),
+      oauthToken,
       paymentGateway,
     );
-    await PaymentController.createPayment(order);
     return OrderAdapter.toDTO(order);
   }
 

@@ -36,8 +36,7 @@ export default class OrderUseCase {
     oauthToken: string,
     orderGateway: IOrderGateway,
     userGateway: IUserGateway,
-    productGateway: IProductGateway,
-    paymentGateway: IPaymentGateway,
+    productGateway: IProductGateway
   ): Promise<Order> {
     if (order.customer && order.customer.id) {
       const customerDTo = await UserUseCase.getUserById(
@@ -67,7 +66,6 @@ export default class OrderUseCase {
     order.total = await Money.create(total);
     await order.total.validate();
     const createdOrder = await orderGateway.create(order);
-    await PaymentUseCase.createPayment(order, paymentGateway);
     return createdOrder;
   }
 
