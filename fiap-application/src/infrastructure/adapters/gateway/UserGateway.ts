@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 
 export default class UserGateway implements IUserGateway {
-  private clusterUrl: string;
+  clusterUrl: string;
   constructor() {
     this.clusterUrl = process.env.CLUSTER_URL;
   }
