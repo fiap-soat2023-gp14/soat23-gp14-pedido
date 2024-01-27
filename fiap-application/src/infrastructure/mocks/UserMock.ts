@@ -7,6 +7,9 @@ import { OrderEntity } from '../adapters/gateway/entity/OrderEntity';
 import { OrderEntityStatus } from '../adapters/gateway/enums/OrderEntityStatus';
 import User from '../../core/domain/entities/User';
 import { UserEntity } from '../adapters/gateway/entity/UserEntity';
+import { UserCreationDTO } from '../../core/application/dto/UserCreationDTO';
+import { UserUpdateDTO } from '../../core/application/dto/UserUpdateDTO';
+import { UserResponseDTO } from '../../core/application/dto/UserResponseDTO';
 
 export class UserMock {
   public static async getUser(): Promise<User> {
@@ -55,5 +58,40 @@ export class UserMock {
         updatedAt: new Date(),
       },
     ];
+  }
+
+  public static getUserCreationDTO(): UserCreationDTO {
+    return {
+      id: 'dbad9ae5-92d0-493f-bbbb-10895f3c15e9',
+      name: 'Fulano Beltrano',
+      email: 'fulanob@gmail.com',
+      cpf: '59370565078',
+      phone: '11987896525',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+
+  public static getUserUpdateDTO(): UserUpdateDTO {
+    return {
+      name: 'Fulano Beltrano',
+      email: 'fulanob2@gmail.com',
+      phone: '11987896525',
+      updatedAt: new Date(),
+    };
+  }
+  public static async getUserList(): Promise<User[]> {
+    const userMock: User[] = [
+      {
+        id: '42',
+        email: 'test@test.com',
+        name: 'test untario',
+        cpf: await CPF.create('123456789'),
+        phone: '123456789',
+        createdAt: new Date('2024-01-26T17:41:00Z'),
+        updatedAt: new Date('2024-01-26T17:41:00Z'),
+      },
+    ];
+    return userMock;
   }
 }

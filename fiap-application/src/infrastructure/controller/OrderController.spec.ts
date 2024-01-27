@@ -7,6 +7,7 @@ import { ProductCategory } from '../../core/domain/enums/ProductCategory';
 import { CPF } from '../../core/domain/valueObjects/Cpf';
 import { Order } from '../../core/domain/entities/Order';
 import { OrderResponseDTO } from '../../core/application/dto/OrderResponseDTO';
+import { OrderMock } from '../mocks/OrderMock';
 
 describe('OrderController', () => {
   let orderController: OrderController;
@@ -20,89 +21,12 @@ describe('OrderController', () => {
   describe('createOrder', () => {
     it('should create an order and return the order response', async () => {
       // Mock dependencies and input parameters
-      const body = {
-        customerId: '123abc',
-        items: [
-          {
-            productId: 'prod456',
-            quantity: 2,
-            observation: 'This is a test observation',
-          },
-          {
-            productId: 'prod789',
-            quantity: 1,
-            observation: 'Another test observation',
-          },
-        ],
-        extraItems: 'Extra item details',
-      };
+      const body = OrderMock.getOrderBody();
       const oauthToken = 'mockToken';
 
-      const price = await Money.create(100);
-      const cpf = await CPF.create('12345678910');
-      const orderMockResolver = {
-        id: '1',
-        customer: {
-          id: '42',
-          email: 'test@test.com',
-          name: 'test untario',
-          cpf: cpf,
-          phone: '123456789',
-          createdAt: new Date('2024-01-26T17:41:00Z'),
-          updatedAt: new Date('2024-01-26T17:41:00Z'),
-        },
-        createdAt: new Date('2024-01-26T17:41:00Z'),
-        deliveredAt: new Date('2024-01-26T17:41:00Z'),
-        extraItems: undefined,
-        items: [
-          {
-            product: {
-              id: '3',
-              name: 'test product',
-              description: 'only unit test',
-              imageUrl: 'http://imagetest.com.png',
-              price: price,
-              category: ProductCategory.SANDWICH,
-              createdAt: new Date('2024-01-26T17:41:00Z'),
-            },
-            observation: undefined,
-            quantity: 1,
-          },
-        ],
-        status: OrderStatus.RECEIVED,
-        total: price,
-      };
+      const orderMockResolver = await OrderMock.getOrder();
 
-      const expectedOrderResponse = {
-        id: '1',
-        customer: {
-          id: '42',
-          email: 'test@test.com',
-          name: 'test untario',
-          cpf: '12345678910',
-          phone: '123456789',
-        },
-        createdAt: new Date('2024-01-26T17:41:00Z'),
-        deliveredAt: new Date('2024-01-26T17:41:00Z'),
-        extraItems: undefined,
-        items: [
-          {
-            product: {
-              id: '3',
-              name: 'test product',
-              description: 'only unit test',
-              imageUrl: 'http://imagetest.com.png',
-              price: 100,
-              category: ProductCategory.SANDWICH,
-              createdAt: new Date('2024-01-26T17:41:00Z'),
-            },
-            observation: undefined,
-            quantity: 1,
-          },
-        ],
-        status: OrderStatus.RECEIVED,
-        total: 100,
-      };
+      const expectedOrderResponse = OrderMock.getOrderDTO();
       jest
         .spyOn(OrderUseCase, 'createOrder')
         .mockResolvedValueOnce(orderMockResolver);
@@ -123,75 +47,13 @@ describe('OrderController', () => {
     it('should update an order and return the order response', async () => {
       // Mock dependencies and input parameters
       const body = {
-        id: 'ord-1',
         status: OrderStatus.FINISHED,
       };
 
       const price = await Money.create(100);
       const cpf = await CPF.create('12345678910');
-      const orderMockResolver = {
-        id: '1',
-        customer: {
-          id: '42',
-          email: 'test@test.com',
-          name: 'test untario',
-          cpf: cpf,
-          phone: '123456789',
-          createdAt: new Date('2024-01-26T17:41:00Z'),
-          updatedAt: new Date('2024-01-26T17:41:00Z'),
-        },
-        createdAt: new Date('2024-01-26T17:41:00Z'),
-        deliveredAt: new Date('2024-01-26T17:41:00Z'),
-        extraItems: undefined,
-        items: [
-          {
-            product: {
-              id: '3',
-              name: 'test product',
-              description: 'only unit test',
-              imageUrl: 'http://imagetest.com.png',
-              price: price,
-              category: ProductCategory.SANDWICH,
-              createdAt: new Date('2024-01-26T17:41:00Z'),
-            },
-            observation: undefined,
-            quantity: 1,
-          },
-        ],
-        status: OrderStatus.RECEIVED,
-        total: price,
-      };
-
-      const expectedOrderResponse = {
-        id: '1',
-        customer: {
-          id: '42',
-          email: 'test@test.com',
-          name: 'test untario',
-          cpf: '12345678910',
-          phone: '123456789',
-        },
-        createdAt: new Date('2024-01-26T17:41:00Z'),
-        deliveredAt: new Date('2024-01-26T17:41:00Z'),
-        extraItems: undefined,
-        items: [
-          {
-            product: {
-              id: '3',
-              name: 'test product',
-              description: 'only unit test',
-              imageUrl: 'http://imagetest.com.png',
-              price: 100,
-              category: ProductCategory.SANDWICH,
-              createdAt: new Date('2024-01-26T17:41:00Z'),
-            },
-            observation: undefined,
-            quantity: 1,
-          },
-        ],
-        status: OrderStatus.RECEIVED,
-        total: 100,
-      };
+      const orderMockResolver = OrderMock.getOrder();
+      const expectedOrderResponse = OrderMock.getOrderDTO();
       jest
         .spyOn(OrderUseCase, 'updateOrder')
         .mockResolvedValueOnce(orderMockResolver);

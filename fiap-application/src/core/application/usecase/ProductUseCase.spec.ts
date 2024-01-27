@@ -1,7 +1,7 @@
 import ProductUseCase from './ProductUseCase';
 import { HttpNotFoundException } from '../../../infrastructure/exceptions/HttpNotFoundException';
 import ProductGateway from '../../../infrastructure/adapters/gateway/ProductGateway';
-import { ProductCategory } from '../../domain/enums/ProductCategory';
+import { ProductMock } from '../../../infrastructure/mocks/ProductMock';
 
 jest.mock('../../../infrastructure/adapters/gateway/ProductGateway');
 
@@ -10,24 +10,12 @@ describe('ProductUseCase', () => {
     it('should return the product domain object for a valid product', async () => {
       const productId = '123';
       const oauthToken = 'valid-token';
-      const mockProduct = {
-        id: '1',
-        name: 'Test Product',
-        description: 'A great product',
-        price: 123.45,
-        category: ProductCategory.SANDWICH,
-        imageUrl: 'https://example.com/product.jpg',
-        createdAt: new Date(),
-      };
+      const mockProduct = ProductMock.getProduct();
       const producGateway = new ProductGateway();
       // Mock the gateway response
       (producGateway.getById as jest.Mock).mockResolvedValueOnce(mockProduct);
 
-      const product = await ProductUseCase.getProductById(
-        productId,
-        oauthToken,
-        producGateway,
-      );
+      await ProductUseCase.getProductById(productId, oauthToken, producGateway);
       expect(producGateway.getById).toHaveBeenCalledWith(productId, oauthToken);
     });
 
@@ -44,10 +32,7 @@ describe('ProductUseCase', () => {
         new HttpNotFoundException(`Product with id ${productId} not found`),
       );
 
-      expect(producGateway.getById).toHaveBeenCalledWith(
-        productId,
-        oauthToken,
-      );
+      expect(producGateway.getById).toHaveBeenCalledWith(productId, oauthToken);
     });
 
     it('should throw an error if the gateway throws an error', async () => {

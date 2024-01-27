@@ -10,7 +10,7 @@ import { OrderStatus } from '../../domain/enums/OrderStatus';
 import { CPF } from '../../domain/valueObjects/Cpf';
 import UserGateway from '../../../infrastructure/adapters/gateway/UserGateway';
 import ProductGateway from '../../../infrastructure/adapters/gateway/ProductGateway';
-import MercadoPagoPaymentGateway from '../../../infrastructure/adapters/external/MercadoPagoPaymentGateway';
+import PaymentGateway from '../../../infrastructure/adapters/gateway/PaymentGateway';
 
 jest.mock('../../../infrastructure/adapters/gateway/OrderGateway');
 jest.mock('./UserUseCase');
@@ -34,7 +34,7 @@ describe('OrderUseCase', () => {
       const orderGateway = new OrderGateway(mongoConnection);
       const userGateway = new UserGateway();
       const productGateway = new ProductGateway();
-      const paymentGateway = new MercadoPagoPaymentGateway();
+      const paymentGateway = new PaymentGateway();
       const price = await Money.create(100);
       const cpf = await CPF.create('12345678910');
       // Mock all dependencies
@@ -88,7 +88,7 @@ describe('OrderUseCase', () => {
       });
 
       // (Money.create as jest.Mock).mockResolvedValueOnce({});
-      (PaymentUseCase.createPayment as jest.Mock).mockResolvedValueOnce({});
+      (PaymentUseCase.processPayment as jest.Mock).mockResolvedValueOnce({});
 
       const createdOrder = await OrderUseCase.createOrder(
         order,
@@ -96,7 +96,6 @@ describe('OrderUseCase', () => {
         orderGateway,
         userGateway,
         productGateway,
-        paymentGateway,
       );
 
       expect(orderGateway.create).toBeCalledTimes(1);
