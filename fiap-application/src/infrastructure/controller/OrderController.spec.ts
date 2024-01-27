@@ -6,6 +6,7 @@ import { Order } from '../../core/domain/entities/Order';
 import { OrderResponseDTO } from '../../core/application/dto/OrderResponseDTO';
 import { OrderMock } from '../mocks/OrderMock';
 
+jest.mock('.../../../infrastructure/adapters/gateway/PaymentGateway');
 describe('OrderController', () => {
   let orderController: OrderController;
   let orderConnectionMock: IConnection;
@@ -29,6 +30,7 @@ describe('OrderController', () => {
         .mockResolvedValueOnce(orderMockResolver);
 
       // Call the method under test
+      console.log('orderController', orderController);
       const result = await orderController.createOrder(
         body,
         oauthToken,

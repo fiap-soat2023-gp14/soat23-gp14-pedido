@@ -17,6 +17,7 @@ jest.mock('./UserUseCase');
 jest.mock('./ProductUseCase');
 jest.mock('./PaymentUseCase');
 jest.mock('../../../infrastructure/adapters/external/MongoConnection');
+jest.mock('.../../../infrastructure/adapters/gateway/PaymentGateway');
 
 describe('OrderUseCase', () => {
   describe('getOrderById', () => {
