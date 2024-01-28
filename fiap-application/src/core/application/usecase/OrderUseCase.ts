@@ -7,8 +7,6 @@ import { IUserGateway } from '../repositories/IUserGateway';
 import ProductUseCase from './ProductUseCase';
 import { IProductGateway } from '../repositories/IProductGateway';
 import { Money } from '../../domain/valueObjects/Money';
-import { IPaymentGateway } from '../repositories/IPaymentGateway';
-import {PaymentUseCase} from "./PaymentUseCase";
 import { UserAdapter } from '../adapter/UserAdapter';
 
 export default class OrderUseCase {
