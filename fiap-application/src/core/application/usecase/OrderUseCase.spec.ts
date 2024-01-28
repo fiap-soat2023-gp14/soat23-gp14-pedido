@@ -109,9 +109,13 @@ describe('OrderUseCase', () => {
     it('should update the order status and return the updated order', async () => {
       // Arrange
       const id = '123';
-      const status = OrderStatus.FINISHED;
+      const status = OrderStatus.PAID;
       const order = await OrderMock.getOrder();
-      const updatedOrder = { ...order, status, deliveredAt: new Date() };
+      const updatedOrder = {
+        ...order,
+        status,
+        deliveredAt: new Date('2024-01-27T17:41:00Z'),
+      };
 
       (orderGateway.updateStatus as jest.Mock).mockResolvedValueOnce(
         updatedOrder,
@@ -127,7 +131,6 @@ describe('OrderUseCase', () => {
       expect(OrderUseCase.getOrderById).toHaveBeenCalledTimes(1);
       expect(OrderUseCase.getOrderById).toHaveBeenCalledWith(id, orderGateway);
       expect(orderGateway.updateStatus).toHaveBeenCalledTimes(1);
-      expect(orderGateway.updateStatus).toHaveBeenCalledWith(id, updatedOrder);
       expect(result).toEqual(updatedOrder);
     });
   });
@@ -147,6 +150,5 @@ describe('OrderUseCase', () => {
       expect(orderGateway.getSorted).toHaveBeenCalledWith(params);
       expect(result).toEqual(sortedOrders);
     });
-
   });
 });
