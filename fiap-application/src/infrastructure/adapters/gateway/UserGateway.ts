@@ -22,8 +22,6 @@ export default class UserGateway implements IUserGateway {
 
       if (response.status != 200) {
         return Promise.resolve(null);
-      } else {
-        console.log(response.data);
       }
 
       if (!response) return Promise.resolve(null);
