@@ -25,9 +25,6 @@ describe('OrderUseCase', () => {
   const orderGateway = new OrderGateway(mongoConnection);
   const userGateway = new UserGateway();
   const productGateway = new ProductGateway();
-  describe('getOrderById', () => {
-    // ... tests for getOrderById (similar to previous examples)
-  });
 
   describe('createOrder', () => {
     it('should create an order with all dependencies resolved', async () => {
@@ -57,14 +54,6 @@ describe('OrderUseCase', () => {
     });
 
     // ... tests for other scenarios, including errors
-  });
-
-  describe('updateOrder', () => {
-    // ... tests for updateOrder (similar to previous examples)
-  });
-
-  describe('getSortedOrders', () => {
-    // ... tests for getSortedOrders (similar to previous examples)
   });
 
   describe('getAllOrders', () => {
@@ -159,6 +148,5 @@ describe('OrderUseCase', () => {
       expect(result).toEqual(sortedOrders);
     });
 
-    // ... Add more test cases for different scenarios
   });
 });
