@@ -1,4 +1,4 @@
-import { IPaymentGateway } from '../external/IPaymentGateway';
+import { IPaymentGateway } from '../repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
 
 export class PaymentUseCase {

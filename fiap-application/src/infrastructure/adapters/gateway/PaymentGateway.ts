@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { IPaymentGateway } from '../../../core/application/external/IPaymentGateway';
+import { IPaymentGateway } from '../../../core/application/repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
 
 export default class PaymentGateway implements IPaymentGateway {
-  private clusterUrl: string;
+  clusterUrl: string;
   constructor() {
     this.clusterUrl = process.env.CLUSTER_URL;
   }
