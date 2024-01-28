@@ -38,7 +38,7 @@ export class ProductMock {
         price: 9.99,
         category: ProductCategory.SANDWICH,
         imageUrl: 'https://example.com/product1.jpg',
-        createdAt: new Date(),
+        createdAt: this.fixedDate,
       },
       {
         _id: '456',
@@ -47,7 +47,7 @@ export class ProductMock {
         price: 19.99,
         category: ProductCategory.GARNISH,
         imageUrl: 'https://example.com/product2.jpg',
-        createdAt: new Date(),
+        createdAt: this.fixedDate,
       },
     ];
   }
@@ -61,7 +61,7 @@ export class ProductMock {
         price: await Money.create(9.99),
         category: ProductCategory.SANDWICH,
         imageUrl: 'https://example.com/product1.jpg',
-        createdAt: new Date(),
+        createdAt: this.fixedDate,
       },
       {
         id: '456',
@@ -70,7 +70,7 @@ export class ProductMock {
         price: await Money.create(19.99),
         category: ProductCategory.GARNISH,
         imageUrl: 'https://example.com/product2.jpg',
-        createdAt: new Date(),
+        createdAt: this.fixedDate,
       },
     ];
     return productMock;
