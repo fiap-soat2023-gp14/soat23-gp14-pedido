@@ -4,17 +4,17 @@ import Product from '../../core/domain/entities/Product';
 import { ProductEntity } from '../adapters/gateway/entity/ProductEntity';
 
 export class ProductMock {
+  private static fixedDate = new Date('2024-01-26T17:41:00Z');
   public static async getProduct(): Promise<Product> {
-    const productMock: Product = {
+    return {
       id: '3',
       name: 'test product',
       description: 'only unit test',
       imageUrl: 'http://imagetest.com.png',
       price: await Money.create(100),
       category: ProductCategory.SANDWICH,
-      createdAt: new Date('2024-01-26T17:41:00Z'),
+      createdAt: this.fixedDate,
     };
-    return productMock;
   }
 
   public static getProductEntity(): ProductEntity {
@@ -25,7 +25,7 @@ export class ProductMock {
       imageUrl: 'http://imagetest.com.png',
       price: 100,
       category: ProductCategory.SANDWICH,
-      createdAt: new Date('2024-01-26T17:41:00Z'),
+      createdAt: this.fixedDate,
     };
   }
 
