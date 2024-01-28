@@ -1,5 +1,5 @@
-name: Deploy to production
- 
+name: Build and Deploy
+
 on:
   push:
     branches:
@@ -8,9 +8,10 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: ecr-fiap-project
+  ECR_REPOSITORY: ecr-fiap-checkout
 
 jobs:
+
   create-docker-image:
     name: Build and push the Docker image to ECR
     runs-on: ubuntu-latest
@@ -35,10 +36,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f fiap-application/Dockerfile .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
- 
+
   deploy:
     name: Build and deploy the new Docker image to ECS
     runs-on: ubuntu-latest
@@ -53,4 +54,4 @@ jobs:
 
       - name: Update ECS service
         run: |
-          aws ecs update-service --cluster ecs-cluster-fiap-project --service ecs-service-fiap-project --task-definition ecs-td-fiap-project --force-new-deployment
+          aws ecs update-service --cluster ecs-cluster-checkout --service ecs-service-checkout --task-definition ecs-td-fiap-checkout --force-new-deployment
