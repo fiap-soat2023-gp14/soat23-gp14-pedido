@@ -4,11 +4,16 @@ import { IConnection } from './IConnection';
 
 @Injectable()
 export class MongoConnection implements IConnection {
-  private client: any;
+  client: any;
   constructor() {
-    this.client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, {
-      tlsCAFile: 'global-bundle.pem',
-    });
+    this.client = new MongoClient(
+      process.env.MONGODB_CONNECTION_STRING
+        ? process.env.MONGODB_CONNECTION_STRING
+        : 'mongodb://localhost:27017/fiap',
+      {
+        tlsCAFile: 'global-bundle.pem',
+      },
+    );
   }
   async connect() {
     try {

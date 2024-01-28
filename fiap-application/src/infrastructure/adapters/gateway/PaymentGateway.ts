@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { IPaymentGateway } from '../../../core/application/external/IPaymentGateway';
+import { IPaymentGateway } from '../../../core/application/repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
 
 export default class PaymentGateway implements IPaymentGateway {
-  private clusterUrl: string;
+  clusterUrl: string;
   constructor() {
     this.clusterUrl = process.env.CLUSTER_URL;
   }
@@ -16,7 +16,6 @@ export default class PaymentGateway implements IPaymentGateway {
       Authorization: oauthToken,
     };
     try {
-      console.log('CLuster URL: ', this.clusterUrl);
       const response = await axios.post(
         this.clusterUrl + '/payments',
         paymentFeedbackDTO,
@@ -29,5 +28,6 @@ export default class PaymentGateway implements IPaymentGateway {
     } catch (error) {
       throw new Error('Error receiving payment feedback');
     }
+    return Promise.resolve();
   }
 }

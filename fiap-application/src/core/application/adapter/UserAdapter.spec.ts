@@ -3,6 +3,7 @@ import { CPF } from 'src/core/domain/valueObjects/Cpf';
 import { UserCreationDTO } from '../dto/UserCreationDTO';
 import { UserUpdateDTO } from '../dto/UserUpdateDTO';
 import { UserResponseDTO } from '../dto/UserResponseDTO';
+import { UserMock } from '../../../infrastructure/mocks/UserMock';
 
 jest.mock('src/core/domain/valueObjects/Cpf', () => ({
   CPF: {
@@ -20,15 +21,7 @@ describe('UserAdapter', () => {
 
   describe('toDomain', () => {
     it('should map a UserCreationDTO to a User', async () => {
-      const userCreationDTO: UserCreationDTO = {
-        id: 'dbad9ae5-92d0-493f-bbbb-10895f3c15e9',
-        name: 'Fulano Beltrano',
-        email: 'fulanob@gmail.com',
-        cpf: '59370565078',
-        phone: '11987896525',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      const userCreationDTO: UserCreationDTO = UserMock.getUserCreationDTO();
 
       mockCPF.mockResolvedValue({
         value: userCreationDTO.cpf,
@@ -46,33 +39,17 @@ describe('UserAdapter', () => {
           isValid: true,
         },
         phone: userCreationDTO.phone,
-        createdAt: userCreationDTO.createdAt,
-        updatedAt: userCreationDTO.updatedAt,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 
     it('should map a UserCreationDTO to a User', async () => {
-      const userCreationDTO: UserCreationDTO = {
-        id: 'dbad9ae5-92d0-493f-bbbb-10895f3c15e9',
-        name: 'Fulano Beltrano',
-        email: 'fulanob@gmail.com',
-        cpf: '59370565078',
-        phone: '11987896525',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      delete userCreationDTO.createdAt;
-      delete userCreationDTO.updatedAt;
-
-      mockCPF.mockResolvedValue({
-        value: userCreationDTO.cpf,
-        isValid: true,
-      });
+      const userCreationDTO: UserCreationDTO = UserMock.getUserCreationDTO();
 
       const result = await UserAdapter.toDomain(userCreationDTO);
 
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         id: userCreationDTO.id,
         name: userCreationDTO.name,
         email: userCreationDTO.email,
@@ -81,23 +58,15 @@ describe('UserAdapter', () => {
           isValid: true,
         },
         phone: userCreationDTO.phone,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
   });
 
   describe('toResponse', () => {
-    it('should map a User to a UserResponseDTO', () => {
-      const user = {
-        id: 'dbad9ae5-92d0-493f-bbbb-10895f3c15e9',
-        name: 'Fulano Beltrano',
-        email: 'fulanob@gmail.com',
-        cpf: mockCPF,
-        phone: '11987896525',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+    it('should map a User to a UserResponseDTO', async () => {
+      const user = await UserMock.getUser();
 
       const result = UserAdapter.toResponse(user);
 
@@ -113,12 +82,7 @@ describe('UserAdapter', () => {
 
   describe('toUpdateDTO', () => {
     it('should map a UserUpdateDTO to a User', async () => {
-      const userUpdateDTO: UserUpdateDTO = {
-        name: 'Fulano Beltrano',
-        email: 'fulanob2@gmail.com',
-        phone: '11987896525',
-        updatedAt: new Date(),
-      };
+      const userUpdateDTO: UserUpdateDTO = UserMock.getUserUpdateDTO();
 
       const result = UserAdapter.toUpdateDTO(userUpdateDTO);
 
@@ -126,24 +90,14 @@ describe('UserAdapter', () => {
         name: userUpdateDTO.name,
         email: userUpdateDTO.email,
         phone: userUpdateDTO.phone,
-        updatedAt: userUpdateDTO.updatedAt,
+        updatedAt: expect.any(Date),
       });
     });
   });
 
   describe('toResponseList', () => {
-    it('should map a list of User to a list of UserResponseDTO', () => {
-      const users = [
-        {
-          id: 'dbad9ae5-92d0-493f-bbbb-10895f3c15e9',
-          name: 'Fulano Beltrano',
-          email: 'fulanob@gmail.com',
-          cpf: mockCPF,
-          phone: '11987896525',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
+    it('should map a list of User to a list of UserResponseDTO', async () => {
+      const users = await UserMock.getUserList();
 
       const result = UserAdapter.toResponseList(users);
 

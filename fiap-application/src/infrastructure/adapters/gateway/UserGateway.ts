@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UserCreationDTO } from 'src/core/application/dto/UserCreationDTO';
 
 export default class UserGateway implements IUserGateway {
-  private clusterUrl: string;
+  clusterUrl: string;
   constructor() {
     this.clusterUrl = process.env.CLUSTER_URL;
   }
@@ -15,17 +15,13 @@ export default class UserGateway implements IUserGateway {
     const headers = {
       Authorization: oauthToken,
     };
-    console.log(' header: ', headers);
     try {
       const response = await axios.get(this.clusterUrl + '/users/' + id, {
         headers,
       });
 
-      console.log('Status code:', response.status);
       if (response.status != 200) {
         return Promise.resolve(null);
-      } else {
-        console.log(response.data);
       }
 
       if (!response) return Promise.resolve(null);

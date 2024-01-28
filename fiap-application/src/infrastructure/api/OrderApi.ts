@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Header,
   HttpStatus,
   Inject,
   Param,
@@ -30,7 +29,8 @@ export default class OrderApi {
     @Query('status') status: OrderStatus,
   ): Promise<Array<OrderResponseDTO>> {
     const params = status ? { status: status } : {};
-    const orders = await OrderController.getAllOrders(
+    const orderController = new OrderController();
+    const orders = await orderController.getAllOrders(
       params,
       this.dbConnection,
     );
@@ -39,7 +39,8 @@ export default class OrderApi {
 
   @Get('/sorted/')
   public async getSorted(@Res() response): Promise<Array<OrderResponseDTO>> {
-    const orders = await OrderController.getSortedOrders({}, this.dbConnection);
+    const orderController = new OrderController();
+    const orders = await orderController.getSortedOrders({}, this.dbConnection);
     return response.status(HttpStatus.OK).json(orders);
   }
 
@@ -48,7 +49,8 @@ export default class OrderApi {
     @Res() response,
     @Param('id') id: string,
   ): Promise<OrderResponseDTO> {
-    const order = await OrderController.getOrderById(id, this.dbConnection);
+    const orderController = new OrderController();
+    const order = await orderController.getOrderById(id, this.dbConnection);
     return response.status(HttpStatus.OK).json(order);
   }
 
@@ -58,7 +60,8 @@ export default class OrderApi {
     @Req() req,
     @Body() body: OrderCreationDTO,
   ) {
-    const order = await OrderController.createOrder(
+    const orderController = new OrderController();
+    const order = await orderController.createOrder(
       body,
       req.headers['authorization'],
       this.dbConnection,
@@ -72,7 +75,8 @@ export default class OrderApi {
     @Param('id') id: string,
     @Body() body: OrderStatusUpdateDTO,
   ): Promise<OrderResponseDTO> {
-    const order = await OrderController.updateOrder(
+    const orderController = new OrderController();
+    const order = await orderController.updateOrder(
       id,
       body.status,
       this.dbConnection,

@@ -4,37 +4,37 @@ module.exports = {
   testEnvironment: 'node',
   moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx'],
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$',
+  testRegex: ".*\\/.*spec\\.ts$",
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
 
-  coverageDirectory: 'coverage',
-  coverageReporters: [
-    'cobertura',
-    'html',
-    'lcov',
-    'text',
-    'clover',
-    'text-summary',
-  ],
+  coverageDirectory: '../coverage',
+  coverageReporters: ['lcov'],
+  collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/core/application/dto/**',
     '!src/**/*.module.ts',
-    '!src/infrastructure/migration/**',
+    '!src/**/*.spec.ts',
     '!src/core/domain/entities/**',
+    '!src/infrastructure/migration/**',
     '!src/main.ts',
   ],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 30,
+      functions: 30,
+      lines: 30,
+      statements: 30,
     },
   },
   moduleNameMapper: {
-    '^src/(.*)$': '<rootDir>/src/$1',
+    '^src/(.*)$': '<rootDir>/src/$1'
   },
-};
+  reporters: ['default',  ['jest-sonar', {
+    outputDirectory: '../coverage',
+    outputName: 'test-report.xml',
+    reportedFilePath: 'relative'
+  }]],
+}

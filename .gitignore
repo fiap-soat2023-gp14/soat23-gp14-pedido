@@ -43,6 +43,7 @@ lerna-debug.log*
 # Yarn
 fiap-application/.pnp.*
 fiap-application/.yarn/*
+fiap-application/yarn.lockgit co
 !fiap-application/.yarn/patches
 !fiap-application/.yarn/plugins
 !fiap-application/.yarn/releases
@@ -50,3 +51,5 @@ fiap-application/.yarn/*
 !fiap-application/.yarn/versions
 /volume/
 node_modules
+
+
