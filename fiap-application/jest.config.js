@@ -8,7 +8,6 @@ module.exports = {
     transform: {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
-
     coverageDirectory: '../coverage',
     coverageReporters: ['lcov'],
     collectCoverage: true,
@@ -31,9 +30,14 @@ module.exports = {
     moduleNameMapper: {
         '^src/(.*)$': '<rootDir>/src/$1'
     },
-    reporters: ['default',  ['jest-sonar', {
-        outputDirectory: '../coverage',
+  reporters: [
+    'default',
+    [
+      'jest-sonar',
+      {
+        outputDirectory: 'coverage',
         outputName: 'test-report.xml',
-        reportedFilePath: 'relative'
-    }]],
-}
+        reportedFilePath: 'relative',
+      },
+    ],
+  ],
