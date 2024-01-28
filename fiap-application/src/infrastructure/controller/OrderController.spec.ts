@@ -30,7 +30,6 @@ describe('OrderController', () => {
         .mockResolvedValueOnce(orderMockResolver);
 
       // Call the method under test
-      console.log('orderController', orderController);
       const result = await orderController.createOrder(
         body,
         oauthToken,
