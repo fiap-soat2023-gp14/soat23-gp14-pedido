@@ -24,6 +24,20 @@ padrões Clean Code e Clean Architecture
 1. Vídeos e documentação disponível no drive
     - https://drive.google.com/drive/folders/1eCyaAoSrPSkFK8s1atDo6YCKTueJKw0_?usp=sharing
 
+### ENTREGA FASE 4
+1. Vídeos e documentação disponível no drive
+   - https://drive.google.com/drive/folders/1LUgq-fxnwTRKA8Rb5av0lw_ndFKvOGYO?usp=sharing
+2. Criação/divisão dos microsserviços em seus respectivos repositórios:
+   - Pedido;
+   - Produto;
+   - Cliente;
+   - Pagamento.
+3. BDD
+4. Regras aplicadas:
+   - Main protegida;
+   - Validação do build da aplicação e qualidade do código com o sonarqube;
+   - Deployments de todos os microsserviços automatizados.
+
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
 
@@ -44,14 +58,7 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone;
 - Acesse o diretório do projeto pelo seu terminal;
-- Existem duas opções para executar o projeto:
-1. Usando K8s:
-   - Para Criar: make -f Makefile create-stack
-   - Para Deletar: make -f Makefile delete-stack
-   - Port para testes: make -f Makefile port-forward
-
-     
-2. Executando o projeto manualmente:
+- Executando o projeto manualmente:
    - docker-compose -f docker-compose.yaml up -d mongodb 
    - cd fiap-application
    - source local.env
