@@ -34,10 +34,16 @@ export class OrderController {
       userGateway,
       productGateway,
     );
-    await PaymentController.receivePaymentFeedback(
-      PaymentMapper.toPaymnent(order),
-      paymentGateway,messageProducer,
-    );
+    try {
+      await PaymentController.receivePaymentFeedback(
+          PaymentMapper.toPaymnent(order),
+          paymentGateway, messageProducer,
+      );
+    }catch (e) {
+        console.error(e);
+        await OrderUseCase.updateOrder(order.id, OrderStatus.CANCELLED, orderGateway);
+        order.status = OrderStatus.CANCELLED;
+    }
     return OrderAdapter.toDTO(order);
   }
 
