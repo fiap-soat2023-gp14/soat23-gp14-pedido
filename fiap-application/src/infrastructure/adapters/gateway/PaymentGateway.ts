@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { IPaymentGateway } from '../../../core/application/repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
 import {MessageProducer} from "../external/MessageProducer";
