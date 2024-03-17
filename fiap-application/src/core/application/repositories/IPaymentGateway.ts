@@ -1,8 +1,9 @@
 import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
+import {MessageProducer} from "../../../infrastructure/adapters/external/MessageProducer";
 
 export interface IPaymentGateway {
   receivePaymentFeedback(
     paymentFeedbackDTO: PaymentFeedbackDTO,
-    oauthToken: string,
+    messageProducer: MessageProducer,
   ): Promise<void>;
 }

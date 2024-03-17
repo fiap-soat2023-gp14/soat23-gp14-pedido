@@ -17,11 +17,13 @@ import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderController } from '../controller/OrderController';
 import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
 import { IConnection } from '../adapters/external/IConnection';
+import {MessageProducer} from "../adapters/external/MessageProducer";
 
 @Controller('orders/')
 export default class OrderApi {
   constructor(
     @Inject(IConnection) private readonly dbConnection: IConnection,
+    private  messageProducer: MessageProducer
   ) {}
   @Get()
   public async getAllOrders(
@@ -64,7 +66,7 @@ export default class OrderApi {
     const order = await orderController.createOrder(
       body,
       req.headers['authorization'],
-      this.dbConnection,
+      this.dbConnection, this.messageProducer
     );
     return response.status(HttpStatus.OK).json(order);
   }

@@ -7,6 +7,7 @@ import { ProductCategory } from '../../core/domain/enums/ProductCategory';
 import { OrderController } from '../controller/OrderController';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderCreationDTO } from '../../core/application/dto/OrderCreationDTO';
+import {QueuesModule} from "../adapters/external/queues.module";
 
 jest.mock('../controller/OrderController');
 
@@ -29,6 +30,7 @@ describe('OrderApi', () => {
     } as any;
 
     const module: TestingModule = await Test.createTestingModule({
+      imports: [QueuesModule],
       controllers: [OrderApi],
       providers: [
         { provide: OrderController, useValue: orderControllerMock },

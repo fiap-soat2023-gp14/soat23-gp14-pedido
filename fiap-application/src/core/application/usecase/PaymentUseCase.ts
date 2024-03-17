@@ -1,12 +1,13 @@
 import { IPaymentGateway } from '../repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../dto/PaymentFeedbackDTO';
+import {MessageProducer} from "../../../infrastructure/adapters/external/MessageProducer";
 
 export class PaymentUseCase {
   public static async processPayment(
     paymentFeedbackDTO: PaymentFeedbackDTO,
     paymentGateway: IPaymentGateway,
-    oatyhToken: string,
+    messageProducer: MessageProducer,
   ) {
-    paymentGateway.receivePaymentFeedback(paymentFeedbackDTO, oatyhToken);
+    paymentGateway.receivePaymentFeedback(paymentFeedbackDTO, messageProducer);
   }
 }

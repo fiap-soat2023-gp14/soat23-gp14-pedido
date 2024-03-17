@@ -1,17 +1,30 @@
-import axios from 'axios';
 import PaymentGateway from './PaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
 import { PaymentMock } from '../../mocks/PaymentMock';
+import {MessageProducer} from "../external/MessageProducer";
+import {Test, TestingModule} from "@nestjs/testing";
 
-jest.mock('axios');
+jest.mock('../external/MessageProducer');
+jest.mock('@ssut/nestjs-sqs', () => ({
+  SqsService: jest.fn().mockImplementation(() => ({
+    send: jest.fn().mockResolvedValue({}), // Adjust behavior as needed
+  })),
+}));
 
 describe('PaymentGateway', () => {
   let paymentGateway: PaymentGateway;
+  let messageProducer: MessageProducer;
   const oauthToken = 'your_oauth_token';
   const expectedUrl = 'http://localhost';
-  beforeEach(() => {
+  beforeEach(async () => {
     paymentGateway = new PaymentGateway();
     paymentGateway.clusterUrl = expectedUrl;
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MessageProducer],
+    }).compile();
+
+    messageProducer = module.get<MessageProducer>(MessageProducer);
   });
 
   afterEach(() => {
@@ -24,24 +37,15 @@ describe('PaymentGateway', () => {
       const paymentFeedbackDTO: PaymentFeedbackDTO =
         PaymentMock.getPaymentFeedback();
 
-      const expectedHeaders = {
-        Authorization: oauthToken,
-      };
-      const mockResponse = { status: 204, data: {} };
-      (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+
       // Act
       await paymentGateway.receivePaymentFeedback(
         paymentFeedbackDTO,
-        oauthToken,
+        messageProducer
       );
 
       // Assert
-      expect(axios.post).toHaveBeenCalledWith(
-        expectedUrl + '/payments',
-        paymentFeedbackDTO,
-        {
-        headers: expectedHeaders,
-      });
+      expect(messageProducer.sendMessage).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if there is an error receiving payment feedback', async () => {
@@ -49,13 +53,13 @@ describe('PaymentGateway', () => {
       const paymentFeedbackDTO: PaymentFeedbackDTO =
         PaymentMock.getPaymentFeedback();
       const expectedErrorMessage = 'Error receiving payment feedback';
-      (axios.post as jest.Mock).mockRejectedValueOnce(
+      (messageProducer.sendMessage as jest.Mock).mockRejectedValueOnce(
         new Error('Network error'),
       );
 
       // Act & Assert
       await expect(
-        paymentGateway.receivePaymentFeedback(paymentFeedbackDTO, oauthToken),
+        paymentGateway.receivePaymentFeedback(paymentFeedbackDTO, messageProducer),
       ).rejects.toThrow(expectedErrorMessage);
     });
   });
