@@ -5,11 +5,14 @@ import OrderUseCase from 'src/core/application/usecase/OrderUseCase';
 import { Order } from '../../core/domain/entities/Order';
 import { OrderResponseDTO } from '../../core/application/dto/OrderResponseDTO';
 import { OrderMock } from '../mocks/OrderMock';
+import {MessageProducer} from "../adapters/external/MessageProducer";
 
 jest.mock('.../../../infrastructure/adapters/gateway/PaymentGateway');
+jest.mock('../adapters/external/MessageProducer');
 describe('OrderController', () => {
   let orderController: OrderController;
   let orderConnectionMock: IConnection;
+  let messageProducer: MessageProducer;
 
   beforeEach(() => {
     orderConnectionMock = {} as IConnection;
@@ -34,6 +37,7 @@ describe('OrderController', () => {
         body,
         oauthToken,
         orderConnectionMock,
+          messageProducer,
       );
 
       // Assert the result
@@ -73,39 +77,7 @@ describe('OrderController', () => {
 
       // Mock the expected return value
       const mockedOrderResponseList: Order[] = await OrderMock.getOrderList();
-      // const mockedOrderResponseList: Order[] = [
-      //   {
-      //     id: '1',
-      //     customer: {
-      //       id: '42',
-      //       email: 'test@test.com',
-      //       name: 'test untario',
-      //       cpf: cpf,
-      //       phone: '123456789',
-      //       createdAt: new Date('2024-01-26T17:41:00Z'),
-      //     },
-      //     createdAt: new Date('2024-01-26T17:41:00Z'),
-      //     deliveredAt: new Date('2024-01-26T17:41:00Z'),
-      //     extraItems: undefined,
-      //     items: [
-      //       {
-      //         product: {
-      //           id: '3',
-      //           name: 'test product',
-      //           description: 'only unit test',
-      //           imageUrl: 'http://imagetest.com.png',
-      //           price: price1,
-      //           category: ProductCategory.SANDWICH,
-      //           createdAt: new Date('2024-01-26T17:41:00Z'),
-      //         },
-      //         observation: undefined,
-      //         quantity: 1,
-      //       },
-      //     ],
-      //     status: OrderStatus.RECEIVED,
-      //     total: total,
-      //   },
-      // ];
+
       const expectedOrderResponseList: OrderResponseDTO[] =
         await OrderMock.getExpectedOrderList();
       jest

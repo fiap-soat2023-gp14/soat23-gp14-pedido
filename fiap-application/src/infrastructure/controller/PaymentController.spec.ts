@@ -4,10 +4,29 @@ import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDT
 import { IPaymentGateway } from '../../core/application/repositories/IPaymentGateway';
 import PaymentGateway from '../adapters/gateway/PaymentGateway';
 import { PaymentUseCase } from '../../core/application/usecase/PaymentUseCase';
+import {MessageProducer} from "../adapters/external/MessageProducer";
+import {Test, TestingModule} from "@nestjs/testing";
 
 jest.mock('../../core/application/usecase/PaymentUseCase');
+jest.mock('../adapters/external/MessageProducer');
+
+jest.mock('@ssut/nestjs-sqs', () => ({
+  SqsService: jest.fn().mockImplementation(() => ({
+    send: jest.fn().mockResolvedValue({}), // Adjust behavior as needed
+  })),
+}));
 
 describe('PaymentController', () => {
+  let messageProducer: MessageProducer;
+
+  beforeEach(async () => {
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MessageProducer],
+    }).compile();
+
+    messageProducer = module.get<MessageProducer>(MessageProducer);
+  });
   describe('receivePaymentFeedback', () => {
     it('should call PaymentUseCase.processPayment with the correct arguments', async () => {
       // Arrange
@@ -16,18 +35,16 @@ describe('PaymentController', () => {
       const oauthToken = 'valid-token';
       const paymentGateway: IPaymentGateway = new PaymentGateway();
 
-      // Act
       await PaymentController.receivePaymentFeedback(
         paymentFeedbackDTO,
-        oauthToken,
-        paymentGateway,
+        paymentGateway, messageProducer,
       );
 
       // Assert
       expect(PaymentUseCase.processPayment).toHaveBeenCalledWith(
         paymentFeedbackDTO,
         paymentGateway,
-        oauthToken,
+        messageProducer,
       );
     });
   });
