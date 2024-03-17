@@ -13,12 +13,14 @@ import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
 import PaymentGateway from '../adapters/gateway/PaymentGateway';
 import { PaymentMapper } from '../adapters/gateway/mappers/PaymentMapper';
+import {MessageProducer} from "../adapters/external/MessageProducer";
 
 export class OrderController {
   public async createOrder(
     body: OrderCreationDTO,
     oauthToken: string,
     dbConnection: IConnection,
+    messageProducer: MessageProducer
   ): Promise<OrderResponseDTO> {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway();
@@ -34,8 +36,7 @@ export class OrderController {
     );
     await PaymentController.receivePaymentFeedback(
       PaymentMapper.toPaymnent(order),
-      oauthToken,
-      paymentGateway,
+      paymentGateway,messageProducer,
     );
     return OrderAdapter.toDTO(order);
   }

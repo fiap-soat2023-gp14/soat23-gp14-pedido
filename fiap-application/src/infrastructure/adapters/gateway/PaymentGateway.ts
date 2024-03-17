@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { IPaymentGateway } from '../../../core/application/repositories/IPaymentGateway';
 import { PaymentFeedbackDTO } from '../../../core/application/dto/PaymentFeedbackDTO';
+import {MessageProducer} from "../external/MessageProducer";
 
 export default class PaymentGateway implements IPaymentGateway {
   clusterUrl: string;
@@ -10,21 +11,12 @@ export default class PaymentGateway implements IPaymentGateway {
 
   public async receivePaymentFeedback(
     paymentFeedbackDTO: PaymentFeedbackDTO,
-    oauthToken: string,
+    messageProducer: MessageProducer,
   ): Promise<void> {
-    const headers = {
-      Authorization: oauthToken,
-    };
-    try {
-      const response = await axios.post(
-        this.clusterUrl + '/payments',
-        paymentFeedbackDTO,
-        {
-          headers,
-        },
-      );
 
-      if (!response) throw new Error('Error receiving payment feedback');
+    try {
+      await messageProducer.sendMessage(paymentFeedbackDTO);
+
     } catch (error) {
       throw new Error('Error receiving payment feedback');
     }
