@@ -37,6 +37,7 @@ export default class UserGateway implements IUserGateway {
       Authorization: oauthToken,
     };
     try {
+      console.log('user gateway ' + this.baseUrl);
       const response = await axios.delete(this.baseUrl + id, {
         headers,
       });
