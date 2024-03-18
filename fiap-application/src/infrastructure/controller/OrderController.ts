@@ -13,7 +13,7 @@ import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
 import PaymentGateway from '../adapters/gateway/PaymentGateway';
 import { PaymentMapper } from '../adapters/gateway/mappers/PaymentMapper';
-import {MessageProducer} from "../adapters/external/MessageProducer";
+import { MessageProducer } from '../adapters/external/MessageProducer';
 
 export class OrderController {
   public async createOrder(

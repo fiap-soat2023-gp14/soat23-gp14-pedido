@@ -3,6 +3,7 @@ import { IOrderGateway } from '../../../core/application/repositories/IOrderGate
 import { Order } from '../../../core/domain/entities/Order';
 import { OrderEntity } from './entity/OrderEntity';
 import { OrderMapper } from './mappers/OrderMapper';
+import {CPF} from "../../../core/domain/valueObjects/Cpf";
 
 export default class OrderGateway implements IOrderGateway {
   COLLECTION_NAME = 'Orders';
@@ -82,5 +83,25 @@ export default class OrderGateway implements IOrderGateway {
       console.error('Error updating order:', error);
       throw error;
     }
+  }
+
+  async removeUserData(userId: string): Promise<void> {
+    const emptyData = 'DADO REMOVIDO';
+    const emptyCPF = CPF.create('00000000000');
+
+    const filter = { 'customer._id': userId };
+    const updateDoc = {
+      $set: {
+        'customer.name': emptyData,
+        'customer.email': emptyData,
+        'customer.cpf': emptyCPF,
+        'customer.phone': emptyData,
+      },
+    };
+
+    await this.dbConnection
+      .getCollection(this.COLLECTION_NAME)
+      .updateMany(filter, updateDoc)
+      .toArray();
   }
 }
