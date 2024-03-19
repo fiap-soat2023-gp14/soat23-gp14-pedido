@@ -6,4 +6,5 @@ export interface IOrderGateway {
   getSorted(params?): Promise<Order[]>;
   create(order: Order): Promise<Order>;
   updateStatus(id: string, order: Order): Promise<Order>;
+  removeUserData(userId: string): Promise<void>;
 }

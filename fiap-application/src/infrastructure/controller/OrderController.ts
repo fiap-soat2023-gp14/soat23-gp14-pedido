@@ -13,14 +13,14 @@ import { IUserGateway } from '../../core/application/repositories/IUserGateway';
 import { IProductGateway } from '../../core/application/repositories/IProductGateway';
 import PaymentGateway from '../adapters/gateway/PaymentGateway';
 import { PaymentMapper } from '../adapters/gateway/mappers/PaymentMapper';
-import {MessageProducer} from "../adapters/external/MessageProducer";
+import { MessageProducer } from '../adapters/external/MessageProducer';
 
 export class OrderController {
   public async createOrder(
     body: OrderCreationDTO,
     oauthToken: string,
     dbConnection: IConnection,
-    messageProducer: MessageProducer
+    messageProducer: MessageProducer,
   ): Promise<OrderResponseDTO> {
     const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
     const userGateway: IUserGateway = new UserGateway();
@@ -36,13 +36,18 @@ export class OrderController {
     );
     try {
       await PaymentController.receivePaymentFeedback(
-          PaymentMapper.toPaymnent(order),
-          paymentGateway, messageProducer,
+        PaymentMapper.toPaymnent(order),
+        paymentGateway,
+        messageProducer,
       );
-    }catch (e) {
-        console.error(e);
-        await OrderUseCase.updateOrder(order.id, OrderStatus.CANCELLED, orderGateway);
-        order.status = OrderStatus.CANCELLED;
+    } catch (e) {
+      console.error(e);
+      await OrderUseCase.updateOrder(
+        order.id,
+        OrderStatus.CANCELLED,
+        orderGateway,
+      );
+      order.status = OrderStatus.CANCELLED;
     }
     return OrderAdapter.toDTO(order);
   }
@@ -86,5 +91,20 @@ export class OrderController {
     const order = await OrderUseCase.updateOrder(id, status, gateway);
 
     return OrderAdapter.toDTO(order);
+  }
+
+  public async removeUserData(
+    id: string,
+    oauthToken: string,
+    dbConnection: IConnection,
+  ): Promise<void> {
+    try {
+      const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
+      await orderGateway.removeUserData(id);
+      const userGateway: IUserGateway = new UserGateway();
+      await userGateway.removeUserById(id, oauthToken);
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

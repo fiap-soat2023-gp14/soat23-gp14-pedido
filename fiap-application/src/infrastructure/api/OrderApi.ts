@@ -17,13 +17,13 @@ import { OrderStatus } from 'src/core/domain/enums/OrderStatus';
 import { OrderController } from '../controller/OrderController';
 import { OrderStatusUpdateDTO } from '../../core/application/dto/OrderStatusUpdateDTO';
 import { IConnection } from '../adapters/external/IConnection';
-import {MessageProducer} from "../adapters/external/MessageProducer";
+import { MessageProducer } from '../adapters/external/MessageProducer';
 
 @Controller('orders/')
 export default class OrderApi {
   constructor(
     @Inject(IConnection) private readonly dbConnection: IConnection,
-    private  messageProducer: MessageProducer
+    private messageProducer: MessageProducer,
   ) {}
   @Get()
   public async getAllOrders(
