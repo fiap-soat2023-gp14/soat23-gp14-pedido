@@ -87,7 +87,7 @@ export default class OrderGateway implements IOrderGateway {
 
   async removeUserData(userId: string): Promise<void> {
     const emptyData = 'DADO REMOVIDO';
-    const emptyCPF = CPF.create('00000000000');
+    const emptyCPF = '00000000000';
 
     const filter = { 'customer._id': userId };
     const updateDoc = {
@@ -98,10 +98,14 @@ export default class OrderGateway implements IOrderGateway {
         'customer.phone': emptyData,
       },
     };
-
-    await this.dbConnection
-      .getCollection(this.COLLECTION_NAME)
-      .updateMany(filter, updateDoc)
-      .toArray();
+    try {
+      await this.dbConnection
+        .getCollection(this.COLLECTION_NAME)
+        .updateMany(filter, updateDoc);
+      console.log('Orders updated successfully.');
+    } catch (error) {
+      console.error('Error updating orders:', error);
+      throw error;
+    }
   }
 }

@@ -3,22 +3,23 @@ import {
   Delete,
   HttpStatus,
   Inject,
-  Param, Req,
+  Param,
+  Req,
   Res,
 } from '@nestjs/common';
-import { UserController } from '../controller/UserController';
 import { IConnection } from '../adapters/external/IConnection';
+import { OrderController } from '../controller/OrderController';
 
-@Controller('users-data')
+@Controller('users-data/')
 export default class UserDataApi {
   constructor(
-    @Inject(UserController) private userController: UserController,
     @Inject(IConnection) private readonly dbConnection: IConnection,
   ) {}
 
-  @Delete('/:id')
+  @Delete(':id')
   async removeUserData(@Res() response, @Req() req, @Param('id') id: string) {
-    await this.userController.removeUserData(
+    const orderController = new OrderController();
+    await orderController.removeUserData(
       id,
       req.headers['authorization'],
       this.dbConnection,

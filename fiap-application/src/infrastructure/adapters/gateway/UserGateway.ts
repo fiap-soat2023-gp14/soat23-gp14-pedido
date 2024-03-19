@@ -37,7 +37,7 @@ export default class UserGateway implements IUserGateway {
       Authorization: oauthToken,
     };
     try {
-      console.log('user gateway ' + this.baseUrl);
+      console.log('Request to remove user data from Users MS');
       const response = await axios.delete(this.baseUrl + id, {
         headers,
       });
@@ -48,6 +48,7 @@ export default class UserGateway implements IUserGateway {
 
       return Promise.resolve(response.data);
     } catch (error) {
+      console.log('Error removing user data ' + error);
       return Promise.resolve(null);
     }
   }
