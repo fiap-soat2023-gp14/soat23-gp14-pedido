@@ -3,7 +3,6 @@ import { IOrderGateway } from '../../../core/application/repositories/IOrderGate
 import { Order } from '../../../core/domain/entities/Order';
 import { OrderEntity } from './entity/OrderEntity';
 import { OrderMapper } from './mappers/OrderMapper';
-import {CPF} from "../../../core/domain/valueObjects/Cpf";
 
 export default class OrderGateway implements IOrderGateway {
   COLLECTION_NAME = 'Orders';

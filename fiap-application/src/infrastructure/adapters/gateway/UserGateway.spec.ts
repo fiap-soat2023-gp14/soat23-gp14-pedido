@@ -8,8 +8,8 @@ describe('UserGateway', () => {
     it('should return the user data if the request is successful', async () => {
       const id = '123';
       const oauthToken = 'valid-token';
-      const mockUser = { id: '123', name: 'Test User' };
-      const mockResponse = { status: 200, data: mockUser };
+      const mockUser = {id: '123', name: 'Test User'};
+      const mockResponse = {status: 200, data: mockUser};
 
       (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
 
@@ -18,15 +18,15 @@ describe('UserGateway', () => {
 
       expect(result).toEqual(mockUser);
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + id,
-        { headers: { Authorization: oauthToken } },
+          userGateway.baseUrl + id,
+          {headers: {Authorization: oauthToken}},
       );
     });
 
     it('should return null if the request is not successful', async () => {
       const id = '123';
       const oauthToken = 'valid-token';
-      const mockResponse = { status: 404 };
+      const mockResponse = {status: 404};
 
       (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
 
@@ -35,8 +35,8 @@ describe('UserGateway', () => {
 
       expect(result).toBeNull();
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + id,
-        { headers: { Authorization: oauthToken } },
+          userGateway.baseUrl + id,
+          {headers: {Authorization: oauthToken}},
       );
     });
 
@@ -52,8 +52,24 @@ describe('UserGateway', () => {
 
       expect(result).toBeNull();
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + id,
-        { headers: { Authorization: oauthToken } },
+          userGateway.baseUrl + id,
+          {headers: {Authorization: oauthToken}},
+      );
+    });
+
+    it('should remove the user data if the request is successful', async () => {
+      const id = '123';
+      const oauthToken = 'valid-token';
+      const mockResponse = { status: 204 };
+
+      (axios.delete as jest.Mock).mockResolvedValueOnce(mockResponse);
+
+      const userGateway = new UserGateway();
+      await userGateway.removeUserById(id, oauthToken);
+
+      expect(axios.delete).toHaveBeenCalledWith(
+          userGateway.baseUrl + id,
+          {headers: {Authorization: oauthToken}},
       );
     });
   });
