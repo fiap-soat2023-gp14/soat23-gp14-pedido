@@ -18,7 +18,7 @@ describe('UserGateway', () => {
 
       expect(result).toEqual(mockUser);
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + '/users/' + id,
+        userGateway.baseUrl + id,
         { headers: { Authorization: oauthToken } },
       );
     });
@@ -35,7 +35,7 @@ describe('UserGateway', () => {
 
       expect(result).toBeNull();
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + '/users/' + id,
+        userGateway.baseUrl + id,
         { headers: { Authorization: oauthToken } },
       );
     });
@@ -52,7 +52,7 @@ describe('UserGateway', () => {
 
       expect(result).toBeNull();
       expect(axios.get).toHaveBeenCalledWith(
-        userGateway.baseUrl + '/users/' + id,
+        userGateway.baseUrl + id,
         { headers: { Authorization: oauthToken } },
       );
     });
