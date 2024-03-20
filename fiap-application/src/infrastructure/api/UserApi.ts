@@ -10,7 +10,7 @@ import {
 import { IConnection } from '../adapters/external/IConnection';
 import { OrderController } from '../controller/OrderController';
 
-@Controller('users-data/')
+@Controller('orders/users-data/')
 export default class UserDataApi {
   constructor(
     @Inject(IConnection) private readonly dbConnection: IConnection,
