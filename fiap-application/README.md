@@ -33,8 +33,12 @@ $ yarn install
 ```
 
 ## Running the app
-
+In order to run the app you will need to have a mongo DB running and the queues (order-request and order-response) in the SQS.
+Add those configurations to your local.env file.
 ```bash
+# load configs to env
+$ source local.env
+
 # development
 $ yarn run start
 
