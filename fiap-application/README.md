@@ -9,11 +9,14 @@ Ele possuis as funções de:
   - Receber callback de pagamento
   - E solicitar anonimização dos dados de um usuário
 
-## SAGA de pagamento
+## SAGA coreografada de pagamento
 
 O serviço é responsavel por integrar de forma async com o MS de Pagamento para solicitar o processamento do pagameto do pedido via SQS e receber feedback também via SQS.
 Em caso de error para enviar os dados para a fila, o pedido é cancelado e  o usuario notificado.
 Ao receber o feedback, caso seja uma confirmação do sucesso serão disparadas rotinas pra enviar o pedido pra preparação e em caso de erro serão realizadas as rotinas compensatórias que causam o cancelamento do pedido.
+
+Escolhemos a SAGA coreografada para garantir a execução confiável e consistente do processamento de pedidos e pagamentos pois a integridade e a consistência dos dados são essenciais.
+Além disso consideramos que no nosso cenário com baixa complexidade não faria sentido inserir um orquestrador como um ponto de falha central, então mantivemos os MS vagamente acoplados.
 
 ## Installation
 
