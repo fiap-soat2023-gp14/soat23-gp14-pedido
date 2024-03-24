@@ -38,6 +38,18 @@ padrões Clean Code e Clean Architecture
    - Validação do build da aplicação e qualidade do código com o sonarqube;
    - Deployments de todos os microsserviços automatizados.
 
+### ENTREGA FASE 5
+1. Vídeos e documentação disponível no drive
+   - [ADD LINK]
+2. Microsserviços em seus respectivos repositórios:
+   - Lambda / Autenticação;
+   - Pedido;
+   - Produto;
+   - Cliente;
+   - Pagamento.
+4. SAGA com SQS.
+5. Endpoints para anonimização dos dados.
+
 ### Descrição do Projeto
 Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanchonete.
 
@@ -53,6 +65,8 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
 
 - Listar pedidos
 
+- Anonimizar dados do cliente
+
 
 ### Pré-requisitos e como rodar a aplicação
 
@@ -66,4 +80,4 @@ Aplicação desenvolvida em nodejs com o objetivo de acessar o menu de uma lanch
    - yarn start:dev
 
 OBS: A aplicação está disponivel na porta 8080, use a collection do Postman Collection
-      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - soat_gp14_fase_2.postman_collection.json
+      - /soat2023-gp14-main/SOAT2 - GRUPO 14 - soat_gp14_fase_5.postman_collection.json
