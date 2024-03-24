@@ -2,12 +2,18 @@
 
 ## Description
 
-Este Microserviço é reponsável por gerenciar os pedidos que são realizados na lanchonete.
+Este Microserviço permite gerenciar os pedidos que são realizados na lanchonete.
 Ele possuis as funções de:
   - Fazer checkout de um pedido
   - Listar pedidos
   - Receber callback de pagamento
   - E solicitar anonimização dos dados de um usuário
+
+## SAGA de pagamento
+
+O serviço é responsavel por integrar de forma async com o MS de Pagamento para solicitar o processamento do pagameto do pedido via SQS e receber feedback também via SQS.
+Em caso de error para enviar os dados para a fila, o pedido é cancelado e  o usuario notificado.
+Ao receber o feedback, caso seja uma confirmação do sucesso serão disparadas rotinas pra enviar o pedido pra preparação e em caso de erro serão realizadas as rotinas compensatórias que causam o cancelamento do pedido.
 
 ## Installation
 
