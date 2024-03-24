@@ -8,6 +8,9 @@ import ProductUseCase from './ProductUseCase';
 import { IProductGateway } from '../repositories/IProductGateway';
 import { Money } from '../../domain/valueObjects/Money';
 import { UserAdapter } from '../adapter/UserAdapter';
+import {IConnection} from "../../../infrastructure/adapters/external/IConnection";
+import OrderGateway from "../../../infrastructure/adapters/gateway/OrderGateway";
+import UserGateway from "../../../infrastructure/adapters/gateway/UserGateway";
 
 export default class OrderUseCase {
   public static async getOrderById(
@@ -85,5 +88,19 @@ export default class OrderUseCase {
     gateway: IOrderGateway,
   ): Promise<Array<Order>> {
     return await gateway.getSorted(params);
+  }
+
+  public static async removeUserData(
+      id: string,
+      orderGateway: IOrderGateway,
+      userGateway: IUserGateway,
+      oauthToken: string,
+  ): Promise<void> {
+    try {
+      await orderGateway.removeUserData(id);
+      await userGateway.removeUserById(id, oauthToken);
+    } catch (e) {
+      console.error('Error removing customer data ', e);
+    }
   }
 }

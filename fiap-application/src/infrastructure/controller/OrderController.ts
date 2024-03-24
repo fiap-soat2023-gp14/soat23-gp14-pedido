@@ -98,13 +98,8 @@ export class OrderController {
     oauthToken: string,
     dbConnection: IConnection,
   ): Promise<void> {
-    try {
       const orderGateway: IOrderGateway = new OrderGateway(dbConnection);
-      await orderGateway.removeUserData(id);
       const userGateway: IUserGateway = new UserGateway();
-      await userGateway.removeUserById(id, oauthToken);
-    } catch (e) {
-      console.error(e);
-    }
+      await OrderUseCase.removeUserData(id, orderGateway, userGateway, oauthToken);
   }
 }

@@ -6,6 +6,9 @@ import { Order } from '../../core/domain/entities/Order';
 import { OrderResponseDTO } from '../../core/application/dto/OrderResponseDTO';
 import { OrderMock } from '../mocks/OrderMock';
 import {MessageProducer} from "../adapters/external/MessageProducer";
+import {IOrderGateway} from "../../core/application/repositories/IOrderGateway";
+import {IUserGateway} from "../../core/application/repositories/IUserGateway";
+import OrderGateway from "../adapters/gateway/OrderGateway";
 
 jest.mock('.../../../infrastructure/adapters/gateway/PaymentGateway');
 jest.mock('../adapters/external/MessageProducer');
@@ -140,5 +143,23 @@ describe('OrderController', () => {
       expect(result).toEqual(expectedOrderResponseList);
     });
   });
-  // Add tests for other methods (getSortedOrders, getOrderById, updateOrder) in a similar manner
+
+  describe('removeUserData', () => {
+    it('should remove the user data from all orders by customer id', async () => {
+      jest
+          .spyOn(OrderUseCase, 'removeUserData')
+          .mockReturnThis();
+
+      // Call the method under test
+      const result = await orderController.removeUserData(
+          'ord-1',
+          'authToken',
+          orderConnectionMock,
+      );
+
+      // Assert the result
+      expect(OrderUseCase.removeUserData).toHaveBeenCalledTimes(1);
+
+    });
+  });
 });

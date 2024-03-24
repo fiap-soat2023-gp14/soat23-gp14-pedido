@@ -151,4 +151,23 @@ describe('OrderUseCase', () => {
       expect(result).toEqual(sortedOrders);
     });
   });
+
+  describe('removeUserData', () => {
+    it('should remove the user data from all orders by customer id', async () => {
+      // Arrange
+      const id = '123';
+      const authToken = 'authToken';
+
+      (orderGateway.removeUserData = jest.fn() as jest.Mock).mockResolvedValueOnce(undefined);
+      (userGateway.removeUserById = jest.fn() as jest.Mock).mockResolvedValueOnce(undefined);
+      // Act
+      const result = await OrderUseCase.removeUserData(id, orderGateway, userGateway, authToken);
+
+      // Assert
+      expect(orderGateway.removeUserData).toHaveBeenCalledTimes(1);
+      expect(orderGateway.removeUserData).toHaveBeenCalledWith(id);
+      expect(userGateway.removeUserById).toHaveBeenCalledTimes(1);
+      expect(userGateway.removeUserById).toHaveBeenCalledWith(id, authToken);
+    });
+  });
 });
